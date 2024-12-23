@@ -6,7 +6,7 @@ const NavBar = () => {
   const pages = ["Angebote", "Veranstaltungen", "Profil", "Kontakt"];
 
   return (
-    <AppBar color="info" sx={{ padding: 3 }}>
+    <AppBar color="info" position="fixed" sx={{ padding: 1.5 }}>
       <Toolbar>
         <AccountBoxIcon sx={{ display: { md: "flex" }, mr: 10 }} />
         <Stack>
