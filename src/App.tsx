@@ -1,6 +1,7 @@
-import { Box, CssBaseline, Toolbar, Typography } from "@mui/material";
+import { Box, CssBaseline, Toolbar } from "@mui/material";
 import Footer from "./components/Footer";
 import NavBar from "./components/NavBar";
+import ImageBox from "./components/ImageBox";
 
 function App() {
   return (
@@ -19,11 +20,11 @@ function App() {
       <Toolbar />
 
       {/* Main Content */}
-      <Box component="main" sx={{ flex: 1, p: 3 }}>
-        <Typography variant="h4">Main Content</Typography>
-        <Typography>
-          This is the main content area. Add your components or pages here.
-        </Typography>
+      <Box
+        component="main"
+        sx={{ flex: 1, margin: 0, padding: 0, position: "relative" }}
+      >
+        <ImageBox />
       </Box>
 
       {/* Footer */}
@@ -32,7 +33,7 @@ function App() {
         sx={{
           py: 2,
           textAlign: "center",
-          backgroundColor: (theme) => theme.palette.grey[200],
+          backgroundColor: (theme) => theme.palette.grey[100],
         }}
       >
         <Footer />

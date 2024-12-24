@@ -8,7 +8,7 @@ const Footer = () => {
         py: 2,
         textAlign: "center",
         bottom: 0,
-        backgroundColor: (theme) => theme.palette.grey[200],
+        backgroundColor: (theme) => theme.palette.grey[100],
       }}
     >
       <Stack
@@ -32,7 +32,7 @@ const Footer = () => {
         sx={{
           width: "50%",
           height: "1px",
-          backgroundColor: (theme) => theme.palette.grey[400],
+          backgroundColor: (theme) => theme.palette.grey[300],
           margin: "5px auto 15px auto",
         }}
       />
