@@ -2,6 +2,8 @@ import { Box, CssBaseline, Toolbar } from "@mui/material";
 import Footer from "./components/Footer";
 import NavBar from "./components/NavBar";
 import ImageBox from "./components/ImageBox";
+import CardGrid from "./components/CardGrid";
+import ProfilePreview from "./components/ProfilePreview";
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
         sx={{ flex: 1, margin: 0, padding: 0, position: "relative" }}
       >
         <ImageBox />
+        <CardGrid />
+        <ProfilePreview />
       </Box>
 
       {/* Footer */}

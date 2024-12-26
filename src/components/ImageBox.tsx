@@ -10,7 +10,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import CheckCircleOutlineTwoToneIcon from "@mui/icons-material/CheckCircleOutlineTwoTone";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import chairsImage from "../assets/chairs.jpg";
 
 const ImageBox = () => {
@@ -56,10 +56,10 @@ const ImageBox = () => {
                     <ListItem>
                       <ListItemIcon
                         sx={{
-                          color: "#4CAF50",
+                          color: "#37a340",
                         }}
                       >
-                        <CheckCircleOutlineTwoToneIcon />
+                        <CheckCircleIcon />
                       </ListItemIcon>
                       <ListItemText>{begriff}</ListItemText>
                     </ListItem>
