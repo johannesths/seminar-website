@@ -1,35 +1,19 @@
-import {
-  Box,
-  Button,
-  Container,
-  Grid2,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Stack,
-  Typography,
-} from "@mui/material";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import chairsImage from "../assets/chairs.jpg";
+import { Box, Container, Grid2, Stack } from "@mui/material";
+import { ReactNode } from "react";
 
-const ImageBox = () => {
-  const leitbegriffe = [
-    "Reflexion",
-    "Perspektivwechsel",
-    "Konfliktlösung",
-    "Kommunikation",
-    "Autonomie",
-    "Konfliktbewältigung",
-  ];
+interface Props {
+  image: string;
+  children: ReactNode;
+}
 
+const ImageBox = ({ image, children }: Props) => {
   return (
     <Box
       sx={{
         position: "relative",
         width: "100%",
         height: "calc(100vh - 170px)",
-        backgroundImage: `url(${chairsImage})`,
+        backgroundImage: `url(${image})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         display: "flex",
@@ -42,40 +26,8 @@ const ImageBox = () => {
       <Container maxWidth="lg">
         <Grid2 container spacing={10}>
           <Grid2 size={10} sx={{ padding: 0, mr: 50 }}>
-            <Stack sx={{ alignItems: "center", margin: 0 }}>
-              <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-                Neue Perspektiven entdecken, Potenziale entfalten.
-              </Typography>
-
-              <Typography sx={{ mt: 0, mb: 1 }} variant="h6" component="div">
-                {/* Potential List Header */}
-              </Typography>
-              <List sx={{ mr: 10 }}>
-                {leitbegriffe.map((begriff) => {
-                  return (
-                    <ListItem>
-                      <ListItemIcon
-                        sx={{
-                          color: "#37a340",
-                        }}
-                      >
-                        <CheckCircleIcon />
-                      </ListItemIcon>
-                      <ListItemText>{begriff}</ListItemText>
-                    </ListItem>
-                  );
-                })}
-              </List>
-              <Stack direction="row" spacing={16} sx={{ mt: 3 }}>
-                <Button variant="contained">Seminare</Button>
-                <Button variant="outlined">Kontakt</Button>
-              </Stack>
-            </Stack>
+            <Stack sx={{ alignItems: "center", margin: 0 }}>{children}</Stack>
           </Grid2>
-
-          {/* <Grid2 size={1}>
-            <Typography></Typography>
-          </Grid2> */}
         </Grid2>
       </Container>
     </Box>

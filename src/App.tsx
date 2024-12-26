@@ -1,35 +1,39 @@
-import { Box, CssBaseline, Toolbar } from "@mui/material";
-import Footer from "./components/Footer";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
-import ImageBox from "./components/ImageBox";
-import CardGrid from "./components/CardGrid";
-import ProfilePreview from "./components/ProfilePreview";
+import Index from "./pages/Index";
+import Profil from "./pages/Profil";
+import Footer from "./components/Footer";
+import { Box, CssBaseline, Toolbar } from "@mui/material";
 
 function App() {
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100vh",
-      }}
-    >
-      <CssBaseline />
-      {/* Fixierte Navbar */}
-      <NavBar />
-
-      {/* Platzhalter für die Navbar-Höhe */}
-      <Toolbar />
-
-      {/* Main Content */}
+    <Router>
       <Box
-        component="main"
-        sx={{ flex: 1, margin: 0, padding: 0, position: "relative" }}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
+        }}
       >
-        <ImageBox />
-        <CardGrid />
-        <ProfilePreview />
+        <CssBaseline />
+        {/* Fixierte Navbar */}
+        <NavBar />
+
+        {/* Platzhalter für die Navbar-Höhe */}
+        <Toolbar />
+
+        {/* Main Content */}
+        <Box
+          component="main"
+          sx={{ flex: 1, margin: 0, padding: 0, position: "relative" }}
+        >
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/profil" element={<Profil />} />
+          </Routes>
+        </Box>
       </Box>
+      <NavBar />
 
       {/* Footer */}
       <Box
@@ -42,7 +46,7 @@ function App() {
       >
         <Footer />
       </Box>
-    </Box>
+    </Router>
   );
 }
 

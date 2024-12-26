@@ -1,6 +1,7 @@
 import { Box, Button, Stack, Toolbar, Typography } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
   const pages = ["Angebote", "Veranstaltungen", "Profil", "Kontakt"];
@@ -22,6 +23,8 @@ const NavBar = () => {
               sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}
             >
               <Button
+                component={Link}
+                to={`/${page.toLowerCase()}`}
                 variant="text"
                 sx={{ my: 2, color: "white", display: "block" }}
               >
