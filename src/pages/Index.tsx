@@ -16,6 +16,7 @@ import ProfilePreview from "../components/ProfilePreview";
 import SeminarCard from "../components/SeminarCard";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import chairsImage from "../assets/chairs.jpg";
+import { angebote } from "../data/Angebote";
 
 function Index() {
   const leitbegriffe = [
@@ -68,7 +69,7 @@ function Index() {
             <Button variant="outlined">Kontakt</Button>
           </Stack>
         </ImageBox>
-        <CardGrid />
+        <CardGrid cards={angebote} />
         <ProfilePreview />
         <NextSeminar>
           <SeminarCard

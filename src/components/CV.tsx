@@ -19,7 +19,8 @@ const CV = () => {
           justifyContent: "space-evenly",
           alignContent: "center",
           margin: "0 auto",
-          padding: 10,
+          paddingTop: 10,
+          paddingBottom: 0,
         }}
       >
         <Box sx={{ maxWidth: "75vh" }}>

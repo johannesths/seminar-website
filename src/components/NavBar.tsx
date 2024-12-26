@@ -9,7 +9,9 @@ const NavBar = () => {
   return (
     <AppBar color="info" position="fixed" sx={{ padding: 1 }}>
       <Toolbar>
-        <AccountBoxIcon sx={{ display: { md: "flex" }, mr: 10 }} />
+        <Button component={Link} to="/" sx={{ margin: 0, padding: 0 }}>
+          <AccountBoxIcon sx={{ display: { md: "flex" }, mr: 10 }} />
+        </Button>
         <Stack>
           <Typography variant="h5">Ursula Trahasch</Typography>
           <Typography variant="subtitle1">
