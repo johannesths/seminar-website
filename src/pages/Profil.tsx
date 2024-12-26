@@ -1,16 +1,14 @@
-import { Box } from "@mui/material";
-
+import { Box, Typography } from "@mui/material";
+import ImageBox from "../components/ImageBox";
+import fahrradImage from "../assets/ursula-fahrrad-adria.jpg";
+import CV from "../components/CV";
 const Profil = () => {
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100vh",
-        marginTop: "40px",
-      }}
-    >
-      test
+    <Box>
+      <ImageBox image={fahrradImage}>
+        <Typography variant="h3">Ursula Trahasch</Typography>
+      </ImageBox>
+      <CV />
     </Box>
   );
 };

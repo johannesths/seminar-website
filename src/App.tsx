@@ -21,7 +21,6 @@ function App() {
 
         {/* Platzhalter für die Navbar-Höhe */}
         <Toolbar />
-
         {/* Main Content */}
         <Box
           component="main"

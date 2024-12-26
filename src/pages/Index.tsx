@@ -38,10 +38,7 @@ function Index() {
       <CssBaseline />
 
       {/* Main Content */}
-      <Box
-        component="main"
-        sx={{ flex: 1, margin: 0, padding: 0, position: "relative" }}
-      >
+      <Box component="main">
         <ImageBox image={chairsImage}>
           <Typography variant="h4" sx={{ fontWeight: "bold" }}>
             Neue Perspektiven entdecken, Potenziale entfalten.

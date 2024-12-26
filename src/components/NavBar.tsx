@@ -7,11 +7,11 @@ const NavBar = () => {
   const pages = ["Angebote", "Veranstaltungen", "Profil", "Kontakt"];
 
   return (
-    <AppBar color="info" position="fixed" sx={{ padding: 1.5 }}>
+    <AppBar color="info" position="fixed" sx={{ padding: 1 }}>
       <Toolbar>
         <AccountBoxIcon sx={{ display: { md: "flex" }, mr: 10 }} />
         <Stack>
-          <Typography variant="h4">Ursula Trahasch</Typography>
+          <Typography variant="h5">Ursula Trahasch</Typography>
           <Typography variant="subtitle1">
             Beratung | Coaching | Supervision | Weiterbildung
           </Typography>

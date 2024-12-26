@@ -1,4 +1,4 @@
-import { Box, Container, Grid2, Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import { ReactNode } from "react";
 
 interface Props {
@@ -12,8 +12,9 @@ const ImageBox = ({ image, children }: Props) => {
       sx={{
         position: "relative",
         width: "100%",
-        height: "calc(100vh - 170px)",
-        backgroundImage: `url(${image})`,
+        height: "calc(100vh - 200px)",
+        backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.9), transparent),
+        url(${image})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         display: "flex",
@@ -23,13 +24,21 @@ const ImageBox = ({ image, children }: Props) => {
         textAlign: "center",
       }}
     >
-      <Container maxWidth="lg">
-        <Grid2 container spacing={10}>
-          <Grid2 size={10} sx={{ padding: 0, mr: 50 }}>
-            <Stack sx={{ alignItems: "center", margin: 0 }}>{children}</Stack>
-          </Grid2>
-        </Grid2>
-      </Container>
+      <Box
+        sx={{
+          position: "relative",
+          marginRight: "30vh",
+          backgroundColor: "rgba(0, 0, 0, 0.4)", // Semi-transparent
+          backdropFilter: "blur(0px)", // Blurring effect
+          borderRadius: 4,
+          padding: 4,
+          width: "80%",
+          maxWidth: "620px",
+          boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2)", // Subtle shadow for depth
+        }}
+      >
+        <Stack sx={{ alignItems: "center", margin: 0 }}>{children}</Stack>
+      </Box>
     </Box>
   );
 };
