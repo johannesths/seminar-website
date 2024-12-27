@@ -5,6 +5,7 @@ import Profil from "./pages/Profil";
 import Footer from "./components/Footer";
 import { Box, CssBaseline, Toolbar } from "@mui/material";
 import Angebote from "./pages/Angebote";
+import Kontakt from "./pages/Kontakt";
 
 function App() {
   return (
@@ -30,7 +31,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/profil" element={<Profil />} />
-            <Route path="angebote" element={<Angebote />} />
+            <Route path="/angebote" element={<Angebote />} />
+            <Route path="/kontakt" element={<Kontakt />} />
           </Routes>
         </Box>
       </Box>

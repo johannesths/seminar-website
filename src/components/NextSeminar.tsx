@@ -5,6 +5,7 @@ import { ReactNode } from "react";
 interface Props {
   children: ReactNode;
 }
+
 const NextSeminar = ({ children }: Props) => {
   return (
     <Box padding={8}>

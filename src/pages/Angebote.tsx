@@ -4,6 +4,7 @@ import brilleImage from "../assets/angebote/brille.jpg";
 import meldungImage from "../assets/angebote/meldung.jpg";
 import reflexionImage from "../assets/angebote/reflexion.jpg";
 import teamImage from "../assets/angebote/team.jpg";
+import CardGrid from "../components/CardGrid";
 
 const Angebote = () => {
   const images = [
@@ -24,6 +25,7 @@ const Angebote = () => {
         marginTop: 3,
       }}
     >
+      <Box></Box>
       <ImageList sx={{ width: "80%" }} variant="woven" cols={5} gap={15}>
         {images.map((image) => (
           <ImageListItem key={image.alt}>
