@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import { Box, CssBaseline, Toolbar } from "@mui/material";
 import Angebote from "./pages/Angebote";
 import Kontakt from "./pages/Kontakt";
+import Impressum from "./pages/Impressum";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
             <Route path="/profil" element={<Profil />} />
             <Route path="/angebote" element={<Angebote />} />
             <Route path="/kontakt" element={<Kontakt />} />
+            <Route path="/impressum" element={<Impressum />} />
           </Routes>
         </Box>
       </Box>

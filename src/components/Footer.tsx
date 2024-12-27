@@ -1,4 +1,5 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -20,11 +21,16 @@ const Footer = () => {
           Datenschutz
         </Button>
 
-        <Button variant="text" sx={{ my: 2, color: "black", display: "block" }}>
+        <Button
+          variant="text"
+          sx={{ my: 2, color: "black", display: "block" }}
+          component={Link}
+          to="/impressum"
+        >
           Impressum
         </Button>
         <Button variant="text" sx={{ my: 2, color: "black", display: "block" }}>
-          Kontakt
+          AGB
         </Button>
       </Stack>
       {/* Seperating Line */}
