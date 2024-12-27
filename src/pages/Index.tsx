@@ -40,7 +40,11 @@ function Index() {
 
       {/* Main Content */}
       <Box component="main">
-        <ImageBox image={chairsImage}>
+        <ImageBox
+          blur={false}
+          semiTransparentOverlay={true}
+          image={chairsImage}
+        >
           <Typography variant="h4" sx={{ fontWeight: "bold" }}>
             Neue Perspektiven entdecken, Potenziale entfalten.
           </Typography>

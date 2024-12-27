@@ -6,7 +6,7 @@ import Weiterbildungen from "../components/Weiterbildungen";
 const Profil = () => {
   return (
     <Box>
-      <ImageBox image={fahrradImage}>
+      <ImageBox blur={true} semiTransparentOverlay={false} image={fahrradImage}>
         <Typography variant="h3">Ursula Trahasch</Typography>
       </ImageBox>
       <CV />
