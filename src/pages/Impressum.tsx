@@ -1,4 +1,4 @@
-import { Box, Stack, Toolbar, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 
 const Impressum = () => {
   return (
@@ -31,10 +31,21 @@ const Impressum = () => {
             margin: "5px auto 15px auto",
           }}
         />
-        <Typography variant="body1">
+        <Typography variant="body1" sx={{ fontSize: 18, lineHeight: 2 }}>
           Telefon: +49 1523 4204344
           <br />
           Email: kontakt@ursula-trahasch.de
+        </Typography>
+        <Box
+          sx={{
+            width: "100%",
+            height: "1px",
+            backgroundColor: (theme) => theme.palette.grey[300],
+            margin: "5px auto 15px auto",
+          }}
+        />
+        <Typography variant="body1" sx={{ fontSize: 18, lineHeight: 2 }}>
+          Website: Johannes Trahasch
         </Typography>
       </Stack>
     </Box>

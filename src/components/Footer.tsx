@@ -17,7 +17,12 @@ const Footer = () => {
         sx={{ justifyContent: "center", alignItems: "center" }}
         spacing={14}
       >
-        <Button variant="text" sx={{ my: 2, color: "black", display: "block" }}>
+        <Button
+          variant="text"
+          sx={{ my: 2, color: "black", display: "block" }}
+          component={Link}
+          to="/datenschutz"
+        >
           Datenschutz
         </Button>
 
@@ -29,7 +34,12 @@ const Footer = () => {
         >
           Impressum
         </Button>
-        <Button variant="text" sx={{ my: 2, color: "black", display: "block" }}>
+        <Button
+          variant="text"
+          sx={{ my: 2, color: "black", display: "block" }}
+          component={Link}
+          to="/agb"
+        >
           AGB
         </Button>
       </Stack>

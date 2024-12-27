@@ -5,10 +5,6 @@ import {
   SvgIconTypeMap,
   Typography,
 } from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import ForumIcon from "@mui/icons-material/Forum";
-import HandshakeIcon from "@mui/icons-material/Handshake";
-import PeopleIcon from "@mui/icons-material/People";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 
 export interface CardComponent {

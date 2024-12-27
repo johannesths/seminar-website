@@ -7,6 +7,8 @@ import { Box, CssBaseline, Toolbar } from "@mui/material";
 import Angebote from "./pages/Angebote";
 import Kontakt from "./pages/Kontakt";
 import Impressum from "./pages/Impressum";
+import AGB from "./pages/AGB";
+import Datenschutz from "./pages/Datenschutz";
 
 function App() {
   return (
@@ -35,6 +37,8 @@ function App() {
             <Route path="/angebote" element={<Angebote />} />
             <Route path="/kontakt" element={<Kontakt />} />
             <Route path="/impressum" element={<Impressum />} />
+            <Route path="/agb" element={<AGB />} />
+            <Route path="/datenschutz" element={<Datenschutz />} />
           </Routes>
         </Box>
       </Box>
