@@ -1,4 +1,5 @@
 import { Box, Stack, Typography } from "@mui/material";
+import SeperatingLine from "./SeperatingLine";
 
 const Weiterbildungen = () => {
   const weiterbildungen = [
@@ -70,15 +71,7 @@ const Weiterbildungen = () => {
       >
         Weiterbildungen
       </Typography>
-      {/* seperating Line */}
-      <Box
-        sx={{
-          width: "50%",
-          height: "1px",
-          backgroundColor: (theme) => theme.palette.grey[600],
-          margin: "5px auto 15px auto",
-        }}
-      />
+      <SeperatingLine />
       {/* content */}
       <Stack
         spacing={2}

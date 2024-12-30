@@ -65,6 +65,9 @@ const Profil = () => {
       <Weiterbildungen />
       {/* Problems Grid */}
       <CardGrid cards={problems} title="Wo ich helfen kann" />
+      <Box>
+        <Typography variant="h3">Wie ich helfen kann</Typography>
+      </Box>
     </Box>
   );
 };

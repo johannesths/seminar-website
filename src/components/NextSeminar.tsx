@@ -1,6 +1,7 @@
 import { Stack, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { ReactNode } from "react";
+import SeperatingLine from "./SeperatingLine";
 
 interface Props {
   children: ReactNode;
@@ -9,9 +10,10 @@ interface Props {
 const NextSeminar = ({ children }: Props) => {
   return (
     <Box padding={8}>
-      <Typography variant="h4" textAlign="center">
+      <Typography variant="h3" textAlign="center">
         Anstehende Seminare
       </Typography>
+      <SeperatingLine />
       <Stack
         spacing={5}
         direction="row"

@@ -8,6 +8,7 @@ import TimelineDot from "@mui/lab/TimelineDot";
 import TimelineOppositeContent, {
   timelineOppositeContentClasses,
 } from "@mui/lab/TimelineOppositeContent";
+import SeperatingLine from "./SeperatingLine";
 
 const CV = () => {
   const events = [
@@ -38,6 +39,7 @@ const CV = () => {
       <Typography variant="h3" sx={{ textAlign: "center" }}>
         Mein Werdegang
       </Typography>
+      <SeperatingLine />
       <Stack
         direction="row"
         sx={{ display: "flex", justifyContent: "space-evenly" }}

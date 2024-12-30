@@ -13,6 +13,7 @@ import SendIcon from "@mui/icons-material/Send";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import SeperatingLine from "./SeperatingLine";
 
 const schema = z.object({
   name: z.string().min(3, "Name muss mindestens 3 Zeichen enthalten."),
@@ -43,9 +44,10 @@ const Form = () => {
   return (
     <Box>
       <Toolbar />
-      <Typography variant="h4" sx={{ textAlign: "center", fontWeight: "bold" }}>
+      <Typography variant="h3" sx={{ textAlign: "center" }}>
         Kontaktformular
       </Typography>
+      <SeperatingLine />
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack
           spacing={4}

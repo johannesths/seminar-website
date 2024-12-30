@@ -7,6 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
+import SeperatingLine from "./SeperatingLine";
 
 export interface CardComponent {
   title: string;
@@ -29,15 +30,7 @@ const CardGrid = ({ cards, title }: Props) => {
       >
         {title}
       </Typography>
-      {/* Seperating Line */}
-      <Box
-        sx={{
-          width: "50%",
-          height: "1px",
-          backgroundColor: (theme) => theme.palette.grey[600],
-          margin: "5px auto 15px auto",
-        }}
-      />
+      <SeperatingLine />
       <Grid2
         container
         spacing={5}
