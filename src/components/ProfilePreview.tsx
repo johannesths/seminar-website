@@ -1,6 +1,6 @@
 import { Button, Grid, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
-import profilePicture from "../assets/Ursula-Trahasch-400.jpg";
+import profilePicture from "../assets/Ursula-Trahasch-2024.jpg";
 
 const ProfilePreview = () => {
   return (

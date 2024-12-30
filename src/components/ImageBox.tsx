@@ -1,4 +1,4 @@
-import { Box, Stack } from "@mui/material";
+import { Box } from "@mui/material";
 import { ReactNode } from "react";
 
 interface Props {
@@ -66,7 +66,7 @@ const ImageBox = ({ image, children, blur, semiTransparentOverlay }: Props) => {
               : "", // Subtle shadow for depth
           }}
         >
-          <Stack sx={{ alignItems: "center", margin: 0 }}>{children}</Stack>
+          {children}
         </Box>
       </Box>
     </Box>

@@ -1,4 +1,4 @@
-import { Box, Stack, Typography, Grid } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
@@ -19,7 +19,7 @@ const CV = () => {
     {
       date: "1993",
       description:
-        "Sutdium der Sozialpädagogik, Abschluss als Diplom Sozialpädagogin",
+        "Studium der Sozialpädagogik, Abschluss als Diplom Sozialpädagogin",
     },
     {
       date: "2018",
@@ -42,12 +42,7 @@ const CV = () => {
         direction="row"
         sx={{ display: "flex", justifyContent: "space-evenly" }}
       >
-        <Typography>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequatur,
-          rerum dicta. Quia corrupti facere nobis reiciendis. Distinctio nostrum
-          unde cum, hic quibusdam nihil vitae tempora est ducimus totam
-          obcaecati ipsam.
-        </Typography>
+        <Typography sx={{ textAlign: "center" }}></Typography>
         <Timeline
           sx={{
             [`& .${timelineOppositeContentClasses.root}`]: {

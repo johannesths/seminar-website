@@ -81,7 +81,7 @@ const Weiterbildungen = () => {
       />
       {/* content */}
       <Stack
-        spacing={4}
+        spacing={2}
         direction="column"
         sx={{ display: "flex", alignItems: "flex-start" }}
       >
