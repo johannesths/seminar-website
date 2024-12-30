@@ -75,7 +75,7 @@ function Index() {
             </Stack>
           </Stack>
         </ImageBox>
-        <CardGrid cards={angebote} />
+        <CardGrid cards={angebote} title="Angebote Übersicht" />
         <ProfilePreview />
         <NextSeminar>
           <SeminarCard

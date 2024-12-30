@@ -1,4 +1,5 @@
 import {
+  Box,
   Card,
   CardContent,
   Grid2,
@@ -15,41 +16,92 @@ export interface CardComponent {
 
 interface Props {
   cards: CardComponent[];
+  title: string;
 }
-const CardGrid = ({ cards }: Props) => {
+
+const CardGrid = ({ cards, title }: Props) => {
   return (
-    <Grid2 container spacing={7} margin={15}>
-      {cards.map((card) => {
-        return (
-          <Grid2 size={6}>
-            <Card
-              sx={{
-                height: "100%",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                backgroundColor: "#f0f4ff",
-                color: "#333",
-              }}
-            >
-              <CardContent>
-                {/* Card icon goes here */}
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  sx={{ textAlign: "center" }}
-                >
-                  {card.title}
-                </Typography>
-                <Typography sx={{ fontSize: 16 }}>
-                  {card.description}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid2>
-        );
-      })}
-    </Grid2>
+    <Box sx={{ padding: 0, margin: "0 auto" }}>
+      <Typography
+        variant="h3"
+        textAlign="center"
+        sx={{ marginTop: 10, padding: 0 }}
+      >
+        {title}
+      </Typography>
+      {/* Seperating Line */}
+      <Box
+        sx={{
+          width: "50%",
+          height: "1px",
+          backgroundColor: (theme) => theme.palette.grey[600],
+          margin: "5px auto 15px auto",
+        }}
+      />
+      <Grid2
+        container
+        spacing={5}
+        marginX={15}
+        marginY={5}
+        sx={{
+          display: "flex",
+          alignContent: "center",
+          justifyContent: "center",
+        }}
+      >
+        {cards.map((card) => {
+          const Icon = card.icon;
+          return (
+            <Grid2 size={5} key={card.title}>
+              <Card
+                sx={{
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  backgroundColor: "#f0f4ff",
+                  color: "#333",
+                }}
+              >
+                <CardContent sx={{ textAlign: "center" }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginBottom: 2,
+                    }}
+                  >
+                    <Icon
+                      sx={{
+                        fontSize: 30,
+                        color: (theme) => theme.palette.primary.main,
+                        marginRight: 3,
+                      }}
+                    />
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        textAlign: "center",
+                        margin: "auto 0",
+                      }}
+                    >
+                      {card.title}
+                    </Typography>
+                  </Box>
+                  <Typography sx={{ fontSize: 16 }}>
+                    {card.description}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid2>
+          );
+        })}
+      </Grid2>
+    </Box>
   );
 };
 

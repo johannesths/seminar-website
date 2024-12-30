@@ -4,6 +4,8 @@ import fahrradImage from "../assets/ursula-fahrrad-adria.jpg";
 import CV from "../components/CV";
 import Weiterbildungen from "../components/Weiterbildungen";
 import profilePicture from "../assets/Ursula-Trahasch-2024.jpg";
+import CardGrid from "../components/CardGrid";
+import { problems } from "../data/Probleme";
 
 const Profil = () => {
   return (
@@ -61,6 +63,8 @@ const Profil = () => {
       </ImageBox>
       <CV />
       <Weiterbildungen />
+      {/* Problems Grid */}
+      <CardGrid cards={problems} title="Wo ich helfen kann" />
     </Box>
   );
 };
