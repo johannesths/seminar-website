@@ -1,4 +1,4 @@
-import { Box, Stack, Typography, Divider } from "@mui/material";
+import { Box, Stack, Typography, Divider, Button } from "@mui/material";
 import ImageBox from "../components/ImageBox";
 import fahrradImage from "../assets/ursula-fahrrad-adria.jpg";
 import CV from "../components/CV";
@@ -6,6 +6,8 @@ import Weiterbildungen from "../components/Weiterbildungen";
 import profilePicture from "../assets/Ursula-Trahasch-2024.jpg";
 import CardGrid from "../components/CardGrid";
 import { problems } from "../data/Probleme";
+import SeperatingLine from "../components/SeperatingLine";
+import { Link } from "react-router-dom";
 
 const Profil = () => {
   return (
@@ -65,9 +67,33 @@ const Profil = () => {
       <Weiterbildungen />
       {/* Problems Grid */}
       <CardGrid cards={problems} title="Wo ich helfen kann" />
-      <Box>
+      <Stack
+        marginY={10}
+        sx={{ display: "flex", textAlign: "center", alignItems: "center" }}
+      >
         <Typography variant="h3">Wie ich helfen kann</Typography>
-      </Box>
+        <SeperatingLine />
+        <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+          Gerne entwickle ich ein Seminar entsprechend Ihren Anliegen und
+          thematischen Vorstellungen.
+        </Typography>
+        <Button
+          variant="outlined"
+          sx={{ margin: "10px 20px", width: "25%" }}
+          component={Link}
+          to="/angebote"
+        >
+          Mehr Informationen zu meinen Angeboten
+        </Button>
+        <Button
+          variant="contained"
+          sx={{ margin: "10px 20px", width: "20%" }}
+          component={Link}
+          to="/kontakt"
+        >
+          Kontakt
+        </Button>
+      </Stack>
     </Box>
   );
 };
