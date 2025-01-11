@@ -1,10 +1,9 @@
-import { Box, ImageList, ImageListItem } from "@mui/material";
+import { Box, ImageList, ImageListItem, Typography } from "@mui/material";
 import steinImage from "../assets/angebote/steine.jpg";
 import brilleImage from "../assets/angebote/brille.jpg";
 import meldungImage from "../assets/angebote/meldung.jpg";
 import reflexionImage from "../assets/angebote/reflexion.jpg";
 import teamImage from "../assets/angebote/team.jpg";
-import CardGrid from "../components/CardGrid";
 
 const Angebote = () => {
   const images = [
@@ -25,8 +24,9 @@ const Angebote = () => {
         marginTop: 3,
       }}
     >
+      <Typography variant="h3"></Typography>
       <Box></Box>
-      <ImageList sx={{ width: "80%" }} variant="woven" cols={5} gap={15}>
+      <ImageList sx={{ width: "60%" }} variant="woven" cols={5} gap={15}>
         {images.map((image) => (
           <ImageListItem key={image.alt}>
             <img src={image.img} alt={image.alt} loading="lazy" />

@@ -71,11 +71,13 @@ function Index() {
             </List>
             <Stack direction="row" spacing={16} sx={{ mt: 3 }}>
               <Button variant="contained">Seminare</Button>
-              <Button variant="outlined">Kontakt</Button>
+              <Button variant="contained" color="secondary">
+                Kontakt
+              </Button>
             </Stack>
           </Stack>
         </ImageBox>
-        <CardGrid cards={angebote} title="Angebote Übersicht" />
+        <CardGrid cards={angebote} title="Angebote" />
         <ProfilePreview />
         <NextSeminar>
           <SeminarCard

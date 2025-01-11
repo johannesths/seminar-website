@@ -14,13 +14,6 @@ const Datenschutz = () => {
     >
       <Toolbar></Toolbar>
       <Stack gap={3} sx={{ maxWidth: "1000px", textAlign: "justify" }}>
-        <Typography
-          variant="h4"
-          sx={{ fontWeight: "bold", textAlign: "center" }}
-        >
-          Datenschutzerklärung
-        </Typography>
-
         <Typography>Übersicht der Verarbeitungen</Typography>
         <Typography>
           Die nachfolgende Übersicht fasst die Arten der verarbeiteten Daten und

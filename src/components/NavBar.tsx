@@ -1,41 +1,121 @@
-import { Box, Button, Stack, Toolbar, Typography } from "@mui/material";
-import AppBar from "@mui/material/AppBar";
+import { useState } from "react";
+import {
+  AppBar,
+  Box,
+  Button,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Stack,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import { Link } from "react-router-dom";
 
 const NavBar = () => {
   const pages = ["Angebote", "Veranstaltungen", "Profil", "Kontakt"];
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  const drawer = (
+    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
+      <Typography variant="h6" sx={{ my: 2 }}>
+        Ursula Trahasch
+      </Typography>
+      <List>
+        <ListItem key="home">
+          <ListItemButton
+            component={Link}
+            to={"/"}
+            sx={{ textAlign: "center" }}
+          >
+            <ListItemText primary="Home" />
+          </ListItemButton>
+        </ListItem>
+        {pages.map((page) => (
+          <ListItem key={page}>
+            <ListItemButton
+              component={Link}
+              to={`/${page.toLowerCase()}`}
+              sx={{ textAlign: "center" }}
+            >
+              <ListItemText primary={page} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
 
   return (
-    <AppBar color="info" position="fixed" sx={{ padding: 1 }}>
+    <AppBar
+      color="info"
+      position="fixed"
+      sx={{
+        paddingX: { s: 1, md: 6 },
+      }}
+    >
       <Toolbar>
+        {/* Logo and Title */}
         <Button component={Link} to="/" sx={{ margin: 0, padding: 0 }}>
-          <AccountBoxIcon sx={{ display: { md: "flex" }, mr: 10 }} />
+          <AccountBoxIcon sx={{ display: { md: "flex" }, mr: 2 }} />
         </Button>
-        <Stack>
+        <Stack sx={{ flexGrow: 1, alignItems: "flex-start" }}>
           <Typography variant="h5">Ursula Trahasch</Typography>
           <Typography variant="subtitle1">
             Beratung | Coaching | Supervision | Weiterbildung
           </Typography>
         </Stack>
-        <Stack direction="row" spacing={5} sx={{ m: "auto" }}>
+
+        {/* Desktop Navigation */}
+        <Stack
+          direction="row"
+          spacing={5}
+          justifyContent="space-between"
+          sx={{ display: { xs: "none", md: "flex" } }}
+        >
           {pages.map((page) => (
-            <Box
+            <Button
               key={page}
-              sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}
+              component={Link}
+              to={`/${page.toLowerCase()}`}
+              variant="text"
+              sx={{ my: 2, color: "white" }}
             >
-              <Button
-                component={Link}
-                to={`/${page.toLowerCase()}`}
-                variant="text"
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
-            </Box>
+              {page}
+            </Button>
           ))}
         </Stack>
+
+        {/* Mobile Hamburger Menu */}
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          edge="end"
+          onClick={handleDrawerToggle}
+          sx={{ display: { xs: "block", md: "none" } }}
+        >
+          <MenuIcon />
+        </IconButton>
       </Toolbar>
+
+      {/* Drawer for Mobile */}
+      <Drawer
+        anchor="right"
+        open={mobileOpen}
+        onClose={handleDrawerToggle}
+        ModalProps={{ keepMounted: true }}
+      >
+        {drawer}
+      </Drawer>
     </AppBar>
   );
 };
