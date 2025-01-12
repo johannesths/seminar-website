@@ -37,7 +37,7 @@ const CardGrid = ({ cards, title }: Props) => {
         sx={{
           display: "flex",
           alignContent: "center",
-          justifyContent: "center",
+          justifyContent: "space-around",
           marginX: { xs: 2, sm: 5, md: 15 },
           marginY: 5,
         }}
@@ -45,16 +45,28 @@ const CardGrid = ({ cards, title }: Props) => {
         {cards.map((card) => {
           const Icon = card.icon;
           return (
-            <Grid2 container size={{ xs: 12, md: 6 }} key={card.title}>
+            <Grid2
+              container
+              size={{ xs: 12, md: 6 }}
+              key={card.title}
+              sx={{
+                alignContent: "center",
+                alignItems: "center",
+                display: "flex",
+                justifyContent: "space-around",
+                margin: 0,
+              }}
+            >
               <Card
                 sx={{
                   height: "100%",
+                  width: { sm: "80%", md: "100%", lg: "80%" },
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "space-around",
                   backgroundColor: "#f0f4ff",
                   color: "#333",
-                  padding: { xs: 2, sm: 3 }, // Responsive padding
+                  padding: { xs: 1, sm: 1, md: 2 }, // Responsive padding
                 }}
               >
                 <CardContent sx={{ textAlign: "center" }}>

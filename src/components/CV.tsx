@@ -35,41 +35,65 @@ const CV = () => {
   ];
 
   return (
-    <Box sx={{ margin: "6vh 15vh", paddingX: 10 }}>
-      <Typography variant="h3" sx={{ textAlign: "center" }}>
+    <Box
+      sx={{
+        marginX: { xs: "5vw", md: "15vh" },
+        marginY: { xs: "3vh", md: "6vh" },
+        paddingX: { xs: 2, md: 10 },
+      }}
+    >
+      <Typography
+        variant="h3"
+        sx={{
+          textAlign: "center",
+          fontSize: { xs: "1.8rem", sm: "2rem", md: "2.5rem" },
+        }}
+      >
         Mein Werdegang
       </Typography>
       <SeperatingLine />
       <Stack
         direction="row"
-        sx={{ display: "flex", justifyContent: "space-evenly" }}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          alignContent: "center",
+          flexDirection: "column",
+        }}
       >
-        <Typography sx={{ textAlign: "center" }}></Typography>
         <Timeline
           sx={{
             [`& .${timelineOppositeContentClasses.root}`]: {
-              flex: 0.2,
+              flex: { xs: 0, md: 0.2 },
+              textAlign: { xs: "center", md: "right" },
             },
           }}
         >
-          {events.map((event) => {
-            return (
-              <TimelineItem>
-                <TimelineOppositeContent color="textSecondary">
+          {events.map((event, index) => (
+            <TimelineItem key={index}>
+              <TimelineOppositeContent color="textSecondary">
+                <Typography
+                  variant="body2"
+                  sx={{ fontSize: { xs: "0.9rem", md: "1rem" } }}
+                >
                   {event.date}
-                </TimelineOppositeContent>
-                <TimelineSeparator>
-                  <TimelineDot color="primary" />
-                  {events.indexOf(event) === events.length - 1 ? (
-                    " "
-                  ) : (
-                    <TimelineConnector color="primary" />
-                  )}
-                </TimelineSeparator>
-                <TimelineContent>{event.description}</TimelineContent>
-              </TimelineItem>
-            );
-          })}
+                </Typography>
+              </TimelineOppositeContent>
+              <TimelineSeparator>
+                <TimelineDot color="primary" />
+                {index !== events.length - 1 && <TimelineConnector />}
+              </TimelineSeparator>
+              <TimelineContent>
+                <Typography
+                  variant="body1"
+                  sx={{ fontSize: { xs: "0.9rem", md: "1rem" } }}
+                >
+                  {event.description}
+                </Typography>
+              </TimelineContent>
+            </TimelineItem>
+          ))}
         </Timeline>
       </Stack>
     </Box>
