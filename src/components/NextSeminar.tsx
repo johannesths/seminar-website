@@ -9,21 +9,25 @@ interface Props {
 
 const NextSeminar = ({ children }: Props) => {
   return (
-    <Box padding={8}>
-      <Typography variant="h3" textAlign="center">
+    <Box padding={{ xs: 4, sm: 6, md: 7 }}>
+      <Typography
+        variant="h3"
+        textAlign="center"
+        sx={{ marginY: { xs: 2, sm: 3 } }}
+      >
         Anstehende Seminare
       </Typography>
       <SeperatingLine />
       <Stack
-        spacing={5}
-        direction="row"
+        spacing={{ xs: 3, sm: 15 }}
+        direction={{ xs: "column", md: "column", lg: "row" }}
         sx={{
           display: "flex",
-          padding: 7,
+          flexWrap: "wrap",
+          padding: { xs: 2, sm: 4, md: 5 },
           alignContent: "center",
           alignItems: "center",
-          flexDirection: "row",
-          justifyContent: "space-around",
+          justifyContent: { xs: "center", md: "center", lg: "space-evenly" },
         }}
       >
         {children}
