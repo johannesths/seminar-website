@@ -60,7 +60,9 @@ const NavBar = () => {
       color="info"
       position="fixed"
       sx={{
-        paddingX: { s: 1, md: 6 },
+        paddingX: { xs: 1, md: 6 },
+        margin: 0,
+        width: "100%",
       }}
     >
       <Toolbar>
@@ -78,8 +80,8 @@ const NavBar = () => {
         {/* Desktop Navigation */}
         <Stack
           direction="row"
-          spacing={5}
-          justifyContent="space-between"
+          spacing={{ xs: 2, md: 5 }}
+          justifyContent="flex-end"
           sx={{ display: { xs: "none", md: "flex" } }}
         >
           {pages.map((page) => (
@@ -113,6 +115,10 @@ const NavBar = () => {
         open={mobileOpen}
         onClose={handleDrawerToggle}
         ModalProps={{ keepMounted: true }}
+        sx={{
+          textAlign: "center",
+          width: "100%", // Prevent overflow
+        }}
       >
         {drawer}
       </Drawer>

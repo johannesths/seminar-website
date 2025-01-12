@@ -34,42 +34,37 @@ function Index() {
         display: "flex",
         flexDirection: "column",
         minHeight: "100vh",
+        overflowX: "hidden", // Prevent horizontal overflow
+        padding: 0,
       }}
     >
       <CssBaseline />
 
       {/* Main Content */}
-      <Box component="main">
+      <Box component="main" sx={{ padding: 0 }}>
         <ImageBox
           blur={false}
           semiTransparentOverlay={true}
           image={chairsImage}
         >
-          <Stack>
-            <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+          <Stack sx={{ px: { xs: 2, md: 10 } }}>
+            <Typography
+              variant="h4"
+              sx={{ fontWeight: "bold", textAlign: "center" }}
+            >
               Neue Perspektiven entdecken, Potenziale entfalten.
             </Typography>
-
-            <Typography sx={{ mt: 0, mb: 1 }} variant="h6" component="div">
-              {/* Potential List Header */}
-            </Typography>
-            <List sx={{ mr: 10 }}>
-              {leitbegriffe.map((begriff) => {
-                return (
-                  <ListItem>
-                    <ListItemIcon
-                      sx={{
-                        color: "#37a340",
-                      }}
-                    >
-                      <CheckCircleIcon />
-                    </ListItemIcon>
-                    <ListItemText>{begriff}</ListItemText>
-                  </ListItem>
-                );
-              })}
+            <List>
+              {leitbegriffe.map((begriff) => (
+                <ListItem key={begriff} disableGutters>
+                  <ListItemIcon sx={{ color: "#37a340" }}>
+                    <CheckCircleIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={begriff} />
+                </ListItem>
+              ))}
             </List>
-            <Stack direction="row" spacing={16} sx={{ mt: 3 }}>
+            <Stack direction="row" spacing={{ xs: 2, md: 5 }} sx={{ mt: 3 }}>
               <Button variant="contained">Seminare</Button>
               <Button variant="contained" color="secondary">
                 Kontakt
@@ -77,22 +72,31 @@ function Index() {
             </Stack>
           </Stack>
         </ImageBox>
-        <CardGrid cards={angebote} title="Angebote" />
-        <ProfilePreview />
-        <NextSeminar>
-          <SeminarCard
-            title="Test"
-            description="abcdefgh"
-            picture=""
-            location={null}
-          />
-          <SeminarCard
-            title="Test"
-            description="abcdefgh"
-            picture=""
-            location={null}
-          />
-        </NextSeminar>
+
+        <Box sx={{ px: { xs: 2, md: 10 } }}>
+          <CardGrid cards={angebote} title="Angebote" />
+        </Box>
+
+        <Box sx={{ px: { xs: 2, md: 10 } }}>
+          <ProfilePreview />
+        </Box>
+
+        <Box sx={{ px: { xs: 2, md: 10 } }}>
+          <NextSeminar>
+            <SeminarCard
+              title="Test"
+              description="abcdefgh"
+              picture=""
+              location={null}
+            />
+            <SeminarCard
+              title="Test"
+              description="abcdefgh"
+              picture=""
+              location={null}
+            />
+          </NextSeminar>
+        </Box>
       </Box>
     </Box>
   );

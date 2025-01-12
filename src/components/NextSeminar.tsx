@@ -23,7 +23,7 @@ const NextSeminar = ({ children }: Props) => {
           alignContent: "center",
           alignItems: "center",
           flexDirection: "row",
-          justifyContent: "space-evenly",
+          justifyContent: "space-around",
         }}
       >
         {children}

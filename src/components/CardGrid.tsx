@@ -33,27 +33,28 @@ const CardGrid = ({ cards, title }: Props) => {
       <SeperatingLine />
       <Grid2
         container
-        spacing={5}
-        marginX={15}
-        marginY={5}
+        spacing={{ xs: 3, md: 6 }}
         sx={{
           display: "flex",
           alignContent: "center",
           justifyContent: "center",
+          marginX: { xs: 2, sm: 5, md: 15 },
+          marginY: 5,
         }}
       >
         {cards.map((card) => {
           const Icon = card.icon;
           return (
-            <Grid2 size={5} key={card.title}>
+            <Grid2 container size={{ xs: 12, md: 6 }} key={card.title}>
               <Card
                 sx={{
                   height: "100%",
                   display: "flex",
                   flexDirection: "column",
-                  justifyContent: "space-between",
+                  justifyContent: "space-around",
                   backgroundColor: "#f0f4ff",
                   color: "#333",
+                  padding: { xs: 2, sm: 3 }, // Responsive padding
                 }}
               >
                 <CardContent sx={{ textAlign: "center" }}>

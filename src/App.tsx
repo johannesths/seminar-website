@@ -21,15 +21,20 @@ function App() {
         }}
       >
         <CssBaseline />
-        {/* Fixierte Navbar */}
+        {/* Fixed Navbar */}
         <NavBar />
 
-        {/* Platzhalter für die Navbar-Höhe */}
-        <Toolbar />
+        {/* Placeholder for Navbar height */}
+        <Toolbar sx={{ height: (theme) => theme.mixins.toolbar.minHeight }} />
+
         {/* Main Content */}
         <Box
           component="main"
-          sx={{ flex: 1, margin: 0, padding: 0, position: "relative" }}
+          sx={{
+            flex: 1,
+            margin: 0,
+            padding: 0,
+          }}
         >
           <Routes>
             <Route path="/" element={<Index />} />
@@ -41,18 +46,8 @@ function App() {
             <Route path="/datenschutz" element={<Datenschutz />} />
           </Routes>
         </Box>
-      </Box>
-      <NavBar />
 
-      {/* Footer */}
-      <Box
-        component="footer"
-        sx={{
-          py: 2,
-          textAlign: "center",
-          backgroundColor: (theme) => theme.palette.grey[100],
-        }}
-      >
+        {/* Footer */}
         <Footer />
       </Box>
     </Router>
