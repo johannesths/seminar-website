@@ -1,142 +1,152 @@
 import {
   Box,
   Button,
-  CssBaseline,
-  Grid,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
+  Checkbox,
+  FormControlLabel,
+  Link,
   Stack,
+  TextField,
+  Toolbar,
   Typography,
 } from "@mui/material";
-import CardGrid from "../components/CardGrid";
-import ImageBox from "../components/ImageBox";
-import NextSeminar from "../components/NextSeminar";
-import ProfilePreview from "../components/ProfilePreview";
-import SeminarCard from "../components/SeminarCard";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import chairsImage from "../assets/chairs.jpg";
-import { angebote } from "../data/Angebote";
+import SendIcon from "@mui/icons-material/Send";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import SeperatingLine from "./SeperatingLine";
 
-function Index() {
-  const leitbegriffe = [
-    "Reflexion",
-    "Perspektivwechsel",
-    "Konfliktlösung",
-    "Kommunikation",
-    "Autonomie",
-    "Konfliktbewältigung",
-  ];
+const schema = z.object({
+  name: z.string().min(3, "Name muss mindestens 3 Zeichen enthalten."),
+  email: z.string().email("Ungültige E-Mail-Adresse").max(50),
+  subject: z.string().max(50, "Betreff darf maximal 50 Zeichen enthalten."),
+  message: z
+    .string()
+    .min(10, "Nachricht muss mindestens 10 Zeichen enthalten.")
+    .max(400),
+  acceptedTerms: z.boolean().refine((val) => val, {
+    message: "Sie müssen die AGB akzeptieren.",
+  }),
+});
+
+type FormData = z.infer<typeof schema>;
+
+const Form = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<FormData>({ resolver: zodResolver(schema), mode: "onChange" });
+
+  const onSubmit = (data: FormData) => {
+    console.log("Form data submitted: ", data);
+  };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100vh",
-        padding: 0,
-      }}
-    >
-      <CssBaseline />
-
-      {/* Main Content */}
-      <Box component="main">
-        {/* Hero Section with Image */}
-        <ImageBox
-          blur={false}
-          semiTransparentOverlay={true}
-          image={chairsImage}
+    <Box>
+      <Toolbar />
+      <Typography variant="h3" sx={{ textAlign: "center" }}>
+        Kontaktformular
+      </Typography>
+      <SeperatingLine />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Stack
+          spacing={4}
+          sx={{
+            paddingX: 30,
+            paddingY: 5,
+          }}
         >
-          <Grid
-            container
-            spacing={2}
-            sx={{
-              textAlign: { xs: "center", md: "left" },
-              px: { xs: 2, md: 10 },
-              py: { xs: 5, md: 10 },
-            }}
-          >
-            <Grid item xs={12} md={6}>
-              <Typography
-                variant="h4"
-                sx={{
-                  fontWeight: "bold",
-                  fontSize: { xs: "1.5rem", md: "2.5rem" },
-                }}
-              >
-                Neue Perspektiven entdecken, Potenziale entfalten.
+          <TextField
+            label="Name"
+            variant="outlined"
+            fullWidth
+            color={errors.name?.message ? "error" : "primary"}
+            helperText={
+              errors.name?.message && (
+                <Typography color="error" variant="subtitle1">
+                  Bitte geben Sie Ihren vollständigen Namen an.
+                </Typography>
+              )
+            }
+            required
+            {...register("name")}
+          />
+          <TextField
+            label="E-Mail"
+            type="email"
+            variant="outlined"
+            color={errors.email?.message ? "error" : "primary"}
+            fullWidth
+            helperText={
+              errors.email?.message && (
+                <Typography color="error" variant="subtitle1">
+                  Bitte geben Sie eine gültige Email-Adresse an.
+                </Typography>
+              )
+            }
+            required
+            {...register("email")}
+          />
+          <TextField
+            label="Betreff"
+            {...register("subject")}
+            variant="outlined"
+            fullWidth
+          />
+          <TextField
+            label="Nachricht"
+            variant="outlined"
+            color={errors.message?.message ? "error" : "primary"}
+            fullWidth
+            multiline
+            rows={4}
+            helperText={
+              errors.message?.message && (
+                <Typography color="error" variant="subtitle1">
+                  Bitte geben Sie eine Nachricht ein.
+                </Typography>
+              )
+            }
+            required
+            {...register("message")}
+          />
+          <FormControlLabel
+            control={<Checkbox name="acceptedTerms" />}
+            label={
+              <Typography>
+                Ich akzeptiere die{" "}
+                <Link href="/agb" target="_blank" rel="noopener noreferrer">
+                  AGB
+                </Link>{" "}
+                und die{" "}
+                <Link
+                  href="/datenschutz"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Datenschutzrichtlinien
+                </Link>
+                .*
               </Typography>
-
-              <List>
-                {leitbegriffe.map((begriff) => (
-                  <ListItem key={begriff} disableGutters>
-                    <ListItemIcon
-                      sx={{
-                        color: "#37a340",
-                      }}
-                    >
-                      <CheckCircleIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={begriff}
-                      primaryTypographyProps={{
-                        fontSize: { xs: "1rem", md: "1.25rem" },
-                      }}
-                    />
-                  </ListItem>
-                ))}
-              </List>
-
-              <Stack
-                direction={{ xs: "column", sm: "row" }}
-                spacing={2}
-                sx={{
-                  mt: 3,
-                  justifyContent: { xs: "center", md: "flex-start" },
-                }}
-              >
-                <Button variant="contained" sx={{ px: 4 }}>
-                  Seminare
-                </Button>
-                <Button variant="contained" color="secondary" sx={{ px: 4 }}>
-                  Kontakt
-                </Button>
-              </Stack>
-            </Grid>
-          </Grid>
-        </ImageBox>
-
-        {/* Card Grid Section */}
-        <Box sx={{ px: { xs: 2, md: 10 }, py: { xs: 5, md: 10 } }}>
-          <CardGrid cards={angebote} title="Angebote" />
-        </Box>
-
-        {/* Profile Preview */}
-        <Box sx={{ px: { xs: 2, md: 10 }, py: { xs: 5, md: 10 } }}>
-          <ProfilePreview />
-        </Box>
-
-        {/* Next Seminar Section */}
-        <Box sx={{ px: { xs: 2, md: 10 }, py: { xs: 5, md: 10 } }}>
-          <NextSeminar>
-            <SeminarCard
-              title="Test"
-              description="abcdefgh"
-              picture=""
-              location={null}
-            />
-            <SeminarCard
-              title="Test"
-              description="abcdefgh"
-              picture=""
-              location={null}
-            />
-          </NextSeminar>
-        </Box>
-      </Box>
+            }
+            {...register("acceptedTerms")}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            name="submit"
+            color="primary"
+            size="large"
+            endIcon={<SendIcon sx={{ ml: 3 }} />}
+            sx={{ padding: 1.5, fontWeight: "bold", width: "20%" }}
+            disabled={!isValid}
+          >
+            Absenden
+          </Button>
+        </Stack>
+      </form>
     </Box>
   );
-}
+};
 
-export default Index;
+export default Form;

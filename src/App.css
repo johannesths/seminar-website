@@ -1,15 +1,8 @@
-import { GlobalStyles } from "@mui/material";
-
-<GlobalStyles
-  styles={{
-    "html, body": {
-      margin: 0,
-      padding: 0,
-      width: "100%",
-      overflowX: "hidden", // Prevent horizontal scrolling
-    },
-    "*": {
-      boxSizing: "border-box", // Ensure consistent sizing
-    },
-  }}
-/>
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+  
