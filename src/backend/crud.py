@@ -7,6 +7,16 @@ from schemas import SeminarCreate
 def get_seminars(db: Session):
     return db.query(Seminar).all()
 
+# Get the latest ~amount~ seminars 
+def get_latest_seminars(db: Session, amount: int = 2):
+    if amount > 20 or amount <= 0:
+        return HTTPException(status_code=403, detail="Limit is either > 20 or not positive.")
+    
+    return (
+        db.query(Seminar).order_by(Seminar.date.desc()).limit(amount).all()
+    )
+
+
 # Create a new seminar
 def create_seminar(db: Session, seminar: SeminarCreate):
     seminar = Seminar(**seminar.dict())

@@ -13,10 +13,11 @@ import CardGrid from "../components/CardGrid";
 import ImageBox from "../components/ImageBox";
 import NextSeminar from "../components/NextSeminar";
 import ProfilePreview from "../components/ProfilePreview";
-import SeminarCard from "../components/SeminarCard";
+import { useLatestSeminars } from "../hooks/useLatestSeminars";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import chairsImage from "../assets/chairs.jpg";
 import { angebote } from "../data/Angebote";
+import SeminarCard from "../components/SeminarCard";
 
 function Index() {
   const leitbegriffe = [
@@ -27,6 +28,8 @@ function Index() {
     "Autonomie",
     "Konfliktbewältigung",
   ];
+
+  const { seminars, loading, error } = useLatestSeminars(2);
 
   return (
     <Box
@@ -82,17 +85,29 @@ function Index() {
         </Box>
 
         <Box sx={{ px: { xs: 2, md: 10 } }}>
-          {/* <NextSeminar>
-            <SeminarCard
-              title="Test"
-              description="abcdefgh"
-              picture=""
-            />
-            <SeminarCard
-              title="Test"
-              description="abcdefgh"
-            />
-          </NextSeminar> */}
+          <NextSeminar>
+            <Box
+              display="flex"
+              flexWrap="wrap"
+              justifyContent="center"
+              gap={4}
+              p={2}
+            >
+              {seminars.map((seminar) => (
+                <SeminarCard
+                  id={seminar.id}
+                  key={seminar.id}
+                  title={seminar.title}
+                  description={seminar.description}
+                  date={seminar.date}
+                  time={seminar.time}
+                  category={seminar.category}
+                  location={seminar.location}
+                  url={seminar.url}
+                />
+              ))}
+            </Box>
+          </NextSeminar>
         </Box>
       </Box>
     </Box>
