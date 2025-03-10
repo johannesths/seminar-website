@@ -82,20 +82,17 @@ function Index() {
         </Box>
 
         <Box sx={{ px: { xs: 2, md: 10 } }}>
-          <NextSeminar>
+          {/* <NextSeminar>
             <SeminarCard
               title="Test"
               description="abcdefgh"
               picture=""
-              location={null}
             />
             <SeminarCard
               title="Test"
               description="abcdefgh"
-              picture=""
-              location={null}
             />
-          </NextSeminar>
+          </NextSeminar> */}
         </Box>
       </Box>
     </Box>

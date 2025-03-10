@@ -9,6 +9,7 @@ import Kontakt from "./pages/Kontakt";
 import Impressum from "./pages/Impressum";
 import AGB from "./pages/AGB";
 import Datenschutz from "./pages/Datenschutz";
+import Veranstaltungen from "./pages/Veranstaltungen";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
             <Route path="/" element={<Index />} />
             <Route path="/profil" element={<Profil />} />
             <Route path="/angebote" element={<Angebote />} />
+            <Route path="/veranstaltungen" element={<Veranstaltungen />} />
             <Route path="/kontakt" element={<Kontakt />} />
             <Route path="/impressum" element={<Impressum />} />
             <Route path="/agb" element={<AGB />} />

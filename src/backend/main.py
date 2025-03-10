@@ -5,8 +5,20 @@ import os
 from database import SessionLocal
 import crud
 from schemas import SeminarCreate, SeminarOut
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # front end port
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 # Load API Key
 ADMIN_API_KEY = os.getenv("API_KEY")

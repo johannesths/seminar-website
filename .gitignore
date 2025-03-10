@@ -23,7 +23,11 @@ dist-ssr
 *.sln
 *.sw?
 
+# Keys and secrets
 .env
+axios.ts
+api/
 
+# Virtual environment
 venv/
 
