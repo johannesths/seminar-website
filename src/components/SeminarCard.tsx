@@ -7,6 +7,8 @@ import Typography from "@mui/material/Typography";
 import branchImage from "../assets/chelsey-marques-s_nG4v-5KDQ-unsplash.jpg";
 import { Seminar } from "../hooks/useSeminars";
 import { useState } from "react";
+import PlaceIcon from "@mui/icons-material/Place";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 // Maximum characters before "read more"
 const MAX_LENGTH = 200;
@@ -39,12 +41,15 @@ const SeminarCard = ({
     <Card key={id} sx={{ maxWidth: 600, width: "100%" }}>
       <CardMedia sx={{ height: 200 }} image={branchImage} />
       <CardContent>
-        <Typography gutterBottom variant="h4" component="div">
+        <Typography
+          gutterBottom
+          variant="h4"
+          component="div"
+          sx={{ marginBottom: 0 }}
+        >
           {title}
         </Typography>
-        <Typography variant="overline" sx={{ fontSize: "17px" }}>
-          {formatDateTime(date, time)}
-        </Typography>
+
         <Typography
           variant="body1"
           sx={{ color: "text.secondary", fontSize: 17 }}
@@ -52,16 +57,33 @@ const SeminarCard = ({
           {shortened_description}
         </Typography>
         {description.length > MAX_LENGTH && (
-          <Button onClick={() => setExpanded(!expanded)} size="small">
+          <Button
+            sx={{ marginTop: 1, padding: 0, fontSize: 15 }}
+            onClick={() => setExpanded(!expanded)}
+            size="small"
+          >
             {expanded ? "Weniger anzeigen" : "Mehr anzeigen"}
           </Button>
         )}
+        <br />
         <Typography
-          variant="body1"
-          sx={{ color: "text.primary", fontSize: 17 }}
+          variant="overline"
+          sx={{ fontSize: "17px", display: "flex", alignItems: "center" }}
         >
-          Wo?{" "}
+          <AccessTimeIcon sx={{ marginX: 1 }} />
+          {formatDateTime(date, time)}
+        </Typography>
+        <Typography
+          variant="overline"
+          sx={{
+            color: "text.primary",
+            fontSize: 17,
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
           <a href={url} target="_blank" rel="noopener noreferrer">
+            <PlaceIcon sx={{ marginX: 1 }} />
             {location}
           </a>
         </Typography>

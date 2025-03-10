@@ -55,7 +55,12 @@ const ImageBox = ({ image, children, blur, semiTransparentOverlay }: Props) => {
       >
         <Box
           sx={{
+            display: "flex",
+            flexDirection: { s: "column", md: "row" },
+            alignItems: "center",
             position: "relative",
+            justifyContent: "center",
+            gap: 10,
             backgroundColor: semiTransparentOverlay
               ? "rgba(0, 0, 0, 0.4)"
               : "rgba(0, 0, 0, 0)",

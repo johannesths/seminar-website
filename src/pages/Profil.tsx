@@ -36,7 +36,7 @@ const Profil = () => {
             variant="h2"
             sx={{
               fontWeight: "bold",
-              fontSize: { xs: "1.8rem", sm: "2.5rem" },
+              fontSize: { xs: "1.8rem", sm: "2.9rem" },
             }}
           >
             Ursula Trahasch
@@ -53,7 +53,7 @@ const Profil = () => {
             variant="h5"
             sx={{
               lineHeight: 1.6,
-              fontSize: { xs: "1rem", sm: "1.2rem" },
+              fontSize: { xs: "1rem", sm: "1.5rem" },
             }}
           >
             Wer ich bin, wo meine Schwerpunkte liegen, und wie ich Ihnen helfen
