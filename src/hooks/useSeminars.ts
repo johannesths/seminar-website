@@ -12,14 +12,14 @@ export interface Seminar {
   url: string;
 }
 
-export const useSeminars = () => {
+export const useSeminars = (limit: number, offset: number) => {
   const [seminars, setSeminars] = useState<Seminar[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   const fetchSeminars = async () => {
     try {
-      const response = await api.get('/seminars/');
+      const response = await api.get(`/seminars/?limit=${limit}&offset=${offset}`);
       setSeminars(response.data);
     } catch (err: any) {
       setError(err.message);
@@ -30,7 +30,7 @@ export const useSeminars = () => {
 
   useEffect(() => {
     fetchSeminars();
-  }, []);
+  }, [limit, offset]);
 
   return { seminars, loading, error};
 };

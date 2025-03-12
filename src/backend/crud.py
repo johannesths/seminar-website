@@ -4,8 +4,8 @@ from models import Seminar
 from schemas import SeminarCreate
 
 # Fetch all seminars
-def get_seminars(db: Session):
-    return db.query(Seminar).all()
+def get_seminars(db: Session, limit: int = 10, offset: int = 0):
+    return db.query(Seminar).order_by(Seminar.date.desc()).offset(offset).limit(limit).all()
 
 # Get the latest ~amount~ seminars 
 def get_latest_seminars(db: Session, amount: int = 2):

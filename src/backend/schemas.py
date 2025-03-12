@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from datetime import date, time
 
 class SeminarCreate(BaseModel):
@@ -15,3 +15,10 @@ class SeminarOut(SeminarCreate):
 
     class Config:
         orm_mode = True
+
+class ContactForm(BaseModel):
+    name: str
+    email: EmailStr
+    subject: str
+    message: str
+

@@ -7,9 +7,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DATABASE_URL = os.getenv("DB_URL")
-if DATABASE_URL is None:
-    raise ValueError("No DATABASE_URL found in environment variables.")
-
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
