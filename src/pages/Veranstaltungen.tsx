@@ -1,12 +1,21 @@
 import { useSeminars } from "../hooks/useSeminars";
 import SeminarCard from "../components/SeminarCard";
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, Button } from "@mui/material";
+import { useState } from "react";
+
+const LIMIT = 10;
 
 const Veranstaltungen = () => {
-  const { seminars, loading, error } = useSeminars();
+  const [offset, setOffset] = useState(0);
+
+  const { seminars, loading, error } = useSeminars(LIMIT, offset);
+
+  const handleLoadMore = () => {
+    setOffset((previous) => previous + LIMIT);
+  };
 
   if (loading) {
-    return <div>Skeletons are in production</div>;
+    return <p>Fetching data...</p>;
   } else if (error) {
     return (
       <Typography color="error">
@@ -15,20 +24,36 @@ const Veranstaltungen = () => {
     );
   } else {
     return (
-      <Box display="flex" flexWrap="wrap" justifyContent="center" gap={4} p={2}>
-        {seminars.map((seminar) => (
-          <SeminarCard
-            id={seminar.id}
-            key={seminar.id}
-            title={seminar.title}
-            description={seminar.description}
-            date={seminar.date}
-            time={seminar.time}
-            category={seminar.category}
-            location={seminar.location}
-            url={seminar.url}
-          />
-        ))}
+      <Box display="flex" flexDirection="column" alignItems="center" mt={5}>
+        <Box
+          display="flex"
+          flexWrap="wrap"
+          justifyContent="center"
+          gap={4}
+          p={2}
+        >
+          {seminars.map((seminar) => (
+            <SeminarCard
+              id={seminar.id}
+              key={seminar.id}
+              title={seminar.title}
+              description={seminar.description}
+              date={seminar.date}
+              time={seminar.time}
+              category={seminar.category}
+              location={seminar.location}
+              url={seminar.url}
+            />
+          ))}
+        </Box>
+        <Button
+          variant="contained"
+          sx={{ marginTop: 4 }}
+          onClick={handleLoadMore}
+          disabled={loading || seminars.length < LIMIT}
+        >
+          Mehr laden
+        </Button>
       </Box>
     );
   }

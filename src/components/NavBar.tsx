@@ -14,8 +14,8 @@ import {
   Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import { Link } from "react-router-dom";
+import logoImage from "../assets/logo.png";
 
 const NavBar = () => {
   const pages = ["Angebote", "Veranstaltungen", "Profil", "Kontakt"];
@@ -57,18 +57,30 @@ const NavBar = () => {
 
   return (
     <AppBar
-      color="info"
       position="fixed"
       sx={{
-        paddingX: { xs: 1, md: 6 },
+        paddingX: { xs: 1, md: 4 },
         margin: 0,
         width: "100%",
+        backgroundColor: "#02a4c4",
       }}
     >
       <Toolbar>
         {/* Logo and Title */}
         <Button component={Link} to="/" sx={{ margin: 0, padding: 0 }}>
-          <AccountBoxIcon sx={{ display: { md: "flex" }, mr: 2 }} />
+          <img
+            src={logoImage}
+            alt="Logo"
+            style={{
+              maxHeight: "60px",
+              width: "auto",
+              objectFit: "contain",
+              margin: 14,
+              padding: 3,
+              backgroundColor: "#bee3eb",
+              borderRadius: "50%",
+            }}
+          />
         </Button>
         <Stack sx={{ flexGrow: 1, alignItems: "flex-start" }}>
           <Typography variant="h5">Ursula Trahasch</Typography>

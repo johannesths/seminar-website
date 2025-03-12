@@ -8,6 +8,7 @@ import CardGrid from "../components/CardGrid";
 import { problems } from "../data/Probleme";
 import SeperatingLine from "../components/SeperatingLine";
 import { Link } from "react-router-dom";
+import LogosDisplay from "../components/LogosDisplay";
 
 const Profil = () => {
   return (
@@ -80,6 +81,8 @@ const Profil = () => {
 
       {/* Weiterbildungen */}
       <Weiterbildungen />
+
+      <LogosDisplay />
 
       {/* Problems Grid */}
       <CardGrid cards={problems} title="Wo ich helfen kann" />

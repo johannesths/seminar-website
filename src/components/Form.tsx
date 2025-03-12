@@ -14,6 +14,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SeperatingLine from "./SeperatingLine";
+import { useState } from "react";
+import api from "../api/axios";
 
 const schema = z.object({
   name: z.string().min(3, "Name muss mindestens 3 Zeichen enthalten."),
@@ -35,10 +37,31 @@ const Form = () => {
     register,
     handleSubmit,
     formState: { errors, isValid },
+    reset,
   } = useForm<FormData>({ resolver: zodResolver(schema), mode: "onChange" });
 
-  const onSubmit = (data: FormData) => {
-    console.log("Form data submitted: ", data);
+  // Status message to inform user about progress of sending the email
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
+
+  // Sends the form data to the backend
+  const onSubmit = async (data: FormData) => {
+    try {
+      const response = await api.post("/kontakt/", {
+        name: data.name,
+        email: data.email,
+        subject: data.subject,
+        message: data.message,
+      });
+
+      console.log(response.data);
+      reset();
+      setStatusMessage("Nachricht erfolgreich gesendet!");
+    } catch (error) {
+      console.error("Fehler beim Senden: ", error);
+      setStatusMessage(
+        "Es ist ein Fehler beim Senden der Nachricht aufgetreten. Bitte versuchen Sie es später erneut."
+      );
+    }
   };
 
   return (
@@ -48,6 +71,18 @@ const Form = () => {
         Kontaktformular
       </Typography>
       <SeperatingLine />
+      <Typography
+        variant="h4"
+        color="info"
+        sx={{
+          displax: "flex",
+          textAlign: "center",
+          alignContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {statusMessage}
+      </Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack
           spacing={4}
@@ -131,6 +166,7 @@ const Form = () => {
             }
             {...register("acceptedTerms")}
           />
+          {/* Submit button is only active when form is correctly filled out */}
           <Button
             type="submit"
             variant="contained"

@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  CssBaseline,
   List,
   ListItem,
   ListItemIcon,
@@ -18,6 +17,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import chairsImage from "../assets/chairs.jpg";
 import { angebote } from "../data/Angebote";
 import SeminarCard from "../components/SeminarCard";
+import LogosDisplay from "../components/LogosDisplay";
 
 function Index() {
   const leitbegriffe = [
@@ -41,35 +41,50 @@ function Index() {
         padding: 0,
       }}
     >
-      <CssBaseline />
-
       {/* Main Content */}
       <Box component="main" sx={{ padding: 0 }}>
         <ImageBox
           blur={false}
-          semiTransparentOverlay={true}
+          semiTransparentOverlay={false}
           image={chairsImage}
         >
-          <Stack sx={{ px: { xs: 2, md: 10 } }}>
+          <Stack sx={{ px: { xs: 2, md: 5 } }}>
             <Typography
               variant="h4"
               sx={{ fontWeight: "bold", textAlign: "center" }}
             >
               Neue Perspektiven entdecken, Potenziale entfalten.
             </Typography>
-            <List>
+            <List sx={{ margin: 0, padding: 0 }}>
               {leitbegriffe.map((begriff) => (
                 <ListItem key={begriff} disableGutters>
-                  <ListItemIcon sx={{ color: "#37a340" }}>
+                  <ListItemIcon sx={{ color: "#57ff45" }}>
                     <CheckCircleIcon />
                   </ListItemIcon>
-                  <ListItemText primary={begriff} />
+                  <ListItemText>
+                    <Typography sx={{ fontSize: 25, fontWeight: "50px" }}>
+                      {" "}
+                      {begriff}
+                    </Typography>
+                  </ListItemText>
                 </ListItem>
               ))}
             </List>
             <Stack direction="row" spacing={{ xs: 2, md: 5 }} sx={{ mt: 3 }}>
-              <Button variant="contained">Seminare</Button>
-              <Button variant="contained" color="secondary">
+              <Button
+                variant="contained"
+                color="info"
+                size="large"
+                href="/veranstaltungen"
+              >
+                Seminare
+              </Button>
+              <Button
+                variant="contained"
+                color="info"
+                size="large"
+                href="/kontakt"
+              >
                 Kontakt
               </Button>
             </Stack>
@@ -77,11 +92,13 @@ function Index() {
         </ImageBox>
 
         <Box sx={{ px: { xs: 2, md: 10 } }}>
-          <CardGrid cards={angebote} title="Angebote" />
+          <ProfilePreview />
         </Box>
 
+        <LogosDisplay />
+
         <Box sx={{ px: { xs: 2, md: 10 } }}>
-          <ProfilePreview />
+          <CardGrid cards={angebote} title="Angebote" />
         </Box>
 
         <Box sx={{ px: { xs: 2, md: 10 } }}>

@@ -24,7 +24,9 @@ const ProfilePreview = () => {
             Anliegen konstruktiv zu reflektieren und Veränderungen anzugehen.
           </Typography>
           <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
-            <Button variant="contained">Mehr erfahren</Button>
+            <Button variant="contained" href="/profil/">
+              Mehr erfahren
+            </Button>
           </Box>
         </Grid>
 

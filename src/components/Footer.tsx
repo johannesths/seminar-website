@@ -45,9 +45,9 @@ const Footer = () => {
           variant="text"
           sx={{ my: 2, color: "black", display: "block" }}
           component={Link}
-          to="/agb"
+          to="/kontakt"
         >
-          AGB
+          Kontakt
         </Button>
       </Stack>
       {/* Separating Line */}

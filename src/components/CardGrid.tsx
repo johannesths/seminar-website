@@ -23,14 +23,18 @@ interface Props {
 const CardGrid = ({ cards, title }: Props) => {
   return (
     <Box sx={{ padding: 0, margin: "0 auto" }}>
-      <Typography
-        variant="h3"
-        textAlign="center"
-        sx={{ marginTop: 10, padding: 0 }}
-      >
-        {title}
-      </Typography>
-      <SeperatingLine />
+      {title && (
+        <>
+          <Typography
+            variant="h3"
+            textAlign="center"
+            sx={{ marginTop: 10, padding: 0 }}
+          >
+            {title}
+          </Typography>
+          <SeperatingLine />
+        </>
+      )}
       <Grid2
         container
         spacing={{ xs: 3, md: 6 }}
