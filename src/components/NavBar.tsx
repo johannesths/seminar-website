@@ -14,12 +14,15 @@ import {
   Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import logoImage from "../assets/logo.png";
 
 const NavBar = () => {
   const pages = ["Angebote", "Veranstaltungen", "Profil", "Kontakt"];
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [showStartseite, setShowStartseite] = useState(false);
+
+  const location = useLocation(); // Current path
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -96,6 +99,11 @@ const NavBar = () => {
           justifyContent="flex-end"
           sx={{ display: { xs: "none", md: "flex" } }}
         >
+          {location.pathname !== "/" && (
+          <Button component={Link} to="/" sx={{ my: 2, color: "white" }}>
+            Startseite
+          </Button>
+          )}
           {pages.map((page) => (
             <Button
               key={page}
