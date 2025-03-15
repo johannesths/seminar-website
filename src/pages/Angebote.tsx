@@ -1,28 +1,28 @@
 import {
   Box,
   Grid,
-  ImageList,
-  ImageListItem,
+  // ImageList,
+  // ImageListItem,
   List,
   ListItem,
   Typography,
 } from "@mui/material";
-import steinImage from "../assets/angebote/steine.jpg";
-import brilleImage from "../assets/angebote/brille.jpg";
-import meldungImage from "../assets/angebote/meldung.jpg";
-import reflexionImage from "../assets/angebote/reflexion.jpg";
-import teamImage from "../assets/angebote/team.jpg";
+// import steinImage from "../assets/angebote/steine.jpg";
+// import brilleImage from "../assets/angebote/brille.jpg";
+// import meldungImage from "../assets/angebote/meldung.jpg";
+// import reflexionImage from "../assets/angebote/reflexion.jpg";
+// import teamImage from "../assets/angebote/team.jpg";
 import SeperatingLine from "../components/SeperatingLine";
 import { angebote } from "../data/Angebote";
 
 const Angebote = () => {
-  const images = [
-    { img: steinImage, alt: "stones" },
-    { img: brilleImage, alt: "brille" },
-    { img: meldungImage, alt: "meldung" },
-    { img: reflexionImage, alt: "reflexion" },
-    { img: teamImage, alt: "team" },
-  ];
+  // const images = [
+  //   { img: steinImage, alt: "stones" },
+  //   { img: brilleImage, alt: "brille" },
+  //   { img: meldungImage, alt: "meldung" },
+  //   { img: reflexionImage, alt: "reflexion" },
+  //   { img: teamImage, alt: "team" },
+  // ];
 
   const FONTSIZE = 18;
 
@@ -39,11 +39,10 @@ const Angebote = () => {
       gap={4}
     >
       {/* Title and Introduction */}
-      <Typography variant="h3" sx={{ marginTop: 2 }}>
+      <Typography variant="h3" sx={{ marginTop: 3 }}>
         Angebote und Schwerpunkte
       </Typography>
       <SeperatingLine />
-
       <Box sx={{ maxWidth: "1400px" }}>
         <Typography
           variant="body1"
@@ -165,14 +164,14 @@ const Angebote = () => {
           );
         })}
       </Grid>
-
+{/* 
       <ImageList sx={{ width: "70%" }} variant="woven" cols={5} gap={15}>
         {images.map((image) => (
           <ImageListItem key={image.alt}>
             <img src={image.img} alt={image.alt} loading="lazy" />
           </ImageListItem>
         ))}
-      </ImageList>
+      </ImageList> */}
     </Box>
   );
 };

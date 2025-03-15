@@ -6,13 +6,10 @@ from datetime import datetime
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 import os
-from smtplib import SMTP_SSL
-import ssl
 import crud
-
+from email_functions import send_email
 from database import SessionLocal
-from schemas import SeminarCreate, SeminarOut, ContactForm
-
+from schemas import SeminarCreate, SeminarOut, ContactForm, SeminarRegistrationForm, LocationCreate, LocationOut
 
 app = FastAPI()
 
@@ -41,8 +38,11 @@ def verify_api_key(x_api_key: str = Header(...)):
     if x_api_key != ADMIN_API_KEY:
         raise HTTPException(status_code=403, detail="Unauthorized: access denied.")
 
+# ---------------------------------------------------------------------------- #
+#                            ENDPOINTS FOR SEMINARS                            #
+# ---------------------------------------------------------------------------- #
 @app.get("/seminars/", response_model=List[SeminarOut])
-def read_seminars(limit: int =10, offset: int = 10, db: Session = Depends(get_db)):
+def read_seminars(limit: int = 10, offset: int = 0, db: Session = Depends(get_db)):
     """
     Returns a list of all seminars.
     No API Key required.
@@ -73,6 +73,7 @@ def delete_seminar(id: int, db: Session = Depends(get_db)):
     """
     return crud.delete_seminar(db, id)
 
+# Can be merged with other get endpoint
 @app.get("/seminars/latest/{amount}", response_model=List[SeminarOut])
 def get_latest_seminars(amount: int, db: Session = Depends(get_db)):
     """
@@ -81,17 +82,23 @@ def get_latest_seminars(amount: int, db: Session = Depends(get_db)):
     """
     return crud.get_latest_seminars(db, amount)
 
+# ---------------------------------------------------------------------------- #
+#                            ENDPOINTS FOR LOCATIONS                           #
+# ---------------------------------------------------------------------------- #
+@app.post("/locations/", dependencies=[Depends(verify_api_key)])
+def add_location(location: LocationCreate, db: Session = Depends(get_db)):
+    return crud.add_location(db, location)
+
+@app.get("/locations/", response_model=List[LocationOut])
+def get_locations(limit: int = 10, db: Session = Depends(get_db)):
+    return crud.get_locations(db, limit)
 
 # ---------------------------------------------------------------------------- #
-#                       FORM PROCESSING AND SENDING EMAIl                      #
+#                       FORM PROCESSING                                        #
 # ---------------------------------------------------------------------------- #
-SMTP_SERVER = os.getenv("SMTP_SERVER")
-SMTP_PORT = int(os.getenv("SMTP_PORT"))
 EMAIL_USERNAME = os.getenv("EMAIL_USERNAME")
-EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
-
 @app.post("/kontakt/")
-async def send_email(form: ContactForm):
+async def send_form(form: ContactForm):
     """ Route for sending contact form, form data is send to an email address
 
     Args:
@@ -114,15 +121,29 @@ Nachricht:
 {form.message}
 """
     )
+    send_email(message)
 
-    # Try sending the email
-    try:
-        context = ssl.create_default_context()
-        with SMTP_SSL(SMTP_SERVER, SMTP_PORT, context=context) as server:
-            server.login(EMAIL_USERNAME, EMAIL_PASSWORD)
-            server.send_message(message)
-        return {"message": "success"}
-    except Exception as e:
-        print(f"Failed to send email. ERROR: {e}")
-        raise HTTPException(status_code=500, detail=f"Email konnte nicht gesendet werden, Exception: {e}")
 
+# ---------------------------------------------------------------------------- #
+#                             SEMINAR REGISTRATION                             #
+# ---------------------------------------------------------------------------- #
+@app.post("/seminars/{seminar_id}/register")
+async def register_for_seminar(data: SeminarRegistrationForm):
+    """ Route for registering for a seminar. Sends an confirmation email to the user and a info email to the business owner.
+
+    Args:
+        data (SeminarRegistrationForm): name (str), email: (EmailStr), remarks (str), seminar (SeminarCreate)
+    """    
+    message = EmailMessage()
+    message["From"] = EMAIL_USERNAME
+    message["To"] = data.email
+    message["Subject"] = f"Bestätigung Ihrer Anmeldung zum Seminar"
+
+    # Set email content to form data
+    message.set_content(
+        f"""Hiermit ist Ihre Anmeldung zum Seminar '{data.seminar.title}' von Ursula Trahasch bestätigt.
+        Das Seminar findet am {data.seminar.date} um {data.seminar.time} Uhr an folgender Adresse statt:
+        ...
+        """
+    )
+    send_email(message)

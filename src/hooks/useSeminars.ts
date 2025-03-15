@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import api from '../api/axios';
+import { Location } from './useLocations';
 
 export interface Seminar {
   id: number;
@@ -7,9 +8,9 @@ export interface Seminar {
   description: string;
   date: string;
   time: string;
-  category: string;
-  location: string;
   url: string;
+  image_name: string;
+  location: Location;
 }
 
 export const useSeminars = (limit: number, offset: number) => {

@@ -29,7 +29,7 @@ function Index() {
     "Konfliktbewältigung",
   ];
 
-  const { seminars, loading, error } = useLatestSeminars(2);
+  const { seminars, loading, error } = useLatestSeminars(4);
 
   return (
     <Box
@@ -100,6 +100,19 @@ function Index() {
         <Box sx={{ px: { xs: 2, md: 10 } }}>
           <CardGrid cards={angebote} title="Angebote" />
         </Box>
+        <Button
+          variant="contained"
+          href="/angebote"
+          sx={{
+            margin: "0 auto",
+            display: "flex",
+            alignContent: "center",
+            alignItems: "cemter",
+            maxWidth: "300px"
+          }}
+        >
+          Zu den Angeboten
+        </Button>
 
         <Box sx={{ px: { xs: 2, md: 10 } }}>
           <NextSeminar>
@@ -118,7 +131,7 @@ function Index() {
                   description={seminar.description}
                   date={seminar.date}
                   time={seminar.time}
-                  category={seminar.category}
+                  image_name={seminar.image_name}
                   location={seminar.location}
                   url={seminar.url}
                 />

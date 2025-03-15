@@ -149,11 +149,7 @@ const Form = () => {
             control={<Checkbox name="acceptedTerms" />}
             label={
               <Typography>
-                Ich akzeptiere die{" "}
-                <Link href="/agb" target="_blank" rel="noopener noreferrer">
-                  AGB
-                </Link>{" "}
-                und die{" "}
+                Ich habe die{" "}
                 <Link
                   href="/datenschutz"
                   target="_blank"
@@ -161,7 +157,7 @@ const Form = () => {
                 >
                   Datenschutzrichtlinien
                 </Link>
-                .*
+                 {" "}gelesen und akzeptiere diese.*
               </Typography>
             }
             {...register("acceptedTerms")}

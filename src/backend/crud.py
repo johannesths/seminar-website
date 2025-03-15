@@ -1,11 +1,18 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 from fastapi import HTTPException
-from models import Seminar
-from schemas import SeminarCreate
+from models import Seminar, Location
+from schemas import SeminarCreate, LocationCreate
 
 # Fetch all seminars
 def get_seminars(db: Session, limit: int = 10, offset: int = 0):
-    return db.query(Seminar).order_by(Seminar.date.desc()).offset(offset).limit(limit).all()
+    return (
+        db.query(Seminar)
+        .options(selectinload(Seminar.location))
+        .order_by(Seminar.date.desc())
+        .offset(offset)
+        .limit(limit)
+        .all()
+    )
 
 # Get the latest ~amount~ seminars 
 def get_latest_seminars(db: Session, amount: int = 2):
@@ -15,7 +22,6 @@ def get_latest_seminars(db: Session, amount: int = 2):
     return (
         db.query(Seminar).order_by(Seminar.date.desc()).limit(amount).all()
     )
-
 
 # Create a new seminar
 def create_seminar(db: Session, seminar: SeminarCreate):
@@ -37,8 +43,7 @@ def update_seminar(db: Session, id: int, updated_seminar: SeminarCreate):
     seminar.description = updated_seminar.description
     seminar.date = updated_seminar.date
     seminar.time = updated_seminar.time
-    seminar.category = updated_seminar.category
-    seminar.location = updated_seminar.location
+    seminar.location = updated_seminar.location_id
     seminar.url = updated_seminar.url
 
     db.commit()
@@ -56,3 +61,15 @@ def delete_seminar(db: Session, id: int):
     db.delete(seminar)
     db.commit()
     return {"message": f"Seminar with id={id} and title={seminar.title} deleted successfully."}
+
+# Add a Location
+def add_location(db: Session, location: LocationCreate):
+    location = Location(**location.dict())
+    db.add(location)
+    db.commit()
+    db.refresh(location)
+    return location
+
+# Get Locations
+def get_locations(db: Session, limit: int = 10):
+    return (db.query(Location).limit(limit).all())

@@ -32,19 +32,19 @@ const Veranstaltungen = () => {
           gap={4}
           p={2}
         >
-          {seminars.map((seminar) => (
-            <SeminarCard
-              id={seminar.id}
-              key={seminar.id}
-              title={seminar.title}
-              description={seminar.description}
-              date={seminar.date}
-              time={seminar.time}
-              category={seminar.category}
-              location={seminar.location}
-              url={seminar.url}
-            />
-          ))}
+              {seminars.map((seminar) => (
+                <SeminarCard
+                  id={seminar.id}
+                  key={seminar.id}
+                  title={seminar.title}
+                  description={seminar.description}
+                  date={seminar.date}
+                  time={seminar.time}
+                  image_name={seminar.image_name}
+                  location={seminar.location}
+                  url={seminar.url}
+                />
+              ))}
         </Box>
         <Button
           variant="contained"
