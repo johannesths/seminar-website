@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy.sql import func
 from fastapi import HTTPException
+import uuid
 from models import Seminar, Location, Participant
 from schemas import SeminarCreate, LocationCreate, ParticipantAdd, SeminarOut, LocationOut
 
@@ -130,7 +131,14 @@ def get_locations(db: Session, limit: int = 10):
 # ---------------------------------------------------------------------------- #
 # Add a Participant
 def add_participant(db: Session, participant: ParticipantAdd):
-    participant = Participant(**participant.dict())
+    token = str(uuid.uuid4())
+    participant = Participant(
+    firstname=participant.firstname,
+    lastname=participant.lastname,
+    email=participant.email,
+    seminar_id=participant.seminar_id,
+    token=token
+)
     db.add(participant)
     db.commit()
     db.refresh(participant)
@@ -144,3 +152,15 @@ def get_participants(db: Session, seminar_id: int):
         .order_by(Participant.firstname)
         .all()
     )
+
+# Unregister participant from a seminar by using the token
+def unregister_participant(db: Session, token: str):
+    participant = db.query(Participant).filter_by(token=token).first()
+
+    if not participant:
+        raise HTTPException(status_code=404, detail="Ungültiger Link oder Teilnehmer bereits abgemeldet.")
+    
+    db.delete(participant)
+    db.commit()
+    
+    return "Sie wurden erfolgreich vom Seminar abgemeldet."

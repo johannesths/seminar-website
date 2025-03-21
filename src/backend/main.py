@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException, Header
+from fastapi import FastAPI, Depends, HTTPException, Header, Body
 from sqlalchemy.orm import Session
 from typing import List
 from email.message import EmailMessage
@@ -7,9 +7,9 @@ from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 import os
 import crud
-from email_functions import send_email
+import email_functions
 from database import SessionLocal
-from schemas import SeminarCreate, SeminarOut, ContactForm, SeminarRegistrationForm, LocationCreate, LocationOut, ParticipantAdd
+from schemas import SeminarCreate, SeminarOut, ContactForm, LocationCreate, LocationOut, ParticipantAdd, SeminarRegistrationForm
 
 app = FastAPI()
 
@@ -87,13 +87,13 @@ def get_locations(limit: int = 10, db: Session = Depends(get_db)):
 # ---------------------------------------------------------------------------- #
 #                           ENDPOINTS FOR PARTCIPANTS                          #
 # ---------------------------------------------------------------------------- #
-@app.post("/participants/", dependencies=[Depends(verify_api_key)])
-def add_participant(participant: ParticipantAdd, db: Session = Depends(get_db)):
-    return crud.add_participant(db, participant)
-
-@app.get("/seminars/{seminar_id}/participants", dependencies=[Depends(verify_api_key)])
+@app.get("/seminars/{seminar_id}/participants", response_model=List[ParticipantAdd], dependencies=[Depends(verify_api_key)])
 def get_participants_of_seminar(seminar_id: int, db: Session = Depends(get_db)):
     return crud.get_participants(db, seminar_id)
+
+@app.get("/seminars/{seminar_id}/unregister")
+def unregister_participant(token: str, db: Session = Depends(get_db)):
+    return crud.unregister_participant(db, token)
 
 # ---------------------------------------------------------------------------- #
 #                       FORM PROCESSING                                        #
@@ -105,25 +105,8 @@ async def send_form(form: ContactForm):
 
     Args:
         form (ContactForm): Includes name: str, email: EmailStr, subject: str (optional), message:str
-    """    
-    message = EmailMessage()
-    message["From"] = EMAIL_USERNAME
-    message["To"] = EMAIL_USERNAME
-    message["Subject"] = "Neue Nachricht von der Webseite über Kontaktformular!"
-
-    # Set email content to form data
-    message.set_content(
-        f"""
-Das Formular wurde am {datetime.now().strftime('%d.%m.%Y, %H:%M Uhr')} gesendet, das Formular enthält die folgenen Daten:
-Name: {form.name}
-Email-Adresse: {form.email}
-Betreff: {form.subject}
-
-Nachricht: 
-{form.message}
-"""
-    )
-    send_email(message)
+    """
+    email_functions.send_form(form)
 
 
 # ---------------------------------------------------------------------------- #
@@ -131,16 +114,19 @@ Nachricht:
 # ---------------------------------------------------------------------------- #
 @app.post("/seminars/{seminar_id}/register")
 async def register_for_seminar(
-    data: SeminarRegistrationForm,
     seminar_id: int,
+    data: SeminarRegistrationForm = Body(...),
     db: Session = Depends(get_db)
 ):
-    """ Route for registering for a seminar. Sends a confirmation email to the user and an info email to the business owner.
+    """
+    Route for registering for a seminar. Sends a confirmation email to the user and an info email to the business owner.
 
     Args:
-        data (SeminarRegistrationForm): name (str), email (EmailStr), remarks (str), seminar_id (int)
-    """    
-
+        seminar_id (int): The ID of the seminar to register for.
+        data (ParticipantAdd): The participant’s registration info.
+        db (Session): SQLAlchemy DB session.
+    """
+    print(data)
     # Fetch seminar using the database session
     seminar = crud.get_seminar(db, seminar_id)
     
@@ -154,46 +140,18 @@ async def register_for_seminar(
     if diff < timedelta(hours=2):
         raise HTTPException(status_code=403, detail="Seminar registration is closed.")
 
+    participant = ParticipantAdd(firstname=data.firstname,
+                                 lastname=data.lastname,
+                                 email=data.email,
+                                 remarks=data.remarks,
+                                 seminar_id=seminar_id)
+    participant_registered = crud.add_participant(db, participant)
+    unregister_url = f"http://localhost:8000/seminars/{seminar.seminar_id}/unregister?token={participant_registered.token}"
+    
     # Confirmation email to user
-    confirmation_msg = EmailMessage()
-    confirmation_msg["From"] = EMAIL_USERNAME
-    confirmation_msg["To"] = data.email
-    confirmation_msg["Subject"] = f"Bestätigung Ihrer Anmeldung zum Seminar"
-
-    confirmation_msg.set_content(
-        f"""Hiermit ist Ihre Anmeldung zum Seminar '{seminar.title}' von Ursula Trahasch bestätigt.
-        
-Das Seminar findet am {seminar.date} um {seminar.time} Uhr an folgender Adresse statt:
-{seminar.location.name}
-{seminar.location.street} {seminar.location.house_number}
-{seminar.location.zip_code} {seminar.location.city}
-Anmerkungen: {seminar.location.remarks}
-In Google Maps öffnen: {seminar.location.maps_url}
-        """
-    )
-    send_email(confirmation_msg)
+    email_functions.send_confirmation(data, seminar, unregister_url)
     
     participants = crud.get_participants(db, seminar_id)
     
     # Email to inform business owner about registration
-    info_msg = EmailMessage()
-    info_msg["From"] = EMAIL_USERNAME
-    info_msg["To"] = EMAIL_USERNAME
-    info_msg["Subject"] = f"Neue Anmeldung zu einem Seminar"
-
-    info_msg.set_content(
-        f"""
-Folgende Person hat sich zum Seminar "{seminar.title}" am {seminar.date} um {seminar.time} angemeldet:
-Name: {data.firstname} {data.lastname}
-Email: {data.email}
-Anmerkungen: {data.remarks}
-
-
------------------------------------------------
-Bisher haben sich folgende Teilnehmer angemeldet:
-    {participants}
-        """
-    )
-    send_email(info_msg)
-
-    return {"message": "registration successful"}
+    email_functions.send_registration_info(data, seminar, participants)

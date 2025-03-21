@@ -80,9 +80,20 @@ const SeminarCard = ({
       : description;
 
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [forwardDialogOpen, setForwardDialogOpen] = useState(false);
 
-  const handleOpen = () => setDialogOpen(true);
-  const handleClose = () => setDialogOpen(false);
+  const handleOpen = () => {
+    if (url != null && url != "") {
+      setForwardDialogOpen(true);
+    } else {
+      setDialogOpen(true);
+    }
+  };
+
+  const handleClose = () => {
+    setDialogOpen(false);
+    setForwardDialogOpen(false);
+  };
 
   return (
     <>
@@ -145,6 +156,8 @@ const SeminarCard = ({
               underline="hover"
               color="primary"
               variant="overline"
+              target="_blank"
+              rel="noopener noreferrer"
               sx={{
                 display: "flex",
                 ml: 5,
@@ -172,6 +185,43 @@ const SeminarCard = ({
         <DialogTitle>Jetzt anmelden: {title}</DialogTitle>
         <DialogContent>
           <SeminarRegistrationForm seminarId={seminar_id} />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="secondary">
+            Abbrechen
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* In case registration is handled on another website */}
+      <Dialog
+        open={forwardDialogOpen}
+        onClose={handleClose}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>
+          Die Anmeldung für das Seminar "{title}" findet über folgende Seite
+          statt:
+        </DialogTitle>
+        <DialogContent>
+          <Link
+            href={url}
+            underline="hover"
+            color="primary"
+            variant="overline"
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{
+              display: "flex",
+              alignContent: "center",
+              alignItems: "center",
+              fontSize: "inherit",
+              margin: "0 auto",
+            }}
+          >
+            {url}
+          </Link>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="secondary">

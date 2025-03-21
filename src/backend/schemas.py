@@ -45,13 +45,12 @@ class ContactForm(BaseModel):
     email: EmailStr
     subject: str
     message: str
-
+    
 class SeminarRegistrationForm(BaseModel):
     firstname: str
     lastname: str
     email: EmailStr
     remarks: str
-    seminar_id: int
 
 class LocationCreate(BaseModel):
     name: str
@@ -67,7 +66,7 @@ class ParticipantAdd(BaseModel):
     lastname: str
     email: EmailStr
     remarks: Optional[str]
-    token: str
     seminar_id: int
+
 
 

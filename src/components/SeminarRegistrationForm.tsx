@@ -39,7 +39,9 @@ const SeminarRegistrationForm = ({ seminarId }: { seminarId: number }) => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      await api.post(`/seminars/${seminarId}/register`, data);
+      const { priceAcknowledged, ...dataToSend } = data;
+      console.log(dataToSend);
+      await api.post(`/seminars/${seminarId}/register`, dataToSend);
       setSuccess(
         "Sie haben sich erfolgreich angemeldet. Sie erhalten eine Bestätigung mit weiteren Informationen per Email."
       );
