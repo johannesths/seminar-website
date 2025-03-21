@@ -1,15 +1,16 @@
-import { useEffect, useState } from 'react';
-import api from '../api/axios';
+import { useEffect, useState } from "react";
+import api from "../api/axios";
 
 export interface Location {
-    id: number;
-    name: string;
-    street: string;
-    house_number: number;
-    zip_code: number;
-    city: string;
-    remarks?: string;
-  }
+  id: number;
+  name: string;
+  street: string;
+  house_number: number;
+  zip_code: number;
+  city: string;
+  remarks?: string;
+  maps_url?: string;
+}
 
 export const useLocations = (limit: number) => {
   const [locations, setLocations] = useState<Location[]>([]);
@@ -31,5 +32,5 @@ export const useLocations = (limit: number) => {
     fetchLocations();
   }, [limit]);
 
-  return { locations, loading, error};
+  return { locations, loading, error };
 };

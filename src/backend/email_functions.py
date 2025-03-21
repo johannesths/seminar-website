@@ -13,7 +13,7 @@ SMTP_PORT = int(os.getenv("SMTP_PORT"))
 EMAIL_USERNAME = os.getenv("EMAIL_USERNAME")
 EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
 
-async def send_email(message: EmailMessage):
+def send_email(message: EmailMessage):
     """Send an email using SMTP with SSL.
 
     Args:

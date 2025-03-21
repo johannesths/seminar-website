@@ -20,7 +20,6 @@ import logoImage from "../assets/logo.png";
 const NavBar = () => {
   const pages = ["Angebote", "Veranstaltungen", "Profil", "Kontakt"];
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [showStartseite, setShowStartseite] = useState(false);
 
   const location = useLocation(); // Current path
 

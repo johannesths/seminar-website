@@ -12,7 +12,7 @@ import CardGrid from "../components/CardGrid";
 import ImageBox from "../components/ImageBox";
 import NextSeminar from "../components/NextSeminar";
 import ProfilePreview from "../components/ProfilePreview";
-import { useLatestSeminars } from "../hooks/useLatestSeminars";
+import { useSeminars } from "../hooks/useSeminars";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import chairsImage from "../assets/chairs.jpg";
 import { angebote } from "../data/Angebote";
@@ -29,7 +29,7 @@ function Index() {
     "Konfliktbewältigung",
   ];
 
-  const { seminars, loading, error } = useLatestSeminars(4);
+  const { seminars, loading, error } = useSeminars(4, 0);
 
   return (
     <Box
@@ -108,7 +108,7 @@ function Index() {
             display: "flex",
             alignContent: "center",
             alignItems: "cemter",
-            maxWidth: "300px"
+            maxWidth: "300px",
           }}
         >
           Zu den Angeboten
@@ -125,14 +125,16 @@ function Index() {
             >
               {seminars.map((seminar) => (
                 <SeminarCard
-                  id={seminar.id}
-                  key={seminar.id}
+                  seminar_id={seminar.seminar_id}
+                  key={seminar.seminar_id}
                   title={seminar.title}
                   description={seminar.description}
                   date={seminar.date}
                   time={seminar.time}
                   image_name={seminar.image_name}
                   location={seminar.location}
+                  max_participants={seminar.max_participants}
+                  participants_count={seminar.participants_count}
                   url={seminar.url}
                 />
               ))}

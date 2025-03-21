@@ -13,7 +13,8 @@ import api from "../api/axios";
 import { useState } from "react";
 
 const schema = z.object({
-  name: z.string().min(3, "Bitte geben Sie Ihren vollständigen Namen an."),
+  firstname: z.string().min(2, "Bitte geben Sie Ihren Vornamen an."),
+  lastname: z.string().min(2, "Bitte geben Sie Ihren Nachnamen an."),
   email: z.string().email("Bitte geben Sie eine korrekte Email-Adresse an."),
   remarks: z.string().optional(),
   priceAcknowledged: z.boolean().refine((val) => val, {
@@ -56,10 +57,17 @@ const SeminarRegistrationForm = ({ seminarId }: { seminarId: number }) => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
         <TextField
-          label="Name"
-          {...register("name")}
-          error={!!errors.name}
-          helperText={errors.name?.message}
+          label="Vorname"
+          {...register("firstname")}
+          error={!!errors.firstname}
+          helperText={errors.firstname?.message}
+          fullWidth
+        />
+        <TextField
+          label="Nachname"
+          {...register("lastname")}
+          error={!!errors.lastname}
+          helperText={errors.lastname?.message}
           fullWidth
         />
         <TextField
@@ -78,7 +86,7 @@ const SeminarRegistrationForm = ({ seminarId }: { seminarId: number }) => {
         />
         <FormControlLabel
           control={<Checkbox {...register("priceAcknowledged")} />}
-          label="Hiermit bestätige ich meine Anmeldung und den mit der Teilnahme verbundenen Preis."
+          label="Hiermit bestätige ich meine Anmeldung und den mit der Teilnahme verbundenen Bedingungen." // Need to actually put the conditions somewhere
         />
         {errors.priceAcknowledged && (
           <Typography color="error">

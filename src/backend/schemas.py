@@ -20,6 +20,7 @@ class LocationOut(BaseModel):
     zip_code: int
     city: str
     remarks: Optional[str]
+    maps_url: Optional[str]
 
     class Config:
         orm_mode = True
@@ -33,6 +34,7 @@ class SeminarOut(BaseModel):
     url: Optional[str]
     max_participants: Optional[int]
     image_name: Optional[str]
+    participants_count: Optional[int]
     location: LocationOut
 
     class Config:
@@ -45,10 +47,11 @@ class ContactForm(BaseModel):
     message: str
 
 class SeminarRegistrationForm(BaseModel):
-    name: str
+    firstname: str
+    lastname: str
     email: EmailStr
     remarks: str
-    seminar: SeminarCreate
+    seminar_id: int
 
 class LocationCreate(BaseModel):
     name: str
@@ -56,7 +59,15 @@ class LocationCreate(BaseModel):
     house_number: int
     zip_code: int
     city: str
-    remarks: str
-
+    remarks: Optional[str]
+    maps_url: Optional[str]
+    
+class ParticipantAdd(BaseModel):
+    firstname: str
+    lastname: str
+    email: EmailStr
+    remarks: Optional[str]
+    token: str
+    seminar_id: int
 
 

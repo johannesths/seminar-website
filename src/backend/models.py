@@ -31,10 +31,11 @@ class Location(Base):
     location_id = Column(Integer, primary_key=True, index=True)
     name = Column(String(127), nullable=False)
     street = Column(String(127))
-    house_number = Column(Integer)
+    house_number = Column(String(15))
     zip_code = Column(Integer)
     city = Column(String(127))
     remarks = Column(String(255))
+    maps_url = Column(String(255), nullable=True)
 
     # One-to-many relationship with Seminar
     seminars = relationship("Seminar", back_populates="location")
@@ -44,9 +45,11 @@ class Participant(Base):
     __tablename__ = "participants"
 
     participant_id = Column(Integer, primary_key=True, nullable=False)
-    name = Column(String(127))
+    firstname = Column(String(127))
+    lastname = Column(String(127))
     email = Column(String(255))
-
+    remarks = Column(String(511), nullable=True)
+    token = Column(String(40), unique=True, nullable=False)
     # Foreign key to Seminar
     seminar_id = Column(Integer, ForeignKey("seminars.seminar_id"), nullable=False)
 

@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react';
-import api from '../api/axios';
-import { Location } from './useLocations';
+import { useEffect, useState } from "react";
+import api from "../api/axios";
+import { Location } from "./useLocations";
 
 export interface Seminar {
-  id: number;
+  seminar_id: number;
   title: string;
   description: string;
   date: string;
   time: string;
   url: string;
   image_name: string;
+  max_participants: number;
+  participants_count: number;
   location: Location;
 }
 
@@ -20,7 +22,9 @@ export const useSeminars = (limit: number, offset: number) => {
 
   const fetchSeminars = async () => {
     try {
-      const response = await api.get(`/seminars/?limit=${limit}&offset=${offset}`);
+      const response = await api.get(
+        `/seminars/?limit=${limit}&offset=${offset}`
+      );
       setSeminars(response.data);
     } catch (err: any) {
       setError(err.message);
@@ -33,5 +37,5 @@ export const useSeminars = (limit: number, offset: number) => {
     fetchSeminars();
   }, [limit, offset]);
 
-  return { seminars, loading, error};
+  return { seminars, loading, error };
 };
