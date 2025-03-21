@@ -17,6 +17,8 @@ export const useLocations = (limit: number) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const controller = new AbortController();
+
   const fetchLocations = async () => {
     try {
       const response = await api.get(`/locations/?limit=${limit}`);
@@ -30,6 +32,7 @@ export const useLocations = (limit: number) => {
 
   useEffect(() => {
     fetchLocations();
+    return () => controller.abort();
   }, [limit]);
 
   return { locations, loading, error };

@@ -10,6 +10,7 @@ class SeminarCreate(BaseModel):
     url: Optional[str]
     max_participants: Optional[int]
     image_name: Optional[str]
+    price: Optional[float]
     location_id: int
 
 class LocationOut(BaseModel):
@@ -21,7 +22,6 @@ class LocationOut(BaseModel):
     city: str
     remarks: Optional[str]
     maps_url: Optional[str]
-
     class Config:
         orm_mode = True
 
@@ -35,8 +35,8 @@ class SeminarOut(BaseModel):
     max_participants: Optional[int]
     image_name: Optional[str]
     participants_count: Optional[int]
+    price: Optional[float]
     location: LocationOut
-
     class Config:
         orm_mode = True
 

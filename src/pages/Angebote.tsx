@@ -1,29 +1,20 @@
 import {
   Box,
+  Button,
   Grid,
-  // ImageList,
-  // ImageListItem,
+  Link,
   List,
   ListItem,
+  Stack,
   Typography,
 } from "@mui/material";
-// import steinImage from "../assets/angebote/steine.jpg";
-// import brilleImage from "../assets/angebote/brille.jpg";
-// import meldungImage from "../assets/angebote/meldung.jpg";
-// import reflexionImage from "../assets/angebote/reflexion.jpg";
-// import teamImage from "../assets/angebote/team.jpg";
 import SeperatingLine from "../components/SeperatingLine";
 import { angebote } from "../data/Angebote";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { motion } from "framer-motion";
+import { Link as RouterLink } from "react-router-dom";
 
 const Angebote = () => {
-  // const images = [
-  //   { img: steinImage, alt: "stones" },
-  //   { img: brilleImage, alt: "brille" },
-  //   { img: meldungImage, alt: "meldung" },
-  //   { img: reflexionImage, alt: "reflexion" },
-  //   { img: teamImage, alt: "team" },
-  // ];
-
   const FONTSIZE = 18;
 
   return (
@@ -46,7 +37,12 @@ const Angebote = () => {
       <Box sx={{ maxWidth: "1400px" }}>
         <Typography
           variant="body1"
-          sx={{ fontSize: FONTSIZE, marginBottom: 2 }}
+          sx={{
+            fontSize: FONTSIZE,
+            marginBottom: 2,
+            lineHeight: 1.8,
+            color: "text.primary",
+          }}
         >
           In meiner Arbeit biete ich fundierte und individuell zugeschnittene
           Beratungs-, Coaching- und Weiterbildungsangebote an. Dabei stehen
@@ -54,124 +50,171 @@ const Angebote = () => {
           Verbesserung von Kommunikation und Zusammenarbeit im Fokus. Jedes
           Angebot kann an die spezifischen Anliegen und Herausforderungen der
           Klienten angepasst werden. Bei Fragen nutzen Sie gerne das{" "}
-          <a href="/kontakt">Kontaktformular</a>.
+          <Link component={RouterLink} to="/kontakt" underline="hover">
+            Kontaktformular
+          </Link>
+          .
         </Typography>
-        <Typography variant="body1" sx={{ fontSize: FONTSIZE }}>
+        <Typography
+          variant="body1"
+          sx={{ fontSize: FONTSIZE, lineHeight: 1.8 }}
+        >
           Die Schwerpunkte meiner Arbeit sind Transaktionsanalyse, Beratung,
           Coaching und Supervision.
         </Typography>
       </Box>
-
-      {/* Grid für Angebote */}
+      {/* Grid for Angebote */}
       <Grid
         container
-        spacing={8}
+        spacing={6}
         sx={{ marginTop: 1, width: "100%", fontSize: FONTSIZE }}
       >
         {angebote.map((angebot, index) => {
           const Icon = angebot.icon;
           return (
-            <Grid item xs={12} md={6} key={index}>
-              <Box sx={{ textAlign: "left" }}>
-                {/* Title + icon */}
+            <Grid item xs={12} md={6} key={index} sx={{ mb: 5 }}>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
                 <Box
                   sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginBottom: 1,
-                    textAlign: "center",
+                    backgroundColor: "#f9f9f9",
+                    borderRadius: 3,
+                    padding: 3,
+                    boxShadow: 2,
+                    height: "100%",
+                    transition: "transform 0.2s ease-in-out",
+                    "&:hover": {
+                      transform: "translateY(-4px)",
+                      boxShadow: 4,
+                    },
+                    textAlign: "left",
                   }}
                 >
-                  <Icon
+                  {/* Title + Icon */}
+                  <Box
                     sx={{
-                      fontSize: 36,
-                      marginRight: 1.5,
-                      color: (theme) => theme.palette.primary.main,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginBottom: 1,
+                      textAlign: "center",
                     }}
-                  />
-                  <Typography variant="h5">{angebot.title}</Typography>
+                  >
+                    <Icon
+                      sx={{
+                        fontSize: 36,
+                        marginRight: 1.5,
+                        color: (theme) => theme.palette.primary.main,
+                      }}
+                    />
+                    <Typography variant="h5">{angebot.title}</Typography>
+                  </Box>
+                  <SeperatingLine />
+
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      marginBottom: 1,
+                      fontSize: FONTSIZE,
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    {angebot.description}
+                  </Typography>
+
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ fontWeight: "bold", fontSize: FONTSIZE, mt: 2 }}
+                  >
+                    Zielgruppen:
+                  </Typography>
+                  <List dense>
+                    {angebot.targetGroups.map((group, idx) => (
+                      <ListItem
+                        key={idx}
+                        sx={{ display: "flex", alignItems: "center", pl: 0 }}
+                      >
+                        <CheckCircleIcon
+                          color="primary"
+                          sx={{ fontSize: 20, mr: 1 }}
+                        />
+                        <Typography variant="body2" sx={{ fontSize: FONTSIZE }}>
+                          {group}
+                        </Typography>
+                      </ListItem>
+                    ))}
+                  </List>
+
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      fontWeight: "bold",
+                      marginTop: 2,
+                      fontSize: FONTSIZE,
+                    }}
+                  >
+                    Beispielthemen:
+                  </Typography>
+                  <List dense>
+                    {angebot.exampleTopics.map((topic, id) => (
+                      <ListItem
+                        key={id}
+                        sx={{ display: "flex", alignItems: "center", pl: 0 }}
+                      >
+                        <CheckCircleIcon
+                          color="primary"
+                          sx={{ fontSize: 20, mr: 1 }}
+                        />
+                        <Typography variant="body2" sx={{ fontSize: FONTSIZE }}>
+                          {topic}
+                        </Typography>
+                      </ListItem>
+                    ))}
+                  </List>
                 </Box>
-                <SeperatingLine />
-
-                {/* Description */}
-                <Typography
-                  variant="body1"
-                  sx={{
-                    marginBottom: 1,
-                    fontSize: FONTSIZE,
-                    textAlign: "center",
-                  }}
-                >
-                  {angebot.description}
-                </Typography>
-
-                {/* Target groups */}
-                <Typography
-                  variant="subtitle1"
-                  sx={{
-                    fontWeight: "bold",
-                    fontSize: FONTSIZE,
-                    textAlign: "center",
-                  }}
-                >
-                  Zielgruppen:
-                </Typography>
-                <List dense sx={{ paddingLeft: 2 }}>
-                  {angebot.targetGroups.map((group, idx) => (
-                    <ListItem
-                      key={idx}
-                      sx={{
-                        display: "list-item",
-                        padding: 0,
-                        fontSize: FONTSIZE,
-                        textAlign: "center",
-                      }}
-                    >
-                      •{group}
-                    </ListItem>
-                  ))}
-                </List>
-
-                {/* Example Topics */}
-                <Typography
-                  variant="body1"
-                  sx={{
-                    fontWeight: "bold",
-                    marginTop: 1,
-                    fontSize: FONTSIZE,
-                    textAlign: "center",
-                  }}
-                >
-                  Beispielthemen:
-                </Typography>
-                <List dense sx={{ paddingLeft: 2 }}>
-                  {angebot.exampleTopics.map((topic, id) => (
-                    <ListItem
-                      key={id}
-                      sx={{
-                        display: "list-item",
-                        padding: 0,
-                        fontSize: FONTSIZE,
-                        textAlign: "center",
-                      }}
-                    >
-                      •{topic}
-                    </ListItem>
-                  ))}
-                </List>
-              </Box>
+              </motion.div>
             </Grid>
           );
         })}
       </Grid>
-{/* 
-      <ImageList sx={{ width: "70%" }} variant="woven" cols={5} gap={15}>
-        {images.map((image) => (
-          <ImageListItem key={image.alt}>
-            <img src={image.img} alt={image.alt} loading="lazy" />
-          </ImageListItem>
-        ))}
-      </ImageList> */}
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        spacing={4}
+        sx={{
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+          mb: 5,
+        }}
+      >
+        <Button
+          variant="contained"
+          sx={{
+            width: { xs: "80%", sm: "25%" },
+            padding: "0.8rem",
+            fontSize: { xs: "0.9rem", sm: "1rem" },
+          }}
+          component={RouterLink}
+          to="/veranstaltungen"
+        >
+          Zu den Veranstaltungen
+        </Button>
+        <Button
+          variant="contained"
+          sx={{
+            width: { xs: "80%", sm: "20%" },
+            padding: "0.8rem",
+            fontSize: { xs: "0.9rem", sm: "1rem" },
+          }}
+          component={RouterLink}
+          to="/kontakt"
+        >
+          Kontakt
+        </Button>
+      </Stack>
     </Box>
   );
 };

@@ -42,6 +42,7 @@ def get_seminars(db: Session, limit: int = 10, offset: int = 0):
             time=seminar.time,
             url=seminar.url,
             max_participants=seminar.max_participants,
+            price=seminar.price,
             image_name=seminar.image_name,
             participants_count=participants_count,
             location=LocationOut(

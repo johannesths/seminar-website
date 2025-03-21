@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, Date, Time, ForeignKey
+from sqlalchemy import Column, Integer, String, Text, Date, Time, ForeignKey, Float
 from sqlalchemy.orm import relationship
 from database import Base
 
@@ -13,6 +13,7 @@ class Seminar(Base):
     time = Column(Time, nullable=False)
     url = Column(String(255), nullable=True)
     max_participants = Column(Integer, nullable=True)
+    price = Column(Float, nullable=True)
     image_name = Column(String(63), nullable=True)
 
     # Foreign key to Location

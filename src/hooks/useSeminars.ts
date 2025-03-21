@@ -12,6 +12,7 @@ export interface Seminar {
   image_name: string;
   max_participants: number;
   participants_count: number;
+  price: number;
   location: Location;
 }
 
@@ -19,6 +20,8 @@ export const useSeminars = (limit: number, offset: number) => {
   const [seminars, setSeminars] = useState<Seminar[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  const controller = new AbortController();
 
   const fetchSeminars = async () => {
     try {
@@ -35,6 +38,7 @@ export const useSeminars = (limit: number, offset: number) => {
 
   useEffect(() => {
     fetchSeminars();
+    return () => controller.abort();
   }, [limit, offset]);
 
   return { seminars, loading, error };

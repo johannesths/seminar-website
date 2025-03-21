@@ -15,6 +15,7 @@ import { Seminar } from "../hooks/useSeminars";
 import { useState } from "react";
 import dayjs from "dayjs";
 import PlaceIcon from "@mui/icons-material/Place";
+import EuroIcon from "@mui/icons-material/Euro";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import {
   Dialog,
@@ -62,6 +63,7 @@ const SeminarCard = ({
   image_name,
   max_participants,
   participants_count,
+  price,
   location,
 }: Seminar) => {
   const [expanded, setExpanded] = useState(false);
@@ -167,6 +169,19 @@ const SeminarCard = ({
             >
               In Google Maps öffnen
             </Link>
+            {price != null && price != -1 && (
+              <Typography
+                variant="overline"
+                sx={{
+                  fontSize: "inherit",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <EuroIcon sx={{ marginX: 1 }} />
+                {price} Euro
+              </Typography>
+            )}
           </Stack>
         </CardContent>
         <CardActions sx={{ ml: 4, mb: 1 }}>

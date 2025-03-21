@@ -134,6 +134,7 @@ function Index() {
                   image_name={seminar.image_name}
                   location={seminar.location}
                   max_participants={seminar.max_participants}
+                  price={seminar.price}
                   participants_count={seminar.participants_count}
                   url={seminar.url}
                 />
