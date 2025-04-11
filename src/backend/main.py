@@ -1,7 +1,7 @@
-from fastapi import FastAPI, Depends, HTTPException, Header, Body
+from fastapi import FastAPI, Depends, HTTPException, Header, Body, Response, Request
+from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from typing import List
-from email.message import EmailMessage
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
@@ -9,16 +9,18 @@ import os
 import crud
 import email_functions
 from database import SessionLocal
-from schemas import SeminarCreate, SeminarOut, ContactForm, LocationCreate, LocationOut, ParticipantAdd, SeminarRegistrationForm
+from schemas import SeminarCreate, SeminarOut, ContactForm, LocationCreate, LocationOut, ParticipantAdd, SeminarRegistrationForm, LoginData
+from auth import authenticate_admin, create_access_token, check_admin_token
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Frontend url
+    allow_origins=["https://localhost:5173", "https://localhost:8000", "127.0.0.1"],  # Frontend url
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    
 )
 
 # Load environment variables
@@ -108,7 +110,6 @@ async def send_form(form: ContactForm):
     """
     email_functions.send_form(form)
 
-
 # ---------------------------------------------------------------------------- #
 #                             SEMINAR REGISTRATION                             #
 # ---------------------------------------------------------------------------- #
@@ -155,3 +156,46 @@ async def register_for_seminar(
     
     # Email to inform business owner about registration
     email_functions.send_registration_info(data, seminar, participants)
+
+
+# ---------------------------------------------------------------------------- #
+#                                     ADMIN                                    #
+# ---------------------------------------------------------------------------- #
+@app.post("/admin/token")
+def login_admin(
+    response: Response,
+    data: LoginData
+):
+    user = authenticate_admin(data.username, data.password)
+    if not user:
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+
+    access_token = create_access_token(
+        data={"sub": user["username"]},
+        expires_delta=timedelta(minutes=120)
+    )
+
+    response.set_cookie(
+        key="access_token",
+        value=access_token,
+        httponly=True,
+        secure=True,
+        samesite="none", # set to strict after testing
+        max_age=60 * 60,
+        path="/"
+    )
+
+    return {"message": "Login successful"}
+
+@app.post("/admin/logout")
+def logout(response: Response):
+    response.delete_cookie("access_token")
+    return {"message": "success"}
+
+@app.get("/admin/check")
+def check_admin(request: Request):
+    token = request.cookies.get("access_token")
+    if not token:
+        raise HTTPException(status_code=401, detail="access denied")
+    return check_admin_token(token)
+

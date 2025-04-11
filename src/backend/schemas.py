@@ -68,5 +68,7 @@ class ParticipantAdd(BaseModel):
     remarks: Optional[str]
     seminar_id: int
 
-
+class LoginData(BaseModel):
+    username: str
+    password: str
 

@@ -12,6 +12,8 @@ dist
 dist-ssr
 *.local
 
+
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -27,6 +29,8 @@ dist-ssr
 .env
 axios.ts
 api/
+certificates/
+crypt.py
 
 # Virtual environment
 venv/

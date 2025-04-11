@@ -58,6 +58,6 @@ class Participant(Base):
     seminar = relationship("Seminar", back_populates="participants")
 
 
-# Remark: Although the relationship between Participant and Seminar is actually Many-to-Many, here it is handled like Many-to-One because
+# Remark: Although the relationship between Participant and Seminar is actually Many-to-Many, here it is Many-to-One because
 # it is easier to handle. Currently, participants in seminars are deleted after a while and their data is not stored for long. Also,
 # participants do not create an account, therefore it is easier to handle it like this.
