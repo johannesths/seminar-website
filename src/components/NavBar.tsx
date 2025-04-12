@@ -99,9 +99,9 @@ const NavBar = () => {
           sx={{ display: { xs: "none", md: "flex" } }}
         >
           {location.pathname !== "/" && (
-          <Button component={Link} to="/" sx={{ my: 2, color: "white" }}>
-            Startseite
-          </Button>
+            <Button component={Link} to="/" sx={{ my: 2, color: "white" }}>
+              Startseite
+            </Button>
           )}
           {pages.map((page) => (
             <Button

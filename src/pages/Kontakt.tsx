@@ -14,7 +14,7 @@ const Kontakt = () => {
             textAlign: "center",
             lineHeight: 1.8,
             fontWeight: 400,
-            fontSize: "inherit"
+            fontSize: "inherit",
           }}
         >
           Alternativ erreichen Sie mich telefonisch oder per Email:
@@ -25,7 +25,12 @@ const Kontakt = () => {
             href="tel:+4915234204344"
             underline="hover"
             color="secondary"
-            sx={{ display: 'flex', alignItems: 'center', gap: 1, fontSize: "inherit" }}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+              fontSize: "inherit",
+            }}
           >
             <PhoneIcon /> 0152 3420 4344
           </Link>
@@ -33,7 +38,12 @@ const Kontakt = () => {
             href="mailto:kontakt@ursula-trahasch.de"
             underline="hover"
             color="secondary"
-            sx={{ display: 'flex', alignItems: 'center', gap: 1, fontSize: "inherit" }}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+              fontSize: "inherit",
+            }}
           >
             <EmailIcon /> kontakt@ursula-trahasch.de
           </Link>
