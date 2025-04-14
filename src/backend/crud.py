@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session, joinedload
+from sqlalchemy.orm import Session, joinedload, selectinload
 from sqlalchemy.sql import func
 from fastapi import HTTPException
 import uuid
@@ -10,6 +10,7 @@ from schemas import SeminarCreate, LocationCreate, ParticipantAdd, SeminarOut, L
 # ---------------------------------------------------------------------------- #
 
 def get_seminars(db: Session, limit: int = 10, offset: int = 0):
+    # Subquery to count participants
     participant_count_subquery = (
         db.query(
             Participant.seminar_id,
@@ -61,12 +62,62 @@ def get_seminars(db: Session, limit: int = 10, offset: int = 0):
 
     return seminar_list
 
-# Get a single Seminar by seminar_id
+def get_seminar_by_id(db: Session, seminar_id: int):
+    # Subquery to count participants
+    participant_count_subquery = (
+        db.query(
+            Participant.seminar_id,
+            func.count(Participant.participant_id).label("participants_count")
+        )
+        .group_by(Participant.seminar_id)
+        .subquery()
+    )
+
+    result = (
+        db.query(
+            Seminar,
+            func.coalesce(participant_count_subquery.c.participants_count, 0).label("participants_count")
+        )
+        .outerjoin(participant_count_subquery, Seminar.seminar_id == participant_count_subquery.c.seminar_id)
+        .options(selectinload(Seminar.location))
+        .filter(Seminar.seminar_id == seminar_id)
+        .first()
+    )
+
+    if not result:
+        raise HTTPException(status_code=404, detail=f"Seminar with id={seminar_id} not found.")
+
+    seminar, participants_count = result
+
+    return SeminarOut(
+        seminar_id=seminar.seminar_id,
+        title=seminar.title,
+        description=seminar.description,
+        date=seminar.date,
+        time=seminar.time,
+        url=seminar.url,
+        max_participants=seminar.max_participants,
+        price=seminar.price,
+        image_name=seminar.image_name,
+        participants_count=participants_count,
+        location=LocationOut(
+            location_id=seminar.location.location_id,
+            name=seminar.location.name,
+            street=seminar.location.street,
+            house_number=seminar.location.house_number,
+            zip_code=seminar.location.zip_code,
+            city=seminar.location.city,
+            remarks=seminar.location.remarks,
+            maps_url=seminar.location.maps_url,
+        ) if seminar.location else None
+    )
+
+# Get a single Seminar by seminar_id, without location and participants
 def get_seminar(db: Session, seminar_id: int):
     return (db.query(Seminar)
             .filter(Seminar.seminar_id == seminar_id)
             .first())
-
+    
 # Create a new seminar
 def create_seminar(db: Session, seminar: SeminarCreate):
     seminar = Seminar(**seminar.dict())
@@ -87,8 +138,11 @@ def update_seminar(db: Session, seminar_id: int, updated_seminar: SeminarCreate)
     seminar.description = updated_seminar.description
     seminar.date = updated_seminar.date
     seminar.time = updated_seminar.time
-    seminar.location = updated_seminar.location_id
     seminar.url = updated_seminar.url
+    seminar.max_participants = updated_seminar.max_participants
+    seminar.image_name = updated_seminar.image_name
+    seminar.price = updated_seminar.price
+    seminar.location_id = updated_seminar.location_id
 
     db.commit()
     db.refresh(seminar)
@@ -137,6 +191,7 @@ def add_participant(db: Session, participant: ParticipantAdd):
     firstname=participant.firstname,
     lastname=participant.lastname,
     email=participant.email,
+    remarks=participant.remarks,
     seminar_id=participant.seminar_id,
     token=token
 )

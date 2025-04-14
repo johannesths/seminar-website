@@ -29,7 +29,7 @@ function Index() {
     "Konfliktbewältigung",
   ];
 
-  const { seminars, loading, error } = useSeminars(4, 0);
+  const { seminars } = useSeminars(4, 0);
 
   return (
     <Box

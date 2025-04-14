@@ -13,6 +13,7 @@ import Veranstaltungen from "./pages/Veranstaltungen";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import SeminarDetail from "./components/SeminarDetail";
 
 function App() {
   return (
@@ -55,6 +56,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/seminar/:id"
+              element={
+                <ProtectedRoute>
+                  <SeminarDetail />
                 </ProtectedRoute>
               }
             />

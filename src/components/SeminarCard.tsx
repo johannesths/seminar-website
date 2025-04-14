@@ -1,3 +1,9 @@
+/**
+ * SeminarCard.tsx
+ *
+ *  Displays all the information of a seminar as MUI Card Component.
+ *  Also allows users to register for the seminar if possible.
+ */
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -38,7 +44,7 @@ const formatDateTime = (date: string, time: string): string => {
 };
 
 // Image map: key = image_name from DB, value = imported image
-const imageMap: Record<string, string> = {
+export const imageMap: Record<string, string> = {
   branches: branchImage,
   team: teamImage,
   whiteboard: whiteboardImage,
@@ -84,6 +90,7 @@ const SeminarCard = ({
   const [dialogOpen, setDialogOpen] = useState(false);
   const [forwardDialogOpen, setForwardDialogOpen] = useState(false);
 
+  // Open dialogs for registration
   const handleOpen = () => {
     if (url != null && url != "") {
       setForwardDialogOpen(true);
@@ -92,6 +99,7 @@ const SeminarCard = ({
     }
   };
 
+  // Close dialogs
   const handleClose = () => {
     setDialogOpen(false);
     setForwardDialogOpen(false);
@@ -105,6 +113,7 @@ const SeminarCard = ({
       >
         <CardMedia sx={{ height: 200 }} image={getImage(image_name)} />
         <CardContent>
+          {/* Title */}
           <Typography
             gutterBottom
             variant="h5"
@@ -113,6 +122,8 @@ const SeminarCard = ({
           >
             {title}
           </Typography>
+
+          {/* Description */}
           <Typography
             variant="body1"
             sx={{ color: "text.secondary", fontSize: 17 }}
@@ -129,6 +140,8 @@ const SeminarCard = ({
             </Button>
           )}
           <br />
+
+          {/* Date and time */}
           <Typography
             variant="overline"
             sx={{ fontSize: "17px", display: "flex", alignItems: "center" }}
@@ -146,6 +159,7 @@ const SeminarCard = ({
                 alignItems: "center",
               }}
             >
+              {/* Location */}
               <PlaceIcon sx={{ marginX: 1 }} />
               <Typography>
                 {location.name} <br />
@@ -153,6 +167,8 @@ const SeminarCard = ({
                 {location.city}
               </Typography>
             </Typography>
+
+            {/* Open location in Google Maps */}
             <Link
               href={location.maps_url}
               underline="hover"
@@ -184,6 +200,8 @@ const SeminarCard = ({
             )}
           </Stack>
         </CardContent>
+
+        {/* Register for seminar */}
         <CardActions sx={{ ml: 4, mb: 1 }}>
           <Button
             variant="contained"
@@ -238,6 +256,8 @@ const SeminarCard = ({
             {url}
           </Link>
         </DialogContent>
+
+        {/* Cancel registration */}
         <DialogActions>
           <Button onClick={handleClose} color="secondary">
             Abbrechen

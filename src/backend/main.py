@@ -9,7 +9,7 @@ import os
 import crud
 import email_functions
 from database import SessionLocal
-from schemas import SeminarCreate, SeminarOut, ContactForm, LocationCreate, LocationOut, ParticipantAdd, SeminarRegistrationForm, LoginData
+from schemas import SeminarCreate, SeminarOut, ContactForm, LocationCreate, LocationOut, ParticipantAdd, SeminarRegistrationForm, LoginData, ParticipantOut
 from auth import authenticate_admin, create_access_token, check_admin_token
 
 app = FastAPI()
@@ -51,6 +51,14 @@ def read_seminars(limit: int = 10, offset: int = 0, db: Session = Depends(get_db
     """
     return crud.get_seminars(db, limit, offset)
 
+@app.get("/seminar/{id}", response_model=SeminarOut)
+def read_seminars(id: int, db: Session = Depends(get_db)):
+    """
+    Returns a single seminar.
+    No API Key required.
+    """
+    return crud.get_seminar_by_id(db, id)
+
 @app.post("/seminars/", response_model=SeminarCreate, dependencies=[Depends(verify_api_key)])
 def add_seminar(seminar: SeminarCreate, db: Session = Depends(get_db)):
     """
@@ -59,7 +67,7 @@ def add_seminar(seminar: SeminarCreate, db: Session = Depends(get_db)):
     """
     return crud.create_seminar(db, seminar)
 
-@app.put("/seminars/{id}", response_model=SeminarOut, dependencies=[Depends(verify_api_key)])
+@app.put("/seminars/{id}", response_model=SeminarCreate, dependencies=[Depends(verify_api_key)])
 def update_seminar(id: int, seminar: SeminarCreate, db: Session = Depends(get_db)):
     """
     Updates an existing seminar by ID.
@@ -89,16 +97,16 @@ def get_locations(limit: int = 10, db: Session = Depends(get_db)):
 # ---------------------------------------------------------------------------- #
 #                           ENDPOINTS FOR PARTCIPANTS                          #
 # ---------------------------------------------------------------------------- #
-@app.get("/seminars/{seminar_id}/participants", response_model=List[ParticipantAdd], dependencies=[Depends(verify_api_key)])
+@app.get("/seminars/{seminar_id}/participants", response_model=List[ParticipantOut], dependencies=[Depends(verify_api_key)])
 def get_participants_of_seminar(seminar_id: int, db: Session = Depends(get_db)):
     return crud.get_participants(db, seminar_id)
 
-@app.get("/seminars/{seminar_id}/unregister")
+@app.delete("/seminars/{seminar_id}/unregister")
 def unregister_participant(token: str, db: Session = Depends(get_db)):
     return crud.unregister_participant(db, token)
 
 # ---------------------------------------------------------------------------- #
-#                       FORM PROCESSING                                        #
+#                              FORM PROCESSING                                 #
 # ---------------------------------------------------------------------------- #
 EMAIL_USERNAME = os.getenv("EMAIL_USERNAME")
 @app.post("/kontakt/")
@@ -138,7 +146,7 @@ async def register_for_seminar(
     # Check if seminar isnt in the past
     seminar_datetime = datetime.combine(seminar.date, seminar.time)
     diff = seminar_datetime - datetime.now()
-    if diff < timedelta(hours=2):
+    if diff < timedelta(hours=1):
         raise HTTPException(status_code=403, detail="Seminar registration is closed.")
 
     participant = ParticipantAdd(firstname=data.firstname,
@@ -147,14 +155,14 @@ async def register_for_seminar(
                                  remarks=data.remarks,
                                  seminar_id=seminar_id)
     participant_registered = crud.add_participant(db, participant)
-    unregister_url = f"http://localhost:8000/seminars/{seminar.seminar_id}/unregister?token={participant_registered.token}"
+    unregister_url = f"https://localhost:8000/seminars/{seminar.seminar_id}/unregister?token={participant_registered.token}"
     
     # Confirmation email to user
     email_functions.send_confirmation(data, seminar, unregister_url)
     
     participants = crud.get_participants(db, seminar_id)
     
-    # Email to inform business owner about registration
+    # Email to inform admin about registration
     email_functions.send_registration_info(data, seminar, participants)
 
 

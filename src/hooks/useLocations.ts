@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../api/axios";
 
 export interface Location {
-  id: number;
+  location_id: number;
   name: string;
   street: string;
   house_number: number;

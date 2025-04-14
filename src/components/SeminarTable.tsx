@@ -1,3 +1,11 @@
+/**
+ * SeminarTable.tsx
+ *
+ * Displays a paginated table of seminars for the admin dashboard.
+ * Each row contains key seminar information and a button to navigate
+ * to a more detailed editing view for the selected seminar (=> SeminarDetail.tsx)
+ */
+
 import {
   Table,
   TableBody,
@@ -15,13 +23,14 @@ import { useSeminars } from "../hooks/useSeminars";
 
 const SeminarTable = () => {
   const [page, setPage] = useState(0);
-  const limit = 5; // equals rows per page
+  const limit = 5; // Equals rows per page
   const navigate = useNavigate();
 
   const [offset, setOffset] = useState(0);
 
-  const { seminars, loading, error } = useSeminars(limit, offset);
+  const { seminars } = useSeminars(limit, offset);
 
+  // Handle pagination changes
   const handleChangePage = (_: unknown, newPage: number) => {
     setPage(newPage);
     setOffset(newPage * limit);
@@ -69,6 +78,7 @@ const SeminarTable = () => {
             ))}
           </TableBody>
         </Table>
+        {/* Pagination controls */}
         <TablePagination
           component="div"
           count={-1}

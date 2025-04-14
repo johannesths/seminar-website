@@ -67,6 +67,15 @@ class ParticipantAdd(BaseModel):
     email: EmailStr
     remarks: Optional[str]
     seminar_id: int
+    
+class ParticipantOut(BaseModel):
+    firstname: str
+    lastname: str
+    email: EmailStr
+    remarks: Optional[str]
+    token: str
+    class Config:
+        orm_mode = True
 
 class LoginData(BaseModel):
     username: str
