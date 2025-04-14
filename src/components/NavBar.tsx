@@ -1,3 +1,10 @@
+/**
+ * NavBar.tsx
+ *
+ * Functions as navigation to the different pages.
+ * Shows the logo, title and keywords of the website.
+ */
+
 import { useState } from "react";
 import {
   AppBar,
@@ -18,15 +25,20 @@ import { useLocation, Link } from "react-router-dom";
 import logoImage from "../assets/logo.png";
 
 const NavBar = () => {
+  // Pages shown in the NavBar
   const pages = ["Angebote", "Veranstaltungen", "Profil", "Kontakt"];
+
+  // For drawer navigation on small devices
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const location = useLocation(); // Current path
+  // Current URL
+  const location = useLocation();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
+  // Only shown on small devices
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
@@ -98,11 +110,14 @@ const NavBar = () => {
           justifyContent="flex-end"
           sx={{ display: { xs: "none", md: "flex" } }}
         >
+          {/* Show button to navigate to the index page on pages that are not the index page */}
           {location.pathname !== "/" && (
             <Button component={Link} to="/" sx={{ my: 2, color: "white" }}>
               Startseite
             </Button>
           )}
+
+          {/* Pages */}
           {pages.map((page) => (
             <Button
               key={page}
