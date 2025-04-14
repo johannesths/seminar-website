@@ -6,8 +6,8 @@
  */
 
 import { Box, Typography } from "@mui/material";
-import EditSeminarForm from "./EditSeminarForm";
-import ParticipantTable from "./ParticipantTable";
+import EditSeminarForm from "../components/EditSeminarForm";
+import ParticipantsTable from "../components/ParticipantsTable";
 
 const SeminarDetail = () => {
   return (
@@ -25,7 +25,7 @@ const SeminarDetail = () => {
         Teilnehmer*innen
       </Typography>
       {/* Participant table */}
-      <ParticipantTable />
+      <ParticipantsTable />
     </Box>
   );
 };

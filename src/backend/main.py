@@ -75,7 +75,7 @@ def update_seminar(id: int, seminar: SeminarCreate, db: Session = Depends(get_db
     """
     return crud.update_seminar(db, id, seminar)
 
-@app.delete("/seminars/{id}", dependencies=[Depends(verify_api_key)])
+@app.delete("/seminars/delete/{id}", dependencies=[Depends(verify_api_key)])
 def delete_seminar(id: int, db: Session = Depends(get_db)):
     """
     Deletes a seminar by ID.

@@ -17,13 +17,13 @@ class Seminar(Base):
     image_name = Column(String(63), nullable=True)
 
     # Foreign key to Location
-    location_id = Column(Integer, ForeignKey("locations.location_id"), nullable=False)
+    location_id = Column(Integer, ForeignKey("locations.location_id", ondelete="SET NULL", onupdate="CASCADE"), nullable=True)
 
     # Many-to-one relationship to Location
-    location = relationship("Location", back_populates="seminars")
+    location = relationship("Location", back_populates="seminars", passive_deletes=True)
 
     # One-to-many relationship with Participant
-    participants = relationship("Participant", back_populates="seminar")
+    participants = relationship("Participant", back_populates="seminar", cascade="all, delete-orphan", passive_deletes=True)
 
 # ------------------- Location Table -------------------
 class Location(Base):
@@ -52,7 +52,7 @@ class Participant(Base):
     remarks = Column(String(511), nullable=True)
     token = Column(String(40), unique=True, nullable=False)
     # Foreign key to Seminar
-    seminar_id = Column(Integer, ForeignKey("seminars.seminar_id"), nullable=False)
+    seminar_id = Column(Integer, ForeignKey("seminars.seminar_id", ondelete="CASCADE"), nullable=False)
 
     # Many-to-one relationship to Seminar
     seminar = relationship("Seminar", back_populates="participants")

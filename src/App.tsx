@@ -13,7 +13,8 @@ import Veranstaltungen from "./pages/Veranstaltungen";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
-import SeminarDetail from "./components/SeminarDetail";
+import SeminarDetail from "./pages/SeminarDetail";
+import CreateSeminarForm from "./components/CreateSeminarForm";
 
 function App() {
   return (
@@ -64,6 +65,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <SeminarDetail />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/createseminar"
+              element={
+                <ProtectedRoute>
+                  <CreateSeminarForm />
                 </ProtectedRoute>
               }
             />
