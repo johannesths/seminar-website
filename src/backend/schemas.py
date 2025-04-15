@@ -69,6 +69,7 @@ class ParticipantAdd(BaseModel):
     seminar_id: int
     
 class ParticipantOut(BaseModel):
+    participant_id: int
     firstname: str
     lastname: str
     email: EmailStr

@@ -47,7 +47,7 @@ const SeminarTable = () => {
 
     try {
       await api.delete(`/seminars/delete/${seminar_id}`);
-      window.location.reload(); // Or use your hook to re-fetch seminars
+      window.location.reload();
     } catch (err) {
       alert("Fehler beim Löschen des Seminars.");
       console.error(err);

@@ -54,6 +54,18 @@ const ParticipantTable = () => {
 
   return (
     <Box>
+      {participants.length > 0 && (
+        <Typography
+          sx={{
+            marginTop: 8,
+            textAlign: "center",
+            fontSize: 25,
+            fontWeight: 400,
+          }}
+        >
+          Teilnehmer*innen
+        </Typography>
+      )}
       {/* Possible error message */}
       {error && (
         <Typography variant="h4" color="error">

@@ -24,6 +24,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import SeminarDetail from "./pages/SeminarDetail";
 import CreateSeminarForm from "./components/CreateSeminarForm";
 import AdminNavBar from "./components/AdminNavBar";
+import CreateLocationForm from "./components/CreateLocationForm";
+import EditLocationForm from "./components/EditLocationForm";
 
 const AppContent = () => {
   const location = useLocation();
@@ -80,10 +82,26 @@ const AppContent = () => {
             }
           />
           <Route
-            path="/admin/createseminar"
+            path="/admin/create-seminar"
             element={
               <ProtectedRoute>
                 <CreateSeminarForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/location/:id"
+            element={
+              <ProtectedRoute>
+                <EditLocationForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/create-location"
+            element={
+              <ProtectedRoute>
+                <CreateLocationForm />
               </ProtectedRoute>
             }
           />
@@ -92,6 +110,9 @@ const AppContent = () => {
 
       {/* Footer only if not in admin area */}
       {!isAdminRoute && <Footer />}
+      {isAdminRoute && (
+        <Toolbar sx={{ height: (theme) => theme.mixins.toolbar.minHeight }} />
+      )}
     </Box>
   );
 };

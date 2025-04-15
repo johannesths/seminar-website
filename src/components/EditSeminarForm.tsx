@@ -19,7 +19,7 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../api/axios";
 import dayjs from "dayjs";
@@ -44,6 +44,8 @@ const EditSeminarForm = () => {
   const [seminar, setSeminar] = useState<SeminarForm | null>(null);
   const [loading, setLoading] = useState(true);
   const [success, setSuccess] = useState(false);
+
+  const navigate = useNavigate();
 
   // Fetch locations for select menu
   const { locations } = useLocations(20);
@@ -228,6 +230,15 @@ const EditSeminarForm = () => {
             Änderungen erfolgreich gespeichert.
           </Typography>
         )}
+
+        {/* Return to Dashboard */}
+        <Button
+          variant="outlined"
+          color="warning"
+          onClick={() => navigate("/admin/dashboard")}
+        >
+          zurück zum Dashboard
+        </Button>
       </Stack>
     </Box>
   );

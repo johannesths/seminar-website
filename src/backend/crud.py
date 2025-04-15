@@ -5,11 +5,24 @@ import uuid
 from models import Seminar, Location, Participant
 from schemas import SeminarCreate, LocationCreate, ParticipantAdd, SeminarOut, LocationOut
 
+
 # ---------------------------------------------------------------------------- #
 #                                SEMINAR ACTIONS                               #
 # ---------------------------------------------------------------------------- #
 
 def get_seminars(db: Session, limit: int = 10, offset: int = 0):
+    """
+    Returns a list of seminars.
+
+    Args:
+        db (Session): SQLAlchemy database session
+        limit (int, optional): Maximum number of seminars to return. Defaults to 10.
+        offset (int, optional): Number of seminars to skip. Defaults to 0.
+
+    Returns:
+        List[SeminarOut]: List of seminars, including LocationOut and number of participants registered.
+    """
+    
     # Subquery to count participants
     participant_count_subquery = (
         db.query(
@@ -19,7 +32,8 @@ def get_seminars(db: Session, limit: int = 10, offset: int = 0):
         .group_by(Participant.seminar_id)
         .subquery()
     )
-
+    
+    # Fetch seminars with offset and limit, ordered by date (descending)
     seminars = (
         db.query(
             Seminar,
@@ -63,6 +77,20 @@ def get_seminars(db: Session, limit: int = 10, offset: int = 0):
     return seminar_list
 
 def get_seminar_by_id(db: Session, seminar_id: int):
+    """
+    Fetch a single seminar by its id.
+
+    Args:
+        db (Session): SQLAlchemy database session.
+        seminar_id (int): ID of the seminar.
+
+    Raises:
+        HTTPException 404: When an invalid ID is given. 
+
+    Returns:
+        SeminarOut: information about the seminar, including LocationOut and number of participants.
+    """
+    
     # Subquery to count participants
     participant_count_subquery = (
         db.query(
@@ -111,23 +139,39 @@ def get_seminar_by_id(db: Session, seminar_id: int):
             maps_url=seminar.location.maps_url,
         ) if seminar.location else None
     )
-
-# Get a single Seminar by seminar_id, without location and participants
-def get_seminar(db: Session, seminar_id: int):
-    return (db.query(Seminar)
-            .filter(Seminar.seminar_id == seminar_id)
-            .first())
     
-# Create a new seminar
 def create_seminar(db: Session, seminar: SeminarCreate):
+    """
+    Add a new seminar to the database.
+
+    Args:
+        db (Session): SQLAlchemy database session.
+        seminar (SeminarCreate): Pydantic scheme with all the necessary information.
+
+    Returns:
+        SeminarCreate: returns the seminar.
+    """
     seminar = Seminar(**seminar.dict())
     db.add(seminar)
     db.commit()
     db.refresh(seminar)
     return seminar
 
-# Update a seminar using the seminar_id
 def update_seminar(db: Session, seminar_id: int, updated_seminar: SeminarCreate):
+    """
+    Update an existing seminar.
+
+    Args:
+        db (Session): SQLAlchemy database session.
+        seminar_id (int): ID of the seminar to update.
+        updated_seminar (SeminarCreate): Updated seminar.
+
+    Raises:
+        HTTPException 404: When the ID is invalid. 
+
+    Returns:
+        SeminarCreate: the updated seminar.
+    """
     seminar = db.query(Seminar).filter(Seminar.seminar_id == seminar_id).first()
 
     if not seminar:
@@ -149,8 +193,20 @@ def update_seminar(db: Session, seminar_id: int, updated_seminar: SeminarCreate)
 
     return seminar
 
-# Delete a seminar using seminar_id
 def delete_seminar(db: Session, seminar_id: int):
+    """
+    Delete a single seminar in the database.
+
+    Args:
+        db (Session): SQLAlchemy database session.
+        seminar_id (int): The ID of the seminar to delete.
+
+    Raises:
+        HTTPException 404: If the ID is invalid.
+
+    Returns:
+        dict: Message that the deletion was successful.
+    """
     seminar = db.query(Seminar).filter(Seminar.seminar_id == seminar_id).first()
 
     if not seminar:
@@ -164,28 +220,130 @@ def delete_seminar(db: Session, seminar_id: int):
 # ---------------------------------------------------------------------------- #
 #                               LOCATION ACTIONS                               #
 # ---------------------------------------------------------------------------- #
-# Add a Location
 def add_location(db: Session, location: LocationCreate):
+    """
+    Add a location to the database.
+
+    Args:
+        db (Session): SQLAlchemy database session.
+        location (LocationCreate): Location with necessary information.
+
+    Returns:
+        LocationCreate: The created location.
+    """
     location = Location(**location.dict())
     db.add(location)
     db.commit()
     db.refresh(location)
     return location
 
-# Get a single Location by its location_id
-def get_location(db: Session, location_id: int):
-    return db.query(Location).filter(Location.location_id == location_id).first()
+def get_location_by_id(db: Session, location_id: int):
+    """
+    Returns a single location by its ID.
 
-# Get Locations
+    Args:
+        db (Session): SQLAlchemy database session.
+        location_id (int): The ID of the location.
+        
+    Raises:
+        HTTPException 404: If the ID is invalid.
+
+    Returns:
+        LocationOut: The found location.
+    """
+    location = db.query(Location).filter(Location.location_id == location_id).first()
+    
+    if not location:
+        raise HTTPException(status_code=404, detail=f"Location with id={location_id} not found.")
+    
+    return location
+
 def get_locations(db: Session, limit: int = 10):
+    """
+    Retrieve a list of locations.
+
+    Args:
+        db (Session): SQLAlchemy database session.
+        limit (int, optional): Maximum number of locations in the list. Defaults to 10.
+
+    Returns:
+        List[LocationOut]: List of locations with metadata.
+    """
     return (db.query(Location).limit(limit).all())
+
+def update_location(db: Session, location_id: int, updated_location: LocationOut):
+    """
+    Update an exisiting location.
+
+    Args:
+        db (Session): SQLAlchemy database session.
+        location_id (int): ID of the location to update.
+        updated_location (LocationOut): The updated location with metadata.
+
+    Raises:
+        HTTPException 404: If an invalid ID is given.
+
+    Returns:
+        LocationOut: The updated location with metadata.
+    """
+    location = db.query(Location).filter(Location.location_id == location_id).first()
+
+    if not location:
+        raise HTTPException(status_code=404, detail=f"Location with id={location_id} not found. Update failed.")
+    
+    # Update all fields of the location
+    location.name = updated_location.name
+    location.city = updated_location.city
+    location.zip_code = updated_location.zip_code
+    location.street = updated_location.street
+    location.house_number = updated_location.house_number
+    location.remarks = updated_location.remarks
+    location.maps_url = updated_location.maps_url
+
+    db.commit()
+    db.refresh(location)
+
+    return location
+
+def delete_location(db: Session, location_id: int):
+    """
+    Delete a location by its ID.
+
+    Args:
+        db (Session): SQLAlchemy database session.
+        location_id (int): ID of the location to delete.
+
+    Raises:
+        HTTPException 404: If an invalid ID is given.
+
+    Returns:
+        dict: Success message.
+    """
+    location = db.query(Location).filter(Location.location_id == location_id).first()
+
+    if not location:
+        raise HTTPException(status_code=404, detail=f"Location with id={location_id} not found.")
+
+    db.delete(location)
+    db.commit()
+
+    return {"message": f"Location with id={location_id} deleted successfully."}
 
 
 # ---------------------------------------------------------------------------- #
 #                              PARTICIPANT ACTIONS                             #
 # ---------------------------------------------------------------------------- #
-# Add a Participant
 def add_participant(db: Session, participant: ParticipantAdd):
+    """
+    Add a participant with the associated seminar_id to the database.
+
+    Args:
+        db (Session): SQLAlchemy database session.
+        participant (ParticipantAdd): Participant to add.
+        
+    Returns:
+        ParticipantAdd: The added participant.
+    """
     token = str(uuid.uuid4())
     participant = Participant(
     firstname=participant.firstname,
@@ -200,8 +358,24 @@ def add_participant(db: Session, participant: ParticipantAdd):
     db.refresh(participant)
     return participant
 
-# Get all Participants for a Seminar
 def get_participants(db: Session, seminar_id: int):
+    """
+    Retrieve all participants of a single seminar.
+
+    Args:
+        db (Session): SQLAlchemy database session.
+        seminar_id (int): ID of the seminar that the participants registered for.
+        
+    Raises:
+        HTTPException 404: If an invalid seminar_id is given.
+
+    Returns:
+        List[ParticipantOut]: List of participants.
+    """
+    seminar = db.query(Seminar).filter(Seminar.seminar_id == seminar_id).first()
+    if not seminar:
+        raise HTTPException(status_code=404, detail=f"Seminar with the id={id} does not exist. Failed to retrieve participants.")
+    
     return (
         db.query(Participant)
         .filter(Participant.seminar_id == seminar_id)
@@ -209,8 +383,20 @@ def get_participants(db: Session, seminar_id: int):
         .all()
     )
 
-# Unregister participant from a seminar by using the token
 def unregister_participant(db: Session, token: str):
+    """
+    Unregister (delete) a participant using the participants token.
+
+    Args:
+        db (Session): SQLAlchemy database session.
+        token (str): Token of the participant to delete.
+
+    Raises:
+        HTTPException 404: If the token does not exist in the database.
+
+    Returns:
+        str: Success message in German.
+    """
     participant = db.query(Participant).filter_by(token=token).first()
 
     if not participant:

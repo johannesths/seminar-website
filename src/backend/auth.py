@@ -1,4 +1,4 @@
-from fastapi import Depends, HTTPException, Request
+from fastapi import HTTPException, Request
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
 from crypt import pwd_context
