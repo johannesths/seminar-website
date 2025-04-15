@@ -6,7 +6,10 @@ It sets up routes, middlewares, and application configuration.
 """
 
 from fastapi import FastAPI, Depends, HTTPException, Header, Body, Response, Request
-from fastapi.security import OAuth2PasswordRequestForm
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+from slowapi.middleware import SlowAPIMiddleware
 from sqlalchemy.orm import Session
 from typing import List
 from datetime import datetime, timedelta
@@ -21,13 +24,18 @@ from auth import authenticate_admin, create_access_token, check_admin_token
 
 app = FastAPI()
 
+# Rate limiter
+limiter = Limiter(key_func=get_remote_address)
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+app.add_middleware(SlowAPIMiddleware)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["https://localhost:5173", "https://localhost:8000", "127.0.0.1"],  # Frontend url
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-    
 )
 
 # Load environment variables
@@ -295,12 +303,13 @@ async def register_for_seminar(
 #                                     ADMIN                                    #
 # ---------------------------------------------------------------------------- #
 @app.post("/admin/token", dependencies=[Depends(verify_api_key)])
-def login_admin(response: Response, data: LoginData):
+@limiter.limit("3/hour")
+async def login_admin(request: Request, response: Response, data: LoginData):
     """
     Authenticate an admin and set a secure session cookie.
 
     Verifies the provided login credentials and, if valid, issues a JWT access token
-    stored in a secure HTTP-only session cookie.
+    stored in a secure HTTP-only session cookie. Rate limited to 3 requests per hour.
 
     Args:
         response (Response): The response object used to set the session cookie.
@@ -313,8 +322,9 @@ def login_admin(response: Response, data: LoginData):
         dict: A message indicating whether login was successful.
     """
     user = authenticate_admin(data.username, data.password)
+    
     if not user:
-        raise HTTPException(status_code=401, detail="Invalid credentials")
+        raise HTTPException(status_code=401, detail="Inkorrekter Nutzername/Passwort.")
 
     access_token = create_access_token(
         data={"sub": user["username"]},
