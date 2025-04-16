@@ -76,6 +76,18 @@ def get_seminars(db: Session, limit: int = 10, offset: int = 0):
 
     return seminar_list
 
+def count_seminars(db: Session):
+    """
+    Retrieve the number of seminars in the database.
+
+    Args:
+        db (Session): SQLAlchemy database session.
+
+    Returns:
+        int: Seminar count.
+    """
+    return db.query(Seminar).count()
+
 def get_seminar_by_id(db: Session, seminar_id: int):
     """
     Fetch a single seminar by its id.

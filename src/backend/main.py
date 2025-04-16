@@ -87,6 +87,19 @@ def read_seminars(id: int, db: Session = Depends(get_db)):
     """
     return crud.get_seminar_by_id(db, id)
 
+@app.get("/seminars/count")
+def count_seminars(db: Session = Depends(get_db)):
+    """
+    Retrieve the number of seminars in the database.
+
+    Args:
+        db (Session, optional): SQLAlchemy database session, automatically provided by dependency injection.
+
+    Returns:
+        int: Number of seminars.
+    """
+    return crud.count_seminars(db)
+
 @app.post("/seminars/", response_model=SeminarCreate, dependencies=[Depends(verify_api_key)])
 def add_seminar(seminar: SeminarCreate, db: Session = Depends(get_db)):
     """

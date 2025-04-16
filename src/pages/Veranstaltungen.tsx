@@ -1,30 +1,70 @@
+/**
+ * Veranstaltungen.tsx
+ *
+ * Displays the seminars with pagination.
+ */
+
 import { useSeminars } from "../hooks/useSeminars";
 import SeminarCard from "../components/SeminarCard";
-import { Typography, Box, Button } from "@mui/material";
+import Pagination from "@mui/material/Pagination";
+import { Typography, Box, CircularProgress } from "@mui/material";
 import { useState } from "react";
+import { useEffect } from "react";
+import SeperatingLine from "../components/SeperatingLine";
 
-const LIMIT = 10;
+// Seminars per page
+const LIMIT = 8;
 
 const Veranstaltungen = () => {
-  const [offset, setOffset] = useState(0);
+  const [page, setPage] = useState(1);
+  const { seminars, count, loading, error } = useSeminars(
+    LIMIT,
+    (page - 1) * LIMIT
+  );
 
-  const { seminars, loading, error } = useSeminars(LIMIT, offset);
+  const pageCount = Math.ceil(count / LIMIT);
 
-  const handleLoadMore = () => {
-    setOffset((previous) => previous + LIMIT);
+  // Scroll to the top of the page when a new page is selected
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [page]);
+
+  const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
   };
 
   if (loading) {
-    return <p>Fetching data...</p>;
+    return (
+      <CircularProgress
+        sx={{
+          display: "flex",
+          alignContent: "center",
+          alignItems: "center",
+          m: "0 auto",
+        }}
+      />
+    );
   } else if (error) {
+    console.error(error);
     return (
       <Typography color="error">
-        An error orcurred while loading seminars: {error}
+        Es ist ein Fehler beim Laden der Seminare aufgetreten.
       </Typography>
     );
   } else {
     return (
-      <Box display="flex" flexDirection="column" alignItems="center" mt={5}>
+      <Box display="flex" flexDirection="column" alignItems="center" my={5}>
+        <Typography
+          variant="h3"
+          sx={{
+            textAlign: "center",
+            mt: 2,
+            fontSize: { xs: "1.8rem", sm: "2rem", md: "2.5rem" },
+          }}
+        >
+          Aktuelle Seminare und Veranstaltungen
+        </Typography>
+        <SeperatingLine />
         <Box
           display="flex"
           flexWrap="wrap"
@@ -49,14 +89,16 @@ const Veranstaltungen = () => {
             />
           ))}
         </Box>
-        <Button
-          variant="contained"
-          sx={{ marginTop: 4 }}
-          onClick={handleLoadMore}
-          disabled={loading || seminars.length < LIMIT}
-        >
-          Mehr laden
-        </Button>
+
+        {/* Pagination controls */}
+        <Pagination
+          count={pageCount}
+          page={page}
+          onChange={handlePageChange}
+          color="primary"
+          size="large"
+          sx={{ mt: 4, mb: 6 }}
+        />
       </Box>
     );
   }
