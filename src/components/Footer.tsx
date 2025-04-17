@@ -1,3 +1,10 @@
+/**
+ * Footer.tsx
+ *
+ * A basic footer that shows buttons to navigate to the AGB,
+ * Datenschutz, Impressum and Kontakt page.
+ */
+
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -23,6 +30,7 @@ const Footer = () => {
           flexWrap: "wrap",
         }}
       >
+        {/* Datenschutz */}
         <Button
           variant="text"
           sx={{ my: 2, color: "black", display: "block" }}
@@ -32,6 +40,17 @@ const Footer = () => {
           Datenschutz
         </Button>
 
+        {/* AGB */}
+        <Button
+          variant="text"
+          sx={{ my: 2, color: "black", display: "block" }}
+          component={Link}
+          to="/agb"
+        >
+          AGB
+        </Button>
+
+        {/* Impressum */}
         <Button
           variant="text"
           sx={{ my: 2, color: "black", display: "block" }}
@@ -41,6 +60,7 @@ const Footer = () => {
           Impressum
         </Button>
 
+        {/* Contact */}
         <Button
           variant="text"
           sx={{ my: 2, color: "black", display: "block" }}
@@ -50,6 +70,7 @@ const Footer = () => {
           Kontakt
         </Button>
       </Stack>
+
       {/* Separating Line */}
       <Box
         sx={{
@@ -60,6 +81,8 @@ const Footer = () => {
           margin: "5px auto 15px auto",
         }}
       />
+
+      {/* Copyright */}
       <Typography variant="body2">© {currentYear} Ursula Trahasch</Typography>
     </Box>
   );

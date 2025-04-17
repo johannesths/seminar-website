@@ -1,3 +1,10 @@
+/**
+ * SeminarRegistrationForm.tsx
+ *
+ * Displays a form to register for a seminar.
+ * Pops up when you click the "Anmeldung" button on a seminar card.
+ */
+
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,6 +19,7 @@ import {
 import api from "../api/axios";
 import { useState } from "react";
 
+// Schema for the form, conditions for the form fields
 const schema = z.object({
   firstname: z.string().min(2, "Bitte geben Sie Ihren Vornamen an."),
   lastname: z.string().min(2, "Bitte geben Sie Ihren Nachnamen an."),
@@ -37,6 +45,7 @@ const SeminarRegistrationForm = ({ seminarId }: { seminarId: number }) => {
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  // Submit form data to backend
   const onSubmit = async (data: FormData) => {
     try {
       const { priceAcknowledged, ...dataToSend } = data;
@@ -58,6 +67,7 @@ const SeminarRegistrationForm = ({ seminarId }: { seminarId: number }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
+        {/* Firstname */}
         <TextField
           label="Vorname"
           {...register("firstname")}
@@ -65,6 +75,8 @@ const SeminarRegistrationForm = ({ seminarId }: { seminarId: number }) => {
           helperText={errors.firstname?.message}
           fullWidth
         />
+
+        {/* Lastname */}
         <TextField
           label="Nachname"
           {...register("lastname")}
@@ -72,6 +84,8 @@ const SeminarRegistrationForm = ({ seminarId }: { seminarId: number }) => {
           helperText={errors.lastname?.message}
           fullWidth
         />
+
+        {/* Email */}
         <TextField
           label="Email"
           {...register("email")}
@@ -79,6 +93,8 @@ const SeminarRegistrationForm = ({ seminarId }: { seminarId: number }) => {
           helperText={errors.email?.message}
           fullWidth
         />
+
+        {/* Remarks (optional) */}
         <TextField
           label="Anmerkungen (optional)"
           {...register("remarks")}
@@ -86,15 +102,33 @@ const SeminarRegistrationForm = ({ seminarId }: { seminarId: number }) => {
           rows={4}
           fullWidth
         />
+
+        {/* Checkbox for accepting the AGB and Datenschutz */}
         <FormControlLabel
           control={<Checkbox {...register("priceAcknowledged")} />}
-          label="Hiermit bestätige ich meine Anmeldung und den mit der Teilnahme verbundenen Bedingungen." // Need to actually put the conditions somewhere
+          label={
+            <Typography>
+              Ich habe die{" "}
+              <a href="/agb" target="_blank" rel="noopener noreferrer">
+                AGB
+              </a>{" "}
+              und die{" "}
+              <a href="/datenschutz" target="_blank" rel="noopener noreferrer">
+                Datenschutzinformationen
+              </a>{" "}
+              gelesen und akzeptiere diese.
+            </Typography>
+          }
         />
+
+        {/* Error message */}
         {errors.priceAcknowledged && (
           <Typography color="error">
             {errors.priceAcknowledged.message}
           </Typography>
         )}
+
+        {/* Submit button */}
         <Button type="submit" variant="contained" disabled={!isValid}>
           Anmelden
         </Button>
