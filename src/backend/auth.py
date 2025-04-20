@@ -1,3 +1,17 @@
+"""
+auth.py
+
+This module handles authentication and session management for the FastAPI backend.
+It is specifically designed to secure the admin area of the application.
+
+Functions:
+- verify_password: Verifies a plain password against a hashed password.
+- authenticate_admin: Authenticates an admin user based on credentials.
+- create_access_token: Generates a signed JWT token with expiration time.
+- get_current_admin: Validates the access token from the request's cookie and returns the username.
+- check_admin_token: Validator to confirm admin status from a token.
+"""
+
 from fastapi import HTTPException, Request
 from datetime import datetime, timedelta
 from jose import JWTError, jwt

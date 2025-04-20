@@ -1,3 +1,15 @@
+"""
+email_functions.py
+
+Handles all email-related functionality for the FastAPI application.
+
+Functions:
+- send_email: Low-level helper to send email via SMTP with SSL.
+- send_confirmation: Sends registration confirmation to the participant.
+- send_registration_info: Notifies admin with a list of current participants.
+- send_form: Sends the contact form content to the admin.
+"""
+
 from datetime import datetime
 from dotenv import load_dotenv
 from email.message import EmailMessage
@@ -17,16 +29,18 @@ EMAIL_USERNAME = os.getenv("EMAIL_USERNAME")
 EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
 
 def send_email(message: EmailMessage):
-    """Send an email using SMTP with SSL.
+    """
+    Send an email via SSL.
 
     Args:
-        message (EmailMessage): The email content and headers.
+        message (EmailMessage): A message with content and headers.
+
+    Raises:
+        HTTPException 500: If email can't be send. 
 
     Returns:
-        dict: Success message or raises an HTTPException on error.
-    """   
-
-    # Try sending the email
+        dict: Sucess message.
+    """
     try:
         context = ssl.create_default_context()
         with SMTP_SSL(SMTP_SERVER, SMTP_PORT, context=context) as server:
@@ -34,11 +48,20 @@ def send_email(message: EmailMessage):
             server.send_message(message)
         return {"message": "success"}
     except Exception as e:
-        print(f"Failed to send email: {e}")
         raise HTTPException(status_code=500, detail=f"Email konnte nicht gesendet werden, Exception: {e}")
 
-# Function to send a confirmation email for a participant in a seminar
+
 def send_confirmation(data: ParticipantAdd, seminar: SeminarOut, unregister_url: str):
+    """
+    Send a confirmation email to a participant when he/she successfully registers for a seminar.
+    Calls 'send_email'.
+    
+    Raises:
+        HTTPException 500: If email can't be send. 
+
+    Returns:
+        dict: Sucess message.
+    """
     confirmation_msg = EmailMessage()
     confirmation_msg["From"] = EMAIL_USERNAME
     confirmation_msg["To"] = data.email
@@ -58,11 +81,20 @@ Sie können sich unter folgendem Link vom Seminar abmelden. Bitte beachten Sie, 
     {unregister_url}
         """
     )
-    send_email(confirmation_msg)
+    return send_email(confirmation_msg)
 
 
-# Function to send an info email to the business owner
 def send_registration_info(data: ParticipantAdd, seminar: SeminarOut, participants: List[ParticipantAdd]):
+    """
+    Send an info email to the admin when a new participant registers. The email also contains a list
+    of all other participant registered for the specific seminar at that point in time.
+    
+    Raises:
+        HTTPException 500: If email can't be send. 
+
+    Returns:
+        dict: Sucess message.
+    """
     info_msg = EmailMessage()
     info_msg["From"] = EMAIL_USERNAME
     info_msg["To"] = EMAIL_USERNAME
@@ -81,10 +113,20 @@ Bisher haben sich folgende Teilnehmer angemeldet:
     {'\n'.join([f"- {p.firstname} {p.lastname} ({p.email}), Anmerkungen: {p.remarks}" for p in participants])}
         """
     )
-    send_email(info_msg)
+    return send_email(info_msg)
 
-# Function to send contact form via Email
+
 def send_form(form: ContactForm):
+    """
+    Sends the contact form data as an email to the admin.
+        
+    Raises:
+        HTTPException 500: If email can't be send. 
+
+    Returns:
+        dict: Sucess message.
+    """
+    
     message = EmailMessage()
     message["From"] = EMAIL_USERNAME
     message["To"] = EMAIL_USERNAME
@@ -102,4 +144,4 @@ Nachricht:
 {form.message}
 """
     )
-    send_email(message)
+    return send_email(message)

@@ -5,7 +5,7 @@ This is the entry point for the FastAPI application.
 It sets up routes, middlewares, and application configuration.
 """
 
-from fastapi import FastAPI, Depends, HTTPException, Header, Body, Response, Request
+from fastapi import FastAPI, Depends, HTTPException, Body, Response, Request
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
@@ -13,9 +13,7 @@ from slowapi.middleware import SlowAPIMiddleware
 from sqlalchemy.orm import Session
 from typing import List
 from datetime import datetime, timedelta
-from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
-import os
 import crud
 import email_functions
 from database import SessionLocal
@@ -38,11 +36,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Load environment variables
-load_dotenv()
-
-ADMIN_API_KEY = os.getenv("API_KEY")
-
 def get_db():
     db = SessionLocal()
     try:
@@ -50,10 +43,12 @@ def get_db():
     finally:
         db.close()
 
-# Method for verifying the API Key used in request
-def verify_api_key(x_api_key: str = Header(...)):
-    if x_api_key != ADMIN_API_KEY:
-        raise HTTPException(status_code=403, detail="Unauthorized: access denied.")
+# Verfiy admin session
+def verify_admin_session(request: Request):
+    token = request.cookies.get("access_token")
+    if not token or not check_admin_token(token):
+        raise HTTPException(status_code=401)
+
 
 # ---------------------------------------------------------------------------- #
 #                            ENDPOINTS FOR SEMINARS                            #
@@ -88,7 +83,7 @@ def read_seminars(id: int, db: Session = Depends(get_db)):
     return crud.get_seminar_by_id(db, id)
 
 @app.get("/seminars/count")
-def count_seminars(db: Session = Depends(get_db)):
+def count_seminars(db: Session = Depends(get_db)) -> int:
     """
     Retrieve the number of seminars in the database.
 
@@ -100,7 +95,7 @@ def count_seminars(db: Session = Depends(get_db)):
     """
     return crud.count_seminars(db)
 
-@app.post("/seminars/", response_model=SeminarCreate, dependencies=[Depends(verify_api_key)])
+@app.post("/seminars/", response_model=SeminarCreate, dependencies=[Depends(verify_admin_session)])
 def add_seminar(seminar: SeminarCreate, db: Session = Depends(get_db)):
     """
     Add a new seminar.
@@ -114,7 +109,7 @@ def add_seminar(seminar: SeminarCreate, db: Session = Depends(get_db)):
     """
     return crud.create_seminar(db, seminar)
 
-@app.put("/seminars/{id}", response_model=SeminarCreate, dependencies=[Depends(verify_api_key)])
+@app.put("/seminars/{id}", response_model=SeminarCreate, dependencies=[Depends(verify_admin_session)])
 def update_seminar(id: int, seminar: SeminarCreate, db: Session = Depends(get_db)):
     """
     Update a seminar by its ID.
@@ -129,8 +124,8 @@ def update_seminar(id: int, seminar: SeminarCreate, db: Session = Depends(get_db
     """
     return crud.update_seminar(db, id, seminar)
 
-@app.delete("/seminars/delete/{id}", dependencies=[Depends(verify_api_key)])
-def delete_seminar(id: int, db: Session = Depends(get_db)):
+@app.delete("/seminars/delete/{id}", dependencies=[Depends(verify_admin_session)])
+def delete_seminar(id: int, db: Session = Depends(get_db)) -> dict:
     """
     Delete a seminar by its ID.
 
@@ -146,7 +141,7 @@ def delete_seminar(id: int, db: Session = Depends(get_db)):
 # ---------------------------------------------------------------------------- #
 #                            ENDPOINTS FOR LOCATIONS                           #
 # ---------------------------------------------------------------------------- #
-@app.post("/locations/", response_model=LocationCreate, dependencies=[Depends(verify_api_key)])
+@app.post("/locations/", response_model=LocationCreate, dependencies=[Depends(verify_admin_session)])
 def add_location(location: LocationCreate, db: Session = Depends(get_db)):
     """
     Create a new location.
@@ -160,7 +155,7 @@ def add_location(location: LocationCreate, db: Session = Depends(get_db)):
     """
     return crud.add_location(db, location)
 
-@app.get("/locations/", response_model=List[LocationOut], dependencies=[Depends(verify_api_key)])
+@app.get("/locations/", response_model=List[LocationOut])
 def get_locations(limit: int = 10, db: Session = Depends(get_db)):
     """
     Retrieve a list of locations with limit.
@@ -174,8 +169,8 @@ def get_locations(limit: int = 10, db: Session = Depends(get_db)):
     """
     return crud.get_locations(db, limit)
 
-@app.get("/location/{id}", response_model=LocationOut, dependencies=[Depends(verify_api_key)])
-def get_locations(id: int = 10, db: Session = Depends(get_db)):
+@app.get("/location/{id}", response_model=LocationOut)
+def get_location(id: int = 10, db: Session = Depends(get_db)):
     """
     Retrieve a single location by its ID.
 
@@ -188,8 +183,8 @@ def get_locations(id: int = 10, db: Session = Depends(get_db)):
     """
     return crud.get_location_by_id(db, id)
 
-@app.delete("/locations/delete/{id}", dependencies=[Depends(verify_api_key)])
-def get_locations(id: int, db: Session = Depends(get_db)):
+@app.delete("/locations/delete/{id}", dependencies=[Depends(verify_admin_session)])
+def delete_location(id: int, db: Session = Depends(get_db)) -> dict:
     """
     Delete a location by its ID.
 
@@ -202,8 +197,8 @@ def get_locations(id: int, db: Session = Depends(get_db)):
     """
     return crud.delete_location(db, id)
 
-@app.put("/locations/{id}", response_model=LocationOut, dependencies=[Depends(verify_api_key)])
-def get_locations(id: int, location: LocationCreate, db: Session = Depends(get_db)):
+@app.put("/locations/{id}", response_model=LocationOut, dependencies=[Depends(verify_admin_session)])
+def update_location(id: int, location: LocationCreate, db: Session = Depends(get_db)):
     """
     Update a location based on its ID.
 
@@ -220,7 +215,7 @@ def get_locations(id: int, location: LocationCreate, db: Session = Depends(get_d
 # ---------------------------------------------------------------------------- #
 #                           ENDPOINTS FOR PARTCIPANTS                          #
 # ---------------------------------------------------------------------------- #
-@app.get("/seminars/{seminar_id}/participants", response_model=List[ParticipantOut], dependencies=[Depends(verify_api_key)])
+@app.get("/seminars/{seminar_id}/participants", response_model=List[ParticipantOut], dependencies=[Depends(verify_admin_session)])
 def get_participants_of_seminar(seminar_id: int, db: Session = Depends(get_db)):
     """
     Retrieve a list of the participants of a seminar based on the seminar_id.
@@ -235,7 +230,7 @@ def get_participants_of_seminar(seminar_id: int, db: Session = Depends(get_db)):
     return crud.get_participants(db, seminar_id)
 
 @app.delete("/seminars/{seminar_id}/unregister")
-def unregister_participant(token: str, db: Session = Depends(get_db)):
+def unregister_participant(token: str, db: Session = Depends(get_db)) -> str:
     """
     Unregister a participant from a seminar.
 
@@ -315,9 +310,9 @@ async def register_for_seminar(
 # ---------------------------------------------------------------------------- #
 #                                     ADMIN                                    #
 # ---------------------------------------------------------------------------- #
-@app.post("/admin/token", dependencies=[Depends(verify_api_key)])
+@app.post("/admin/token")
 @limiter.limit("3/hour")
-async def login_admin(request: Request, response: Response, data: LoginData):
+async def login_admin(request: Request, response: Response, data: LoginData) -> dict:
     """
     Authenticate an admin and set a secure session cookie.
 
@@ -337,11 +332,11 @@ async def login_admin(request: Request, response: Response, data: LoginData):
     user = authenticate_admin(data.username, data.password)
     
     if not user:
-        raise HTTPException(status_code=401, detail="Inkorrekter Nutzername/Passwort.")
+        raise HTTPException(status_code=401)
 
     access_token = create_access_token(
         data={"sub": user["username"]},
-        expires_delta=timedelta(minutes=120)
+        expires_delta=timedelta(minutes=180)
     )
 
     response.set_cookie(
@@ -356,8 +351,8 @@ async def login_admin(request: Request, response: Response, data: LoginData):
 
     return {"message": "Login successful"}
 
-@app.post("/admin/logout", dependencies=[Depends(verify_api_key)])
-def logout(response: Response):
+@app.post("/admin/logout", dependencies=[Depends(verify_admin_session)])
+def logout(response: Response) -> dict:
     """
     Delete the session cookie of an admin.
 
@@ -370,8 +365,8 @@ def logout(response: Response):
     response.delete_cookie("access_token")
     return {"message": "success"}
 
-@app.get("/admin/check", dependencies=[Depends(verify_api_key)])
-def check_admin(request: Request):
+@app.get("/admin/check")
+def check_admin(request: Request) -> dict:
     """
     Check for a valid session cookie.
 

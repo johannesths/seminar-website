@@ -1,3 +1,16 @@
+"""
+database.py
+
+Initializes the database connection and session for the FastAPI application
+using SQLAlchemy. This module is responsible for setting up the database
+infrastructure.
+
+Exports:
+- engine: SQLAlchemy Engine instance used to interact with the database.
+- SessionLocal: Session factory used to create scoped database sessions.
+- Base: Declarative base class for all ORM models.
+"""
+
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker

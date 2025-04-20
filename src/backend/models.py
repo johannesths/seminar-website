@@ -1,3 +1,25 @@
+"""
+models.py
+
+Defines the SQLAlchemy ORM models for the application's database.
+
+Tables:
+- Seminar: Represents individual seminars including metadata, scheduling, and linked location.
+- Location: Represents physical locations where seminars take place.
+- Participant: Represents users registering for seminars, linked to a specific seminar.
+
+Relationships:
+- A Seminar is optionally linked to one Location (many-to-one).
+- A Location can host multiple Seminars (one-to-many).
+- A Seminar can have many Participants (one-to-many).
+- A Participant is linked to one Seminar (many-to-one).
+
+Notes:
+- The participant - seminar relationship is modeled as many-to-one instead of many-to-many for simplicity, 
+  since participants do not create accounts and their data is not stored long-term.
+- Cascade rules are used to automatically handle deletions.
+"""
+
 from sqlalchemy import Column, Integer, String, Text, Date, Time, ForeignKey, Float
 from sqlalchemy.orm import relationship
 from database import Base
@@ -56,8 +78,3 @@ class Participant(Base):
 
     # Many-to-one relationship to Seminar
     seminar = relationship("Seminar", back_populates="participants")
-
-
-# Remark: Although the relationship between Participant and Seminar is actually Many-to-Many, here it is Many-to-One because
-# it is easier to handle. Currently, participants in seminars are deleted after a while and their data is not stored for long. Also,
-# participants do not create an account, therefore it is easier to handle it like this.

@@ -1,3 +1,23 @@
+"""
+schemas.py
+
+Defines the Pydantic models used for data validation, serialization, and deserialization 
+between the frontend, backend and database ORM models.
+
+Models:
+- SeminarCreate / SeminarOut: Represent incoming and outgoing seminar data.
+- LocationCreate / LocationOut: Represent incoming and outgoing location data.
+- ParticipantAdd / ParticipantOut: Handle participant registration and output data.
+- ContactForm: Defines the structure of the contact form.
+- SeminarRegistrationForm: Handles registration form data for seminars.
+- LoginData: Validates admin login credentials.
+
+Notes:
+- 'SeminarOut', 'LocationOut', and 'ParticipantOut' include 'Config.orm_mode = True' 
+  to allow direct conversion from ORM SQLAlchemy objects.
+- Some values are optional.
+"""
+
 from typing import Optional
 from pydantic import BaseModel, EmailStr
 from datetime import date, time

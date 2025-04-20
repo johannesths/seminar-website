@@ -1,3 +1,16 @@
+"""
+crud.py
+
+This module contains all database interaction logic for the FastAPI backend.
+It provides Create, Read, Update, and Delete (CRUD) operations for seminars, locations, and participants.
+All functions interact with the SQLAlchemy ORM layer and are used by the API endpoints.
+
+Sections:
+- Seminar actions
+- Location actions
+- Participant actions
+"""
+
 from sqlalchemy.orm import Session, joinedload, selectinload
 from sqlalchemy.sql import func
 from fastapi import HTTPException

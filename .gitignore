@@ -27,8 +27,6 @@ dist-ssr
 
 # Keys and secrets
 .env
-axios.ts
-api/
 certificates/
 crypt.py
 
