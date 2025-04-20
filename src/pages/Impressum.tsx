@@ -1,3 +1,9 @@
+/**
+ * Impresum.tsx
+ *
+ * Displays crucial information about the website owner (imprint).
+ */
+
 import { Box, Stack, Typography } from "@mui/material";
 
 const Impressum = () => {

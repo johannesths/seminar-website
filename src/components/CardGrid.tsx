@@ -1,3 +1,10 @@
+/**
+ * CardGrid.tsx
+ *
+ * Displays a grid of cards with an icon, title and description.
+ * The icon is highlighted with a light blue background.
+ */
+
 import {
   Box,
   Card,
@@ -7,7 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
-import SeperatingLine from "./SeperatingLine";
+import Heading from "./Heading";
 
 export interface CardComponent {
   title: string;
@@ -23,18 +30,9 @@ interface Props {
 const CardGrid = ({ cards, title }: Props) => {
   return (
     <Box sx={{ padding: 0, margin: "0 auto" }}>
-      {title && (
-        <>
-          <Typography
-            variant="h3"
-            textAlign="center"
-            sx={{ marginTop: 10, padding: 0 }}
-          >
-            {title}
-          </Typography>
-          <SeperatingLine />
-        </>
-      )}
+      {/* Title  */}
+      {title && <Heading lineWidth="25%">{title}</Heading>}
+
       <Grid2
         container
         spacing={{ xs: 3, md: 6 }}
@@ -46,6 +44,7 @@ const CardGrid = ({ cards, title }: Props) => {
           marginY: 5,
         }}
       >
+        {/* Cards */}
         {cards.map((card) => {
           const Icon = card.icon;
           return (
@@ -63,14 +62,21 @@ const CardGrid = ({ cards, title }: Props) => {
             >
               <Card
                 sx={{
+                  // Hover animation
+                  transition: "transform 0.3s, box-shadow 0.3s",
+                  "&:hover": {
+                    transform: "translateY(-4px)",
+                    boxShadow: 6,
+                  },
+                  backgroundColor: "#f9fafb",
+                  color: "#333",
+                  padding: { xs: 2, sm: 3 },
+                  borderRadius: 3,
                   height: "100%",
                   width: { sm: "80%", md: "100%", lg: "80%" },
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "space-around",
-                  backgroundColor: "#f0f4ff",
-                  color: "#333",
-                  padding: { xs: 1, sm: 1, md: 2 }, // Responsive padding
                 }}
               >
                 <CardContent sx={{ textAlign: "center" }}>
@@ -82,13 +88,24 @@ const CardGrid = ({ cards, title }: Props) => {
                       marginBottom: 2,
                     }}
                   >
-                    <Icon
+                    {/* Icon, highlighted with light blue background */}
+                    <Box
                       sx={{
-                        fontSize: 30,
-                        color: (theme) => theme.palette.primary.main,
-                        marginRight: 3,
+                        backgroundColor: (theme) => theme.palette.primary.light,
+                        borderRadius: "50%",
+                        padding: 1.5,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: 45,
+                        height: 45,
+                        margin: 2,
                       }}
-                    />
+                    >
+                      <Icon sx={{ fontSize: 30, color: "#fff" }} />
+                    </Box>
+
+                    {/* Card title */}
                     <Typography
                       gutterBottom
                       variant="h5"
@@ -96,12 +113,14 @@ const CardGrid = ({ cards, title }: Props) => {
                         display: "flex",
                         alignItems: "center",
                         textAlign: "center",
-                        margin: "auto 0",
+                        mt: 1,
                       }}
                     >
                       {card.title}
                     </Typography>
                   </Box>
+
+                  {/* Card description */}
                   <Typography sx={{ fontSize: 16 }}>
                     {card.description}
                   </Typography>

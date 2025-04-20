@@ -30,7 +30,7 @@ const Footer = () => {
           flexWrap: "wrap",
         }}
       >
-        {/* Datenschutz */}
+        {/* Datenschutz (privacy protection) */}
         <Button
           variant="text"
           sx={{ my: 2, color: "black", display: "block" }}
@@ -40,7 +40,7 @@ const Footer = () => {
           Datenschutz
         </Button>
 
-        {/* AGB */}
+        {/* AGB (general terms and conditions) */}
         <Button
           variant="text"
           sx={{ my: 2, color: "black", display: "block" }}
@@ -50,7 +50,7 @@ const Footer = () => {
           AGB
         </Button>
 
-        {/* Impressum */}
+        {/* Impressum (imprint) */}
         <Button
           variant="text"
           sx={{ my: 2, color: "black", display: "block" }}

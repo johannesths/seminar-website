@@ -1,7 +1,13 @@
-import { Stack, Typography } from "@mui/material";
+/**
+ * NextSeminar.tsx
+ *
+ * Used for displaying only the next upcoming seminars.
+ */
+
+import { Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import { ReactNode } from "react";
-import SeperatingLine from "./SeperatingLine";
+import Heading from "./Heading";
 
 interface Props {
   children: ReactNode;
@@ -9,18 +15,12 @@ interface Props {
 
 const NextSeminar = ({ children }: Props) => {
   return (
-    <Box padding={{ xs: 4, sm: 6, md: 7 }}>
-      <Typography
-        variant="h3"
-        textAlign="center"
-        sx={{ marginY: { xs: 2, sm: 3 } }}
-      >
-        Anstehende Seminare
-      </Typography>
-      <SeperatingLine />
+    <Box>
+      <Heading lineWidth="40%">Anstehende Seminare</Heading>
+
       <Stack
-        spacing={{ xs: 3, sm: 15 }}
-        direction={{ xs: "column", md: "column", lg: "row" }}
+        spacing={{ xs: 4, sm: 15 }}
+        direction={{ md: "column", lg: "row" }}
         sx={{
           display: "flex",
           flexWrap: "wrap",

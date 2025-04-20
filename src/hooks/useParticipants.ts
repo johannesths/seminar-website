@@ -1,3 +1,9 @@
+/**
+ * useParticipants.ts
+ *
+ * Data hook to retrieve a list of participants for a seminar.
+ */
+
 import { useEffect, useState } from "react";
 import api from "../api/axios";
 
@@ -11,6 +17,7 @@ export interface Participant {
 }
 
 export const useParticipants = (id: number) => {
+  // States
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

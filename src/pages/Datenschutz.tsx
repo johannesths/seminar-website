@@ -1,3 +1,9 @@
+/**
+ * Datenschutz.tsx
+ *
+ * Legal information about the processing and storing of user information.
+ */
+
 import { Box, Stack, Toolbar, Typography } from "@mui/material";
 
 const Datenschutz = () => {

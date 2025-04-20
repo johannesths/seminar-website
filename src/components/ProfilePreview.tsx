@@ -1,10 +1,16 @@
+/**
+ * ProfilePreview.tsx
+ *
+ * Displays a short introduction with a profile picture.
+ */
+
 import { Button, Grid, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import profilePicture from "../assets/Ursula-Trahasch-2024.jpg";
 
 const ProfilePreview = () => {
   return (
-    <Box sx={{ padding: 4 }}>
+    <Box sx={{ paddingX: 4, marginTop: 3 }}>
       <Grid
         container
         spacing={4}
@@ -12,7 +18,7 @@ const ProfilePreview = () => {
         justifyContent="center"
         sx={{ padding: 2 }}
       >
-        {/* Text Section */}
+        {/* Text section */}
         <Grid key="profile-description" item xs={12} md={6} sx={{ padding: 2 }}>
           <Typography
             sx={{ fontSize: 18, marginBottom: 2, textAlign: "justify" }}
@@ -30,7 +36,7 @@ const ProfilePreview = () => {
           </Box>
         </Grid>
 
-        {/* Image Section */}
+        {/* Profile image */}
         <Grid key="profile-picture" item xs={12} md={4} sx={{ padding: 2 }}>
           <Box
             sx={{

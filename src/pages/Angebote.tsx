@@ -1,3 +1,10 @@
+/**
+ * Angebote.tsx
+ *
+ * Displays an overview of seminar offerings, divided into
+ * four subsections.
+ */
+
 import {
   Box,
   Button,
@@ -13,6 +20,7 @@ import { angebote } from "../data/Angebote";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { motion } from "framer-motion";
 import { Link as RouterLink } from "react-router-dom";
+import Heading from "../components/Heading";
 
 const Angebote = () => {
   const FONTSIZE = 18;
@@ -23,18 +31,16 @@ const Angebote = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        marginTop: 3,
+        marginTop: 4,
         textAlign: "center",
         paddingX: { xs: 2, sm: 5, md: 10 },
       }}
-      gap={4}
+      gap={2}
     >
-      {/* Title and Introduction */}
-      <Typography variant="h3" sx={{ marginTop: 3 }}>
-        Angebote und Schwerpunkte
-      </Typography>
-      <SeperatingLine />
+      {/* Title */}
+      <Heading>Angebote und Schwerpunkte</Heading>
       <Box sx={{ maxWidth: "1400px" }}>
+        {/* Introduction */}
         <Typography
           variant="body1"
           sx={{
@@ -55,24 +61,22 @@ const Angebote = () => {
           </Link>
           .
         </Typography>
-        <Typography
-          variant="body1"
-          sx={{ fontSize: FONTSIZE, lineHeight: 1.8 }}
-        >
+        <Typography variant="body1" sx={{ fontSize: FONTSIZE }}>
           Die Schwerpunkte meiner Arbeit sind Transaktionsanalyse, Beratung,
           Coaching und Supervision.
         </Typography>
       </Box>
+
       {/* Grid for Angebote */}
       <Grid
         container
         spacing={6}
-        sx={{ marginTop: 1, width: "100%", fontSize: FONTSIZE }}
+        sx={{ marginTop: 1, width: "95%", fontSize: FONTSIZE }}
       >
         {angebote.map((angebot, index) => {
           const Icon = angebot.icon;
           return (
-            <Grid item xs={12} md={6} key={index} sx={{ mb: 5 }}>
+            <Grid item xs={12} md={6} key={index} sx={{ display: "flex" }}>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -85,6 +89,10 @@ const Angebote = () => {
                     padding: 3,
                     boxShadow: 2,
                     height: "100%",
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
                     transition: "transform 0.2s ease-in-out",
                     "&:hover": {
                       transform: "translateY(-4px)",
@@ -99,32 +107,44 @@ const Angebote = () => {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      marginBottom: 1,
                       textAlign: "center",
                     }}
                   >
-                    <Icon
+                    {/* Icon, highlighted with light blue background */}
+                    <Box
                       sx={{
-                        fontSize: 36,
-                        marginRight: 1.5,
-                        color: (theme) => theme.palette.primary.main,
+                        backgroundColor: (theme) => theme.palette.primary.light,
+                        borderRadius: "50%",
+                        padding: 1.5,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: 45,
+                        height: 45,
+                        margin: 2,
                       }}
-                    />
+                    >
+                      <Icon sx={{ fontSize: 30, color: "#fff" }} />
+                    </Box>
                     <Typography variant="h5">{angebot.title}</Typography>
                   </Box>
                   <SeperatingLine />
 
+                  {/* Description */}
                   <Typography
                     variant="body1"
                     sx={{
                       marginBottom: 1,
+                      textAlign: "center",
                       fontSize: FONTSIZE,
                       lineHeight: 1.6,
                     }}
                   >
                     {angebot.description}
+                    <br />
                   </Typography>
 
+                  {/* Target groups list */}
                   <Typography
                     variant="subtitle1"
                     sx={{ fontWeight: "bold", fontSize: FONTSIZE, mt: 2 }}
@@ -135,7 +155,11 @@ const Angebote = () => {
                     {angebot.targetGroups.map((group, idx) => (
                       <ListItem
                         key={idx}
-                        sx={{ display: "flex", alignItems: "center", pl: 0 }}
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          paddingX: 5,
+                        }}
                       >
                         <CheckCircleIcon
                           color="primary"
@@ -148,6 +172,7 @@ const Angebote = () => {
                     ))}
                   </List>
 
+                  {/* Example topics list */}
                   <Typography
                     variant="body1"
                     sx={{
@@ -162,7 +187,11 @@ const Angebote = () => {
                     {angebot.exampleTopics.map((topic, id) => (
                       <ListItem
                         key={id}
-                        sx={{ display: "flex", alignItems: "center", pl: 0 }}
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          paddingX: 5,
+                        }}
                       >
                         <CheckCircleIcon
                           color="primary"
@@ -180,39 +209,42 @@ const Angebote = () => {
           );
         })}
       </Grid>
+
+      {/* Buttons */}
       <Stack
-        direction={{ xs: "column", sm: "row" }}
+        direction="column"
         spacing={4}
         sx={{
           justifyContent: "center",
           alignItems: "center",
           width: "100%",
-          mb: 5,
+          marginY: 5,
         }}
       >
+        {/* To Veranstaltungen page */}
         <Button
           variant="contained"
           sx={{
-            width: { xs: "80%", sm: "25%" },
-            padding: "0.8rem",
-            fontSize: { xs: "0.9rem", sm: "1rem" },
+            padding: "1rem",
+            fontSize: 15,
           }}
           component={RouterLink}
           to="/veranstaltungen"
         >
           Zu den Veranstaltungen
         </Button>
+
+        {/* To Kontakt page */}
         <Button
-          variant="contained"
+          variant="outlined"
           sx={{
-            width: { xs: "80%", sm: "20%" },
-            padding: "0.8rem",
-            fontSize: { xs: "0.9rem", sm: "1rem" },
+            padding: "1rem",
+            fontSize: 15,
           }}
           component={RouterLink}
           to="/kontakt"
         >
-          Kontakt
+          Gespräch vereinbaren
         </Button>
       </Stack>
     </Box>

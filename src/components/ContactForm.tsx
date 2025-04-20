@@ -1,3 +1,10 @@
+/**
+ * ContactForm.tsx
+ *
+ * Simple contact form with name, email, subject (optional) and message field.
+ * Is validated using zod, inputs need to fulfill certain conditions.
+ */
+
 import {
   Box,
   Button,
@@ -6,17 +13,17 @@ import {
   Link,
   Stack,
   TextField,
-  Toolbar,
   Typography,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import SeperatingLine from "./SeperatingLine";
 import { useState } from "react";
 import api from "../api/axios";
+import Heading from "./Heading";
 
+// Schema with conditions and error messages
 const schema = z.object({
   name: z.string().min(3, "Name muss mindestens 3 Zeichen enthalten."),
   email: z.string().email("Ungültige E-Mail-Adresse").max(50),
@@ -26,7 +33,7 @@ const schema = z.object({
     .min(10, "Nachricht muss mindestens 10 Zeichen enthalten.")
     .max(400),
   acceptedTerms: z.boolean().refine((val) => val, {
-    message: "Sie müssen die AGB akzeptieren.",
+    message: "Sie müssen die Datenschutzrichtlinien akzeptieren.",
   }),
 });
 
@@ -65,12 +72,10 @@ const Form = () => {
   };
 
   return (
-    <Box>
-      <Toolbar />
-      <Typography variant="h3" sx={{ textAlign: "center" }}>
-        Kontaktformular
-      </Typography>
-      <SeperatingLine />
+    <Box my={4}>
+      <Heading>Kontaktformular</Heading>
+
+      {/* Status message */}
       <Typography
         variant="h4"
         color="info"
@@ -83,6 +88,8 @@ const Form = () => {
       >
         {statusMessage}
       </Typography>
+
+      {/* Form */}
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack
           spacing={4}
@@ -91,6 +98,7 @@ const Form = () => {
             paddingY: 5,
           }}
         >
+          {/* Name */}
           <TextField
             label="Name"
             variant="outlined"
@@ -106,6 +114,8 @@ const Form = () => {
             required
             {...register("name")}
           />
+
+          {/* Email */}
           <TextField
             label="E-Mail"
             type="email"
@@ -122,12 +132,16 @@ const Form = () => {
             required
             {...register("email")}
           />
+
+          {/* Subject */}
           <TextField
             label="Betreff"
             {...register("subject")}
             variant="outlined"
             fullWidth
           />
+
+          {/* Message */}
           <TextField
             label="Nachricht"
             variant="outlined"
@@ -145,10 +159,12 @@ const Form = () => {
             required
             {...register("message")}
           />
+
+          {/* Checkbox for data policy */}
           <FormControlLabel
             control={<Checkbox name="acceptedTerms" />}
             label={
-              <Typography>
+              <Typography fontSize={17}>
                 Ich habe die{" "}
                 <Link
                   href="/datenschutz"
@@ -156,12 +172,13 @@ const Form = () => {
                   rel="noopener noreferrer"
                 >
                   Datenschutzrichtlinien
-                </Link>
-                 {" "}gelesen und akzeptiere diese.*
+                </Link>{" "}
+                gelesen und akzeptiere diese.*
               </Typography>
             }
             {...register("acceptedTerms")}
           />
+
           {/* Submit button is only active when form is correctly filled out */}
           <Button
             type="submit"

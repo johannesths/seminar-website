@@ -74,13 +74,12 @@ const NavBar = () => {
       position="fixed"
       sx={{
         paddingX: { xs: 1, md: 4 },
-        margin: 0,
         width: "100%",
         backgroundColor: "#02a4c4",
       }}
     >
-      <Toolbar>
-        {/* Logo and Title */}
+      <Toolbar sx={{ minHeight: 90 }}>
+        {/* Logo and title */}
         <Button component={Link} to="/" sx={{ margin: 0, padding: 0 }}>
           <img
             src={logoImage}
@@ -103,7 +102,7 @@ const NavBar = () => {
           </Typography>
         </Stack>
 
-        {/* Desktop Navigation */}
+        {/* Desktop navigation */}
         <Stack
           direction="row"
           spacing={{ xs: 2, md: 5 }}
@@ -131,7 +130,7 @@ const NavBar = () => {
           ))}
         </Stack>
 
-        {/* Mobile Hamburger Menu */}
+        {/* Mobile hamburger menu */}
         <IconButton
           color="inherit"
           aria-label="open drawer"
@@ -143,7 +142,7 @@ const NavBar = () => {
         </IconButton>
       </Toolbar>
 
-      {/* Drawer for Mobile */}
+      {/* Drawer for mobile */}
       <Drawer
         anchor="right"
         open={mobileOpen}
@@ -151,7 +150,7 @@ const NavBar = () => {
         ModalProps={{ keepMounted: true }}
         sx={{
           textAlign: "center",
-          width: "100%", // Prevent overflow
+          width: "100%",
         }}
       >
         {drawer}

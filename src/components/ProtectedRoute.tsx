@@ -1,3 +1,9 @@
+/**
+ * ProtectedRoute.tsx
+ *
+ * A route that only admins are able to access.
+ */
+
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 

@@ -1,3 +1,9 @@
+/**
+ * CV.tsx
+ *
+ * Displays a time line with events and year dates.
+ */
+
 import { Box, Stack, Typography } from "@mui/material";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
@@ -8,9 +14,10 @@ import TimelineDot from "@mui/lab/TimelineDot";
 import TimelineOppositeContent, {
   timelineOppositeContentClasses,
 } from "@mui/lab/TimelineOppositeContent";
-import SeperatingLine from "./SeperatingLine";
+import Heading from "./Heading";
 
 const CV = () => {
+  // CV Events
   const events = [
     { date: "1985", description: "Allgemeine Hochschulreife" },
     {
@@ -28,7 +35,7 @@ const CV = () => {
         "Rechtliche Betreuerin, Beraterin beim Sozialdienst kath. Frauen e.V.",
     },
     {
-      date: "2024",
+      date: "2023",
       description:
         "Selbstständig in den Bereichen Coaching, Supervision und Weiterbildung. Lehrende Transaktionsanalytikerin.",
     },
@@ -38,20 +45,12 @@ const CV = () => {
     <Box
       sx={{
         marginX: { xs: "5vw", md: "15vh" },
-        marginY: { xs: "3vh", md: "6vh" },
         paddingX: { xs: 2, md: 10 },
       }}
     >
-      <Typography
-        variant="h3"
-        sx={{
-          textAlign: "center",
-          fontSize: { xs: "1.8rem", sm: "2rem", md: "2.5rem" },
-        }}
-      >
-        Mein Werdegang
-      </Typography>
-      <SeperatingLine />
+      {/* Title */}
+      <Heading lineWidth="35%">Mein Werdegang</Heading>
+
       <Stack
         direction="row"
         sx={{
@@ -73,6 +72,7 @@ const CV = () => {
           {events.map((event, index) => (
             <TimelineItem key={index}>
               <TimelineOppositeContent color="textSecondary">
+                {/* Year */}
                 <Typography
                   variant="body2"
                   sx={{ fontSize: { xs: "0.9rem", md: "1rem" } }}
@@ -82,8 +82,11 @@ const CV = () => {
               </TimelineOppositeContent>
               <TimelineSeparator>
                 <TimelineDot color="primary" />
+                {/* Remove TimeLineConnector for last event */}
                 {index !== events.length - 1 && <TimelineConnector />}
               </TimelineSeparator>
+
+              {/* Description / Event */}
               <TimelineContent>
                 <Typography
                   variant="body1"

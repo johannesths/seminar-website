@@ -1,3 +1,11 @@
+/**
+ * Index.tsx
+ *
+ * Serves as the index page of the website.
+ * Displays a big image with keywords to catch the attention of the viewer,
+ * an introduction, memberships, offers overview and upcoming seminars.
+ */
+
 import {
   Box,
   Button,
@@ -20,6 +28,7 @@ import SeminarCard from "../components/SeminarCard";
 import LogosDisplay from "../components/LogosDisplay";
 
 function Index() {
+  // Key words for list
   const leitbegriffe = [
     "Reflexion",
     "Perspektivwechsel",
@@ -29,6 +38,7 @@ function Index() {
     "Konfliktbewältigung",
   ];
 
+  // Fetch the next 4 seminars
   const { seminars } = useSeminars(4, 0);
 
   return (
@@ -55,6 +65,8 @@ function Index() {
             >
               Neue Perspektiven entdecken, Potenziale entfalten.
             </Typography>
+
+            {/* Key words list */}
             <List sx={{ margin: 0, padding: 0 }}>
               {leitbegriffe.map((begriff) => (
                 <ListItem key={begriff} disableGutters>
@@ -63,13 +75,14 @@ function Index() {
                   </ListItemIcon>
                   <ListItemText>
                     <Typography sx={{ fontSize: 25, fontWeight: "50px" }}>
-                      {" "}
                       {begriff}
                     </Typography>
                   </ListItemText>
                 </ListItem>
               ))}
             </List>
+
+            {/* Redirect buttons */}
             <Stack direction="row" spacing={{ xs: 2, md: 5 }} sx={{ mt: 3 }}>
               <Button
                 variant="contained"
@@ -91,38 +104,36 @@ function Index() {
           </Stack>
         </ImageBox>
 
-        <Box sx={{ px: { xs: 2, md: 10 } }}>
-          <ProfilePreview />
-        </Box>
+        {/* Main content */}
+        <Stack spacing={8} sx={{ display: "flex", justifyContent: "center" }}>
+          <Box sx={{ px: { xs: 2, md: 10 } }}>
+            <ProfilePreview />
+          </Box>
 
-        <LogosDisplay />
+          <LogosDisplay />
 
-        <Box sx={{ px: { xs: 2, md: 10 } }}>
-          <CardGrid cards={angebote} title="Angebote" />
-        </Box>
-        <Button
-          variant="contained"
-          href="/angebote"
-          sx={{
-            margin: "0 auto",
-            display: "flex",
-            alignContent: "center",
-            alignItems: "cemter",
-            maxWidth: "300px",
-          }}
-        >
-          Zu den Angeboten
-        </Button>
-
-        <Box sx={{ px: { xs: 2, md: 10 } }}>
-          <NextSeminar>
-            <Box
-              display="flex"
-              flexWrap="wrap"
-              justifyContent="center"
-              gap={4}
-              p={2}
+          <Box
+            sx={{
+              px: { xs: 2, md: 10 },
+            }}
+          >
+            <CardGrid cards={angebote} title="Angebote" />
+            <Button
+              variant="contained"
+              href="/angebote"
+              sx={{
+                display: "flex",
+                margin: "0 auto",
+                maxWidth: "300px",
+              }}
             >
+              Zu den Angeboten
+            </Button>
+          </Box>
+
+          {/* Upcoming seminars */}
+          <NextSeminar>
+            <Box display="flex" flexWrap="wrap" justifyContent="center" gap={4}>
               {seminars.map((seminar) => (
                 <SeminarCard
                   seminar_id={seminar.seminar_id}
@@ -141,7 +152,7 @@ function Index() {
               ))}
             </Box>
           </NextSeminar>
-        </Box>
+        </Stack>
       </Box>
     </Box>
   );

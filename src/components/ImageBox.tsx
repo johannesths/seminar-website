@@ -1,3 +1,11 @@
+/**
+ * ImageBox.tsx
+ *
+ * Displays an image as full width background with a potential overlay and blur.
+ * Also applies a smooth transition from the navbar to the image as the ImageBox component
+ * is only used on top of the page.
+ */
+
 import { Box } from "@mui/material";
 import { ReactNode } from "react";
 
@@ -19,18 +27,20 @@ const ImageBox = ({ image, children, blur, semiTransparentOverlay }: Props) => {
         margin: 0,
       }}
     >
-      {/* Background Image */}
+      {/* Background image */}
       <Box
         sx={{
           position: "absolute",
           margin: 0,
           width: "100%",
           height: "100%",
+          // Smooth transition fron navbar
           backgroundImage: `linear-gradient(180deg,rgb(143, 225, 226) 0%, rgba(255, 255, 255, 0.35) 15%, rgba(255, 255, 255, 0) 100%),
           url(${image})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
+          // Blur
           filter: blur ? "blur(7px)" : "none",
           zIndex: 1,
         }}
@@ -66,8 +76,8 @@ const ImageBox = ({ image, children, blur, semiTransparentOverlay }: Props) => {
               ? "rgba(0, 0, 0, 0.4)"
               : "rgba(0, 0, 0, 0)",
             borderRadius: 4,
-            padding: { xs: 2, md: 4 }, // Responsive padding
-            width: { xs: "90%", sm: "85%", md: "80%" }, // Adjust widths
+            padding: { xs: 2, md: 4 },
+            width: { xs: "90%", sm: "85%", md: "80%" },
             maxWidth: "620px",
             boxShadow: semiTransparentOverlay
               ? "0 4px 30px rgba(0, 0, 0, 0.2)"

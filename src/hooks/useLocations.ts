@@ -1,3 +1,10 @@
+/**
+ * useLocations.ts
+ *
+ * Data hook for fetching locations with a limit (maximum number
+ * of locations to return).
+ */
+
 import { useEffect, useState } from "react";
 import api from "../api/axios";
 
@@ -13,6 +20,7 @@ export interface Location {
 }
 
 export const useLocations = (limit: number) => {
+  // States
   const [locations, setLocations] = useState<Location[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

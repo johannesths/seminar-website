@@ -44,7 +44,7 @@ const AppContent = () => {
       {isAdminRoute ? <AdminNavBar /> : <NavBar />}
 
       {/* Placeholder for NavBar height */}
-      <Toolbar sx={{ height: (theme) => theme.mixins.toolbar.minHeight }} />
+      <Box sx={{ minHeight: 80 }} />
 
       {/* Main content */}
       <Box

@@ -1,3 +1,9 @@
+/**
+ * useAuth.ts
+ *
+ * Hook for validating if an user is logged in as an admin.
+ */
+
 import { useState, useEffect } from "react";
 import api from "../api/axios";
 
@@ -12,8 +18,6 @@ export const useAuth = () => {
       setIsAuthenticated(false);
     }
   };
-
-  // logout function here
 
   useEffect(() => {
     checkAuth(); // check on load

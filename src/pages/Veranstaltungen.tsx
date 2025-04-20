@@ -10,7 +10,7 @@ import Pagination from "@mui/material/Pagination";
 import { Typography, Box, CircularProgress } from "@mui/material";
 import { useState } from "react";
 import { useEffect } from "react";
-import SeperatingLine from "../components/SeperatingLine";
+import Heading from "../components/Heading";
 
 // Seminars per page
 const LIMIT = 8;
@@ -53,18 +53,8 @@ const Veranstaltungen = () => {
     );
   } else {
     return (
-      <Box display="flex" flexDirection="column" alignItems="center" my={5}>
-        <Typography
-          variant="h3"
-          sx={{
-            textAlign: "center",
-            mt: 2,
-            fontSize: { xs: "1.8rem", sm: "2rem", md: "2.5rem" },
-          }}
-        >
-          Aktuelle Seminare und Veranstaltungen
-        </Typography>
-        <SeperatingLine />
+      <Box display="flex" flexDirection="column" alignItems="center" my={4}>
+        <Heading>Aktuelle Seminare und Veranstaltungen</Heading>
         <Box
           display="flex"
           flexWrap="wrap"

@@ -1,12 +1,20 @@
+/**
+ * Kontakt.tsx
+ *
+ * Page that displays ContactForm.tsx and additional contact information.
+ */
+
 import { Typography, Link, Stack, Box } from "@mui/material";
 import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
-import Form from "../components/Form";
+import ContactForm from "../components/ContactForm";
 
 const Kontakt = () => {
   return (
     <>
-      <Form />
+      {/* Contact Form */}
+      <ContactForm />
+
       <Box sx={{ fontSize: 20, mb: 5 }}>
         <Typography
           sx={{
@@ -21,6 +29,7 @@ const Kontakt = () => {
         </Typography>
 
         <Stack direction="column" spacing={2} alignItems="center" m={2}>
+          {/* Mobile */}
           <Link
             href="tel:+4915234204344"
             underline="hover"
@@ -34,6 +43,8 @@ const Kontakt = () => {
           >
             <PhoneIcon /> 0152 3420 4344
           </Link>
+
+          {/* Email */}
           <Link
             href="mailto:kontakt@ursula-trahasch.de"
             underline="hover"

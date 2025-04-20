@@ -55,7 +55,7 @@ const AdminNavBar = () => {
           backgroundColor: "#02a4c4",
         }}
       >
-        <Toolbar>
+        <Toolbar sx={{ minHeight: 90 }}>
           {/* Logo and Title */}
           <Button component={Link} to="/" sx={{ margin: 0, padding: 0 }}>
             <img

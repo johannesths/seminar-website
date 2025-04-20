@@ -1,57 +1,15 @@
+/**
+ * Weiterbildungen.tsx
+ *
+ * Displays a table without edges taht shows further training
+ * the person participated in with title, description and year.
+ */
+
 import { Box, Stack, Typography } from "@mui/material";
-import SeperatingLine from "./SeperatingLine";
+import Heading from "./Heading";
+import { weiterbildungen } from "../data/Weiterbildungen";
 
 const Weiterbildungen = () => {
-  const weiterbildungen = [
-    {
-      begin: 1996,
-      end: 1998,
-      title: "Konfliktberatung",
-      description:
-        "Beratung in Konfliktsituationen während der Schwangerschaft Deutscher Caritasverband Freiburg",
-    },
-    {
-      begin: 1997,
-      end: 2000,
-      title: "Gestaltberaterin & Gestaltgruppenleiterin",
-      description: "Gestalttherapeutische Weiterbildung am Institut Kontakte",
-    },
-    {
-      begin: 1999,
-      end: 2001,
-      title: "Sozial- und heilpädagogische Kunsttherapie",
-      description:
-        "Weiterbildung sozial- und heilpädagogische Kunsttherapie an der Katholischen Hochschule Freiburg",
-    },
-    {
-      begin: 2002,
-      end: 2002,
-      title: "Kess-Erziehen-Kursleiterin",
-      description:
-        "Weiterbildung zur Kess-erziehen-Kursleiterin Erzdiözese Freiburg, Familienreferat",
-    },
-    {
-      begin: 2003,
-      end: 2018,
-      title: "Ausbildung zur Transaktionsanalytikerin",
-      description:
-        "Abschluss: zertifizierte Transaktionsanalytikerin im Anwendungsfeld Beratung (CTA-C)",
-    },
-    {
-      begin: 2019,
-      end: -1,
-      title: "Ausbildung zur lehrenden Transaktionsanalytikerin",
-      description:
-        "bei Petra Noelle, Emmendingen, und Dr. Kohlhaas-Reith, Waldkirch",
-    },
-    {
-      begin: 2021,
-      end: 2021,
-      title: "Supervisorin (EASC)",
-      description:
-        "Supervisorin bei der European Association for Supervision and Coaching",
-    },
-  ];
   return (
     <Box
       sx={{
@@ -62,25 +20,18 @@ const Weiterbildungen = () => {
         alignContent: "center",
       }}
     >
-      <Typography
-        variant="h3"
-        sx={{
-          textAlign: "center",
-          marginBottom: 2,
-        }}
-      >
-        Weiterbildungen
-      </Typography>
-      <SeperatingLine />
-      {/* content */}
+      {/* Heading */}
+      <Heading lineWidth="35%">Weiterbildungen</Heading>
+
+      {/* Content */}
       <Stack
         spacing={2}
         direction="column"
-        sx={{ display: "flex", alignItems: "flex-start" }}
+        sx={{ display: "flex", alignItems: "flex-start", marginTop: 2 }}
       >
         {weiterbildungen.map((weiterbildung, index) => (
           <Stack key={index} direction="row" gap={5}>
-            {/* timeline and title */}
+            {/* Timeline and title */}
             <Box
               sx={{
                 display: "flex",
@@ -93,7 +44,7 @@ const Weiterbildungen = () => {
                 {weiterbildung.end === -1 ? "heute" : weiterbildung.end}
               </Typography>
             </Box>
-            {/* description */}
+            {/* Description */}
             <Box>
               <Typography variant="h6" sx={{ fontWeight: "bold" }}>
                 {weiterbildung.title}

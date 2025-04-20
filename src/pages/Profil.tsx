@@ -1,3 +1,10 @@
+/**
+ * Profil.tsx
+ *
+ * Displays information about the business owner including
+ * CV, further training.
+ */
+
 import { Box, Stack, Typography, Divider, Button } from "@mui/material";
 import ImageBox from "../components/ImageBox";
 import fahrradImage from "../assets/ursula-fahrrad-adria.jpg";
@@ -6,9 +13,9 @@ import Weiterbildungen from "../components/Weiterbildungen";
 import profilePicture from "../assets/Ursula-Trahasch-2024.jpg";
 import CardGrid from "../components/CardGrid";
 import { problems } from "../data/Probleme";
-import SeperatingLine from "../components/SeperatingLine";
 import { Link } from "react-router-dom";
 import LogosDisplay from "../components/LogosDisplay";
+import Heading from "../components/Heading";
 
 const Profil = () => {
   return (
@@ -20,7 +27,7 @@ const Profil = () => {
         alignItems: "center",
         alignContent: "center",
         justifyContent: "space-around",
-        overflowX: "hidden", // Prevent horizontal overflow
+        overflowX: "hidden",
         padding: 0,
       }}
     >
@@ -62,7 +69,7 @@ const Profil = () => {
           </Typography>
         </Box>
 
-        {/* Profile Picture */}
+        {/* Profile picture */}
         <Box
           component="img"
           src={profilePicture}
@@ -76,82 +83,78 @@ const Profil = () => {
         />
       </ImageBox>
 
-      {/* CV */}
-      <CV />
+      <Stack spacing={10} sx={{ marginY: { xs: 4, sm: 5, md: 8 } }}>
+        {/* CV */}
+        <CV />
 
-      {/* Weiterbildungen */}
-      <Weiterbildungen />
+        {/* Weiterbildungen */}
+        <Weiterbildungen />
 
-      <LogosDisplay />
+        <LogosDisplay />
 
-      {/* Problems Grid */}
-      <CardGrid cards={problems} title="Wo ich helfen kann" />
+        {/* Problems grid */}
+        <CardGrid cards={problems} title="Wo ich helfen kann" />
 
-      {/* Info */}
-      <Stack
-        spacing={3}
-        marginY={10}
-        sx={{
-          display: "flex",
-          textAlign: "center",
-          alignItems: "center",
-          paddingX: { xs: 2, sm: 4, md: 10 },
-        }}
-      >
-        <Typography
-          variant="h3"
-          sx={{
-            fontSize: { xs: "1.5rem", sm: "2rem" },
-            fontWeight: "bold",
-          }}
-        >
-          Wie ich helfen kann
-        </Typography>
-        <SeperatingLine />
-        <Typography
-          variant="body1"
-          sx={{
-            fontWeight: "bold",
-            fontSize: { xs: "0.9rem", sm: "1.1rem" },
-            maxWidth: "800px",
-          }}
-        >
-          Gerne entwickle ich ein Seminar entsprechend Ihren Anliegen und
-          thematischen Vorstellungen.
-        </Typography>
+        {/* Info */}
         <Stack
-          direction={{ xs: "column", sm: "row" }}
-          spacing={2}
+          spacing={3}
           sx={{
-            justifyContent: "center",
+            display: "flex",
+            textAlign: "center",
             alignItems: "center",
-            width: "100%",
+            paddingX: { xs: 2, sm: 4, md: 10 },
           }}
         >
-          <Button
-            variant="outlined"
+          <Heading lineWidth="35%">Wie ich helfen kann</Heading>
+          <Typography
+            variant="body1"
             sx={{
-              width: { xs: "80%", sm: "25%" },
-              padding: "0.8rem",
-              fontSize: { xs: "0.9rem", sm: "1rem" },
+              fontSize: 20,
+              maxWidth: "800px",
             }}
-            component={Link}
-            to="/angebote"
           >
-            Mehr Informationen zu meinen Angeboten
-          </Button>
-          <Button
-            variant="contained"
+            Gerne entwickle ich ein Seminar entsprechend Ihren Anliegen und
+            thematischen Vorstellungen.
+          </Typography>
+
+          {/* Buttons */}
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            spacing={2}
             sx={{
-              width: { xs: "80%", sm: "20%" },
-              padding: "0.8rem",
-              fontSize: { xs: "0.9rem", sm: "1rem" },
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
             }}
-            component={Link}
-            to="/kontakt"
           >
-            Kontakt
-          </Button>
+            {/* To Angebote page */}
+            <Button
+              variant="outlined"
+              color="info"
+              sx={{
+                padding: "1rem",
+                fontSize: { xs: "0.9rem", sm: "1rem" },
+              }}
+              component={Link}
+              to="/angebote"
+            >
+              Zu meinen Angeboten
+            </Button>
+
+            {/* To Kontakt page */}
+            <Button
+              variant="outlined"
+              color="info"
+              sx={{
+                padding: "1rem",
+                fontSize: { xs: "0.9rem", sm: "1rem" },
+              }}
+              component={Link}
+              to="/kontakt"
+            >
+              Kontakt
+            </Button>
+          </Stack>
         </Stack>
       </Stack>
     </Box>
