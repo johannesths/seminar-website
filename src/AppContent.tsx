@@ -2,7 +2,7 @@
  * AppContent.tsx
  *
  * Displays the NavBar and Footer. Declares the routes.
- * In the admin area, a adjusted NavBar is shown and no footer is shown.
+ * In the admin area, an adjusted NavBar and no footer is shown.
  *
  */
 
@@ -65,6 +65,8 @@ const AppContent = () => {
           <Route path="/agb" element={<AGB />} />
           <Route path="/datenschutz" element={<Datenschutz />} />
           <Route path="/admin/login" element={<AdminLogin />} />
+
+          {/* Admin routes */}
           <Route
             path="/admin/dashboard"
             element={

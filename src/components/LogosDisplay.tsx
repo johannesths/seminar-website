@@ -1,14 +1,14 @@
 /**
  * LogoDisplay.tsx
  *
- * Displays three logos of the associations the person is
+ * Displays three logos of the associations the admin is
  * a member of in a row.
  */
 
 import { Box, Grid, Typography } from "@mui/material";
-import DGTALogo from "../assets/DGTA-logo.jpg";
-import EASCLogo from "../assets/EASC-logo.png";
-import EATALogo from "../assets/EATA-logo.png";
+import DGTALogo from "../assets/association-logos/DGTA-logo.jpg";
+import EASCLogo from "../assets/association-logos/EASC-logo.png";
+import EATALogo from "../assets/association-logos/EATA-logo.png";
 
 const LogosDisplay = () => {
   return (

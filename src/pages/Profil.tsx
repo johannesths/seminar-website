@@ -3,6 +3,14 @@
  *
  * Displays information about the business owner including
  * CV, further training.
+ *
+ * Sections:
+ * - Full width blurred image with an overlay.
+ * - CV displayed as a timeline.
+ * - Further trainings displayed as a list.
+ * - Memberships in associations.
+ * - Grid with potential problems that the admin can help with.
+ * - Buttons to navigate to relevant other pages.
  */
 
 import { Box, Stack, Typography, Divider, Button } from "@mui/material";

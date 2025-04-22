@@ -1,8 +1,12 @@
 /**
  * SeminarCard.tsx
  *
- *  Displays all the information of a seminar as MUI Card Component.
- *  Also allows users to register for the seminar if possible.
+ * Renders a single seminar as a stylized card using MUI components.
+ *
+ * - Shows title, description, date, time, location and price.
+ * - Supports expandable description text.
+ * - Displays images based on the seminar's 'image_name' on the top of the card.
+ * - Allows users to register via an in-page dialog or external link.
  */
 
 import Card from "@mui/material/Card";
@@ -11,13 +15,18 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import branchImage from "../assets/branches.jpg";
-import teamImage from "../assets/angebote/team.jpg";
-import whiteboardImage from "../assets/angebote/whiteboard.jpg";
-import kidsImage from "../assets/angebote/kids.jpg";
-import handshakeImage from "../assets/angebote/handshake.jpg";
-import climberImage from "../assets/angebote/climber.png";
-import knotImage from "../assets/angebote/knot.jpg";
+// Images
+import branchImage from "../assets/seminar-symbolic-imgs/branches.jpg";
+import teamImage from "../assets/seminar-symbolic-imgs/team.jpg";
+import whiteboardImage from "../assets/seminar-symbolic-imgs/whiteboard.jpg";
+import kidsImage from "../assets/seminar-symbolic-imgs/kids.jpg";
+import handshakeImage from "../assets/seminar-symbolic-imgs/handshake.jpg";
+import climberImage from "../assets/seminar-symbolic-imgs/climber.png";
+import knotImage from "../assets/seminar-symbolic-imgs/knot.jpg";
+import reflectionImage from "../assets/seminar-symbolic-imgs/reflexion.jpg";
+import stonesImage from "../assets/seminar-symbolic-imgs/steine.jpg";
+import teamworkImage from "../assets/seminar-symbolic-imgs/teamwork.jpg";
+
 import { Seminar } from "../hooks/useSeminars";
 import { useState } from "react";
 import dayjs from "dayjs";
@@ -53,6 +62,9 @@ export const imageMap: Record<string, string> = {
   handshake: handshakeImage,
   climber: climberImage,
   knot: knotImage,
+  reflection: reflectionImage,
+  stones: stonesImage,
+  teamwork: teamworkImage,
 };
 
 // Helper function to get image or branchImage as a fallback
@@ -90,6 +102,9 @@ const SeminarCard = ({
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [forwardDialogOpen, setForwardDialogOpen] = useState(false);
+  const [registrationStatus, setRegistrationStatus] = useState<
+    "success" | "error" | null
+  >(null);
 
   // Open dialogs for registration
   const handleOpen = () => {
@@ -104,6 +119,15 @@ const SeminarCard = ({
   const handleClose = () => {
     setDialogOpen(false);
     setForwardDialogOpen(false);
+  };
+
+  // Status is displayed in the dialog after the form was submitted
+  const handleFormSubmission = (status: "success" | "error") => {
+    setDialogOpen(false);
+    setRegistrationStatus(status);
+
+    // Reset status after 10s
+    setTimeout(() => setRegistrationStatus(null), 10000);
   };
 
   return (
@@ -215,14 +239,17 @@ const SeminarCard = ({
       </Card>
 
       {/* Registration Form Dialog */}
-      <Dialog open={dialogOpen} onClose={handleClose} maxWidth="sm" fullWidth>
+      <Dialog open={dialogOpen} onClose={handleClose} maxWidth="md" fullWidth>
         <DialogTitle>Jetzt anmelden: {title}</DialogTitle>
         <DialogContent>
-          <SeminarRegistrationForm seminarId={seminar_id} />
+          <SeminarRegistrationForm
+            seminarId={seminar_id}
+            setStatus={handleFormSubmission}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="secondary">
-            Abbrechen
+            Schließen
           </Button>
         </DialogActions>
       </Dialog>
@@ -261,7 +288,33 @@ const SeminarCard = ({
         {/* Cancel registration */}
         <DialogActions>
           <Button onClick={handleClose} color="secondary">
-            Abbrechen
+            Schließen
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Registration status */}
+      <Dialog
+        open={!!registrationStatus}
+        onClose={() => setRegistrationStatus(null)}
+        maxWidth="md"
+        fullWidth
+      >
+        <DialogTitle>
+          {registrationStatus === "success"
+            ? "Anmeldung erfolgreich"
+            : "Es ist ein Fehler aufgetreten"}
+        </DialogTitle>
+        <DialogContent>
+          <Typography>
+            {registrationStatus === "success"
+              ? "Sie haben sich erfolgreich für das Seminar angemeldet. Sie erhalten eine Bestätigung per Email."
+              : "Leider ist ein Fehler bei der Verarbeitung der Anmeldung aufgetreten. Bitte versuchen Sie es später erneut oder nutzen Sie das Kontaktformular."}
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setRegistrationStatus(null)} color="secondary">
+            Schließen
           </Button>
         </DialogActions>
       </Dialog>

@@ -229,7 +229,7 @@ def get_participants_of_seminar(seminar_id: int, db: Session = Depends(get_db)):
     """
     return crud.get_participants(db, seminar_id)
 
-@app.delete("/seminars/{seminar_id}/unregister")
+@app.get("/seminars/{seminar_id}/unregister")
 def unregister_participant(token: str, db: Session = Depends(get_db)) -> str:
     """
     Unregister a participant from a seminar.

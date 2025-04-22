@@ -14,9 +14,10 @@ Sections:
 from sqlalchemy.orm import Session, joinedload, selectinload
 from sqlalchemy.sql import func
 from fastapi import HTTPException
-import uuid
 from models import Seminar, Location, Participant
 from schemas import SeminarCreate, LocationCreate, ParticipantAdd, SeminarOut, LocationOut
+from email_functions import send_unregistered_email
+import uuid
 
 
 # ---------------------------------------------------------------------------- #
@@ -423,9 +424,12 @@ def unregister_participant(db: Session, token: str):
         str: Success message in German.
     """
     participant = db.query(Participant).filter_by(token=token).first()
-
+    seminar = get_seminar_by_id(db, participant.seminar_id)
+    
     if not participant:
         raise HTTPException(status_code=404, detail="Ungültiger Link oder Teilnehmer bereits abgemeldet.")
+    
+    send_unregistered_email(participant, seminar)
     
     db.delete(participant)
     db.commit()
