@@ -22,6 +22,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import { useParams } from "react-router-dom";
 import { useParticipants } from "../hooks/useParticipants";
 import api from "../api/axios";
+import DownloadParticipantsListButton from "./DownloadParticipantsListButton";
 
 const ParticipantTable = () => {
   // Get seminar_id from URL
@@ -143,6 +144,10 @@ const ParticipantTable = () => {
           </Button>
         </Box>
       )}
+      {/* Button to download a pdf containing seminar information and current participants */}
+      <Box sx={{ display: "flex", justifyContent: "center", mb: 5 }}>
+        <DownloadParticipantsListButton seminarId={seminarId} />
+      </Box>
     </Box>
   );
 };

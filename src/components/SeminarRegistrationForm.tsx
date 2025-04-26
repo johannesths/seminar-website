@@ -23,10 +23,8 @@ import { useState } from "react";
 
 interface Props {
   seminarId: number;
-  setStatus: (status: "success" | "error") => void;
+  setStatus: (status: "success" | "error" | null) => void;
 }
-
-const [isLoading, setIsLoading] = useState(false);
 
 // Schema for the form, conditions for the form fields
 const schema = z.object({
@@ -42,6 +40,8 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 const SeminarRegistrationForm = ({ seminarId, setStatus }: Props) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const {
     register,
     handleSubmit,

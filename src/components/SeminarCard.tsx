@@ -122,7 +122,7 @@ const SeminarCard = ({
   };
 
   // Status is displayed in the dialog after the form was submitted
-  const handleFormSubmission = (status: "success" | "error") => {
+  const handleFormSubmission = (status: "success" | "error" | null) => {
     setDialogOpen(false);
     setRegistrationStatus(status);
 

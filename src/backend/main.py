@@ -19,6 +19,8 @@ import email_functions
 from database import SessionLocal
 from schemas import SeminarCreate, SeminarOut, ContactForm, LocationCreate, LocationOut, ParticipantAdd, SeminarRegistrationForm, LoginData, ParticipantOut
 from auth import authenticate_admin, create_access_token, check_admin_token
+from fastapi.responses import StreamingResponse
+from pdf_utils import generate_participants_list_pdf
 
 app = FastAPI()
 
@@ -344,7 +346,7 @@ async def login_admin(request: Request, response: Response, data: LoginData) -> 
         value=access_token,
         httponly=True,
         secure=True,
-        samesite="none", # set to strict after testing
+        samesite="none", #TODO: set to strict after testing
         max_age=60 * 60,
         path="/"
     )
@@ -384,3 +386,27 @@ def check_admin(request: Request) -> dict:
         raise HTTPException(status_code=401, detail="access denied")
     return check_admin_token(token)
 
+# ---------------------------------------------------------------------------- #
+#                                 PDF Download                                 #
+# ---------------------------------------------------------------------------- #
+@app.get("/admin/seminars/{seminar_id}/participants/pdf", dependencies=[Depends(verify_admin_session)])
+def download_participants_pdf(seminar_id: int, db: Session = Depends(get_db)) -> StreamingResponse:
+    """
+    Creates a pdf containing information about the seminar and a table with the names
+    of the participants and field for signatures.
+
+    Args:
+        seminar_id (int): ID of the seminar.
+        db (Session, optional): SQLAlchemy database session, automatically provided by dependency injection.
+
+    Returns:
+        StreamingResponse: PDF file as a downloadable stream.
+    """
+    seminar = crud.get_seminar_by_id(db, seminar_id)
+    participants = crud.get_participants(db, seminar_id)
+    
+    pdf_file = generate_participants_list_pdf(seminar, participants)
+
+    return StreamingResponse(pdf_file, media_type="application/pdf", headers={
+        "Content-Disposition": f"attachment; filename=Teilnehmerliste_{seminar_id}.pdf"
+    })
