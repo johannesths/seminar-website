@@ -15,14 +15,26 @@ from typing import List
 from datetime import datetime, timedelta
 from fastapi.middleware.cors import CORSMiddleware
 import crud
+import os
 import email_functions
 from database import SessionLocal
 from schemas import SeminarCreate, SeminarOut, ContactForm, LocationCreate, LocationOut, ParticipantAdd, SeminarRegistrationForm, LoginData, ParticipantOut
 from auth import authenticate_admin, create_access_token, check_admin_token
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from pdf_utils import generate_participants_list_pdf
 
 app = FastAPI()
+
+frontend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../frontend/dist"))
+
+# Serve static frontend
+app.mount("/", StaticFiles(directory=frontend_path, html=True), name="static")
+
+@app.get("/{full_path:path}")
+async def spa_handler():
+    return FileResponse(os.path.join(frontend_path, "index.html"))
+
 
 # Rate limiter
 limiter = Limiter(key_func=get_remote_address)
