@@ -95,18 +95,21 @@ def send_registration_info(data: ParticipantAdd, seminar: SeminarOut, participan
     info_msg["To"] = EMAIL_USERNAME
     info_msg["Subject"] = f"Neue Anmeldung zu einem Seminar"
 
+    participant_list = "\n".join(
+        [f"- {p.firstname} {p.lastname} ({p.email}), Anmerkungen: {p.remarks}" for p in participants]
+    )
+
     info_msg.set_content(
         f"""Folgende Person hat sich zum Seminar "{seminar.title}" am {seminar.date} um {seminar.time} angemeldet:
-Name: {data.firstname} {data.lastname}
-Email: {data.email}
-Anmerkungen: {data.remarks}
+    Name: {data.firstname} {data.lastname}
+    Email: {data.email}
+    Anmerkungen: {data.remarks}
 
-
------------------------------------------------
-Bisher haben sich folgende Teilnehmer angemeldet:
-{'\n'.join([f"- {p.firstname} {p.lastname} ({p.email}), Anmerkungen: {p.remarks}" for p in participants])}
+    -----------------------------------------------
+    Bisher haben sich folgende Teilnehmer angemeldet:
+    {participant_list}
         """
-    )
+)
     return send_email(info_msg)
 
 
