@@ -25,7 +25,6 @@ dist-ssr
 # Keys and secrets
 .env
 certificates/
-crypt.py
 
 # Virtual environment
 venv/
