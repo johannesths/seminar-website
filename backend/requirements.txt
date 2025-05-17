@@ -4,9 +4,10 @@ sqlalchemy
 psycopg2-binary
 python-dotenv
 pydantic
-jose
-bcrypt
+bcrypt==4.0.1
 slowapi
 reportlab
 dotenv
 passlib
+python-jose
+pydantic[email]

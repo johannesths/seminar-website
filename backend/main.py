@@ -364,7 +364,13 @@ def logout(response: Response) -> dict:
     Returns:
         dict: A success message.
     """
-    response.delete_cookie("access_token")
+    response.delete_cookie(
+        key="access_token",
+        path="/",
+        httponly=True,
+        secure=True,
+        samesite="none" #TODO: set to strict after testing
+    )
     return {"message": "success"}
 
 @app.get("/admin/check")
