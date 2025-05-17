@@ -183,7 +183,7 @@ def create_seminar(db: Session, seminar: SeminarCreate):
     db.refresh(seminar)
     return seminar
 
-def update_seminar(db: Session, seminar_id: int, updated_seminar: SeminarCreate):
+def update_seminar(db: Session, seminar_id: int, updated_seminar: SeminarOut):
     """
     Update an existing seminar.
 
@@ -212,7 +212,7 @@ def update_seminar(db: Session, seminar_id: int, updated_seminar: SeminarCreate)
     seminar.max_participants = updated_seminar.max_participants
     seminar.image_name = updated_seminar.image_name
     seminar.price = updated_seminar.price
-    seminar.location_id = updated_seminar.location_id
+    seminar.location_id = updated_seminar.location.location_id
 
     db.commit()
     db.refresh(seminar)

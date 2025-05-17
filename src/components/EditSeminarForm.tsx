@@ -24,7 +24,7 @@ import { useEffect, useState } from "react";
 import api from "../api/axios";
 import dayjs from "dayjs";
 import { imageMap } from "./SeminarCard";
-import { useLocations, Location } from "../hooks/useLocations";
+import { Location, useLocations } from "../hooks/useLocations";
 export interface SeminarForm {
   title: string;
   description: string;

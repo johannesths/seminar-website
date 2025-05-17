@@ -112,7 +112,7 @@ def add_seminar(seminar: SeminarCreate, db: Session = Depends(get_db)):
     return crud.create_seminar(db, seminar)
 
 @app.put("/seminars/{id}", response_model=SeminarCreate, dependencies=[Depends(verify_admin_session)])
-def update_seminar(id: int, seminar: SeminarCreate, db: Session = Depends(get_db)):
+def update_seminar(id: int, seminar: SeminarOut, db: Session = Depends(get_db)):
     """
     Update a seminar by its ID.
 
